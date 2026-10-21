@@ -1,0 +1,113 @@
+AGROPULSE — BESOINS ET DÉCISIONS POUR LA RÉUNION
+Préparé le 21 octobre 2026 — proposition à valider avec le client.
+
+1. BESOINS FONCTIONNELS
+
+BF01 — Présenter AgroPulse : mission, pays d'intervention et équipe validée.
+BF02 — Présenter les six pôles avec une vue d'ensemble et une fiche par pôle.
+BF03 — Présenter distinctement le Fellowship et le projet AGIR-IA.
+BF04 — Consulter les pages en français et en anglais ; changer de langue
+       en conservant la page équivalente.
+BF05 — Envoyer une demande de contact à un destinataire identifié.
+BF06 — Demander un devis en précisant le pôle et le besoin.
+BF07 — Candidater au Fellowship uniquement si la campagne est ouverte.
+BF08 — Télécharger les brochures et documents approuvés disponibles.
+BF09 — S'abonner à la newsletter et pouvoir se désinscrire.
+BF10 — Administrer les pages, traductions, programmes et fichiers avec
+       des comptes individuels et des rôles définis.
+
+À arbitrer : activation de BF07, BF08 et BF09 dès le lancement ou plus tard.
+Une fonction différée doit afficher un état fermé ou indisponible clair.
+Le site présente les services d'AgroPulse ; les moteurs IA, tableaux de
+bord agricoles, paiements et plateformes de formation restent hors du
+périmètre proposé de la première version.
+
+2. BESOINS NON FONCTIONNELS
+
+BNF01 — Affichage : parcours utilisables à 360, 768 et 1440 pixels, sans
+        débordement horizontal.
+BNF02 — Langues : navigation, formulaires et messages disponibles en FR/EN.
+BNF03 — Performance : cible Lighthouse mobile >= 85 sur accueil, expertise
+        et contact en préproduction, selon un protocole à convenir.
+BNF04 — Accessibilité : viser WCAG 2.2 AA ; clavier, focus, contrastes,
+        libellés et erreurs compréhensibles. Audit complet hors V1 proposée.
+BNF05 — Sécurité : HTTPS, accès administrateurs protégés, validation serveur,
+        protection contre le spam et secrets hors du code.
+BNF06 — Fiabilité : confirmation d'envoi seulement après acceptation réelle
+        du service ; erreurs explicites et possibilité de réessayer.
+BNF07 — Confidentialité : champs limités au besoin ; responsable, durées de
+        conservation et informations aux visiteurs à définir avant collecte.
+BNF08 — Référencement : titres et descriptions FR/EN, sitemap, liens entre
+        traductions ; préproduction exclue de l'indexation.
+BNF09 — Sauvegarde : sauvegardes automatiques et restauration vérifiée.
+        Fréquence quotidienne et conservation de 30 jours proposées dans
+        le cahier des charges, à confirmer avec la solution d'hébergement.
+BNF10 — Exploitation : suivi des erreurs, mises à jour et retour à une
+        version précédente documentés.
+BNF11 — Disponibilité : objectif et délai d'intervention à convenir selon
+        les besoins, le budget et les responsabilités de maintenance.
+
+Ces exigences sont à valider et à tester ; elles ne sont pas des résultats
+de tests déjà exécutés.
+
+3. ORIENTATION TECHNIQUE ET DÉPLOIEMENT
+
+Orientation exprimée par le porteur du projet : reprendre les technologies
+et les outils de déploiement de Talent-Job.
+
+Référence documentaire Talent-Job consultée :
+- Interface : Next.js, React, TypeScript.
+- Backend : Node.js 24, Express 5.
+- Données : PostgreSQL.
+- Conteneurs : Docker.
+- Automatisation des contrôles et de la livraison : GitHub Actions.
+- Talent-Job prévoit aussi une Gateway Express et des services indépendants.
+
+À définir pour AgroPulse : découpage des services, solution d'administration
+des contenus, stockage documentaire et service d'envoi des courriels.
+Le nombre de services de Talent-Job n'est pas un besoin métier d'AgroPulse.
+L'aperçu AgroPulse actuel est statique ; l'adoption de ce socle exige une
+évolution de l'implémentation et une réévaluation de la charge.
+
+Parcours de livraison proposé : développement, contrôles automatiques,
+préproduction pour validation, puis production après accord de recette.
+Prévoir la gestion des secrets, les sauvegardes et le retour arrière.
+
+4. HÉBERGEMENT — À DÉFINIR
+
+Aucun fournisseur n'a été choisi pour AgroPulse ou Talent-Job.
+Aucun prix, abonnement, serveur partagé ou capacité n'est confirmé.
+
+Questions pour le client :
+- Quel budget mensuel ou annuel pour hébergement et maintenance ?
+- Le nom de domaine est-il acheté et qui en détient les accès ?
+- Quels volumes de visites et candidatures sont attendus ?
+- Qui assurera maintenance, sauvegardes et gestion des incidents ?
+- Quelle durée d'interruption est acceptable ?
+- Existe-t-il une contrainte sur le lieu d'hébergement des données ?
+- Qui possède les comptes et règle les abonnements ?
+
+Après ces réponses : comparer les offres, chiffrer les coûts récurrents,
+valider le fournisseur et la configuration avant mise en production.
+
+5. DÉCISIONS À CONSIGNER
+
+D01 — Périmètre du lancement et fonctions différées.
+D02 — Logo, direction visuelle et droits sur les images.
+D03 — Textes FR/EN, validateur et dates de fourniture.
+D04 — Statut et calendrier Fellowship ; contenu AGIR-IA autorisé.
+D05 — Coordonnées publiques et destinataires des formulaires.
+D06 — Responsable de l'administration et de la maintenance.
+D07 — Budget de réalisation et budget récurrent.
+D08 — Domaine, fournisseur d'hébergement et propriété des comptes.
+D09 — Date de démarrage et calendrier réaliste après estimation technique.
+D10 — Critères de réception et personne autorisée à valider la livraison.
+
+Pour chaque décision : réponse, responsable, échéance et preuve d'accord.
+
+SOURCES
+AgroPulse : README.md, docs/Brief_Google_Stitch.txt et propositions v0.2
+de cahier des charges et chronogramme disponibles dans References/.
+Talent-Job : talent-job-agentic/bootstrap.md du workspace Talent-Job.
+Échange du 21 octobre 2026 : souhait de réutiliser le socle Talent-Job ;
+confirmation du porteur du projet que l'hébergement n'est pas encore défini.

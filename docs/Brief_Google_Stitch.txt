@@ -1,0 +1,36 @@
+AGROPULSE GLOBAL SOLUTIONS — BRIEF POUR GOOGLE STITCH
+
+Créer les maquettes d’un site institutionnel professionnel français–anglais, sur mobile (390 px) et ordinateur (1440 px). Les maquettes retenues remplaceront la direction visuelle provisoire de l’aperçu local. Ne pas générer de tableau de bord agricole ou d’application de gestion : il s’agit d’un site de présentation, de services et de programmes.
+
+IDENTITÉ
+Utiliser le logo fourni dans public/assets/logo.jpeg comme référence à confirmer. Agriculture, donnée, talents numériques et transition verte en Afrique de l’Ouest. Palette inspirée du logo, contrastes lisibles, typographie soignée, photographies authentiques uniquement si disponibles et autorisées ; identifier les illustrations comme telles. Slogan officiel : « Data for growth, youth for change! ». Ne pas inventer de statistiques, témoignages ou partenaires.
+
+PUBLICS
+Coopératives, interprofessions, organisations régionales, programmes de développement, bailleurs, entreprises agricoles, gouvernements, jeunes du numérique et femmes agripreneures. Pays indiqués : Côte d’Ivoire, Sénégal, Guinée-Bissau.
+
+ÉCRANS À CONCEVOIR
+1. Accueil : mission lisible, accès aux expertises, programmes et contact ; six pôles ; mise en avant distincte du Fellowship et d’AGIR-IA.
+2. À propos : présentation, mission, pays ; équipe et vision uniquement avec contenu approuvé, sans personnes fictives.
+3. Expertises : vue d’ensemble et fiche détaillée réutilisable pour les six pôles.
+4. Fellowship : objectif, jeunes visés, priorité anacarde, formation de 2 à 3 mois, certification et placement ; état fermé « calendrier à venir » et variante candidatures ouvertes après confirmation.
+5. AGIR-IA : projet distinct, formation du 26 septembre 2026 pour 20 femmes agripreneures de Côte d’Ivoire ; Fondation AWI initiatrice, AgroPulse en charge de la conception, de l’animation et du suivi pédagogique. Contenu à valider.
+6. Ressources : brochure et présentation Fellowship ; états disponibles et indisponibles sans faux lien.
+7. Contact et devis : nom, courriel, organisation, besoin ; pôle pour le devis ; téléphone, budget et échéance facultatifs selon le parcours. Prévoir erreurs de saisie, envoi en cours, succès et échec réel. Ne pas simuler de coordonnées manquantes.
+8. Candidature : campagne ouverte ou fermée ; nom, courriel, pays, profil et motivation ; aucun CV en V1.
+9. Newsletter : courriel, consentement spécifique, confirmation et désinscription ; état indisponible tant que le service n’est pas prêt.
+10. Administration CMS : connexion, liste des contenus, édition FR/EN, brouillon, prévisualisation, publication et ressources. Éditeur et administrateur distincts.
+
+SIX PÔLES
+Formation, Emploi et Talents numériques ; SI agricoles et Gouvernance des données ; IA et Data Analytics ; Climat, Économie verte et Finance climatique ; Incubation et Startups agri-tech ; Conseil stratégique, Études et Mécanisation agricole.
+
+RÈGLES D’INTERACTION
+Menu mobile, navigation clavier, focus visible, libellés explicites, contrastes visant WCAG 2.2 AA. Prévoir l’expansion des textes anglais et le passage à la page équivalente FR/EN. Présenter les mentions légales et la confidentialité sans inventer l’identité juridique. Seule la Fondation AWI est indiquée comme partenaire confirmé ; aucune cible commerciale ne doit être présentée comme un client.
+
+LIVRABLES ATTENDUS DE STITCH
+Maquettes reliées par parcours, versions mobile et ordinateur, composants réutilisables, variantes des formulaires et états indisponibles, palette et typographies. Obtenir d’abord une validation de la direction visuelle de l’accueil, puis décliner les autres écrans. La sélection du CMS et l’implémentation technique restent séparées des maquettes.
+
+RÉFÉRENCES DU DÉPÔT
+docs/AGROPULSE GLOBAL SOLUTIONS.docx
+docs/AgroPulse_Cahier_des_charges_v0.2.docx
+docs/AgroPulse_Chronogramme_v0.2.docx
+Planning cible : trois semaines à partir du démarrage convenu ; les dates restent à confirmer.

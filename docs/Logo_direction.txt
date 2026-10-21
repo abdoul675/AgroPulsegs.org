@@ -1,0 +1,9 @@
+PROPOSITION DE LOGO AGROPULSE
+
+Fichier : public/assets/logo-v2.png
+Origine : génération avec l’outil imagegen intégré, à partir du logo figurant dans le document métier.
+Statut : proposition à valider. Le logo source reste conservé dans public/assets/logo.jpeg.
+
+Brief de génération : moderniser le logo AgroPulse Global Solutions ; conserver feuille verte, impulsion de données et palette vert/bleu profond ; simplifier les barres et pixels ; composition horizontale, symbole à gauche, texte « AgroPulse » et sous-titre « Global Solutions », fond transparent ; éviter maquette, ombres, 3D et décor superflu.
+
+Cette proposition est une image PNG. Une version vectorielle finale et ses déclinaisons devront être préparées après validation de la direction graphique. Les maquettes Google Stitch pourront reprendre ce fichier comme référence visuelle.

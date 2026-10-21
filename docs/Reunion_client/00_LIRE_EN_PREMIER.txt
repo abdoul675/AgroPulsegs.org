@@ -1,0 +1,35 @@
+AGROPULSE — DOSSIER DE RÉUNION CLIENT
+
+DOCUMENT PRINCIPAL
+AgroPulse_Cahier_des_charges_v0.3.docx regroupe désormais les besoins,
+le socle technique, l'hébergement à définir, le déploiement, la maintenance,
+le planning, le budget et les supports de réunion et de validation.
+Utiliser cette version consolidée pour la réunion. Les fiches ci-dessous
+et les documents v0.2 restent conservés comme historique de préparation.
+Préparé le 21 octobre 2026. Date de réunion : à renseigner.
+
+OBJECTIF
+Valider le périmètre du site, les contenus à fournir, les responsabilités,
+le budget et les conditions du calendrier.
+
+DOCUMENTS
+01_Besoins_et_decisions.txt : besoins fonctionnels et non fonctionnels,
+orientation technique, hébergement et décisions à prendre.
+02_Ordre_du_jour_et_compte_rendu.txt : déroulé et compte rendu à compléter.
+References/ : copies des documents existants pour consultation.
+
+STATUT
+Le client doit encore valider les besoins et les conditions de livraison.
+Le porteur du projet souhaite reprendre les technologies et les outils de
+déploiement de Talent-Job. Le fournisseur d'hébergement n'est défini pour
+aucun des deux projets. Le partage d'un serveur n'a pas été décidé.
+
+Les documents v0.2 de References sont des copies inchangées du 19 octobre
+2026. Ils précèdent la discussion sur la réutilisation du socle Talent-Job.
+La fiche 01 consigne cette orientation et les questions encore ouvertes ;
+elle ne constitue pas une validation client du cahier des charges.
+
+L'aperçu actuel est provisoire : aucun formulaire n'envoie de demande,
+aucun CMS, candidature, téléchargement ou service newsletter n'est actif.
+Le calendrier de trois semaines reste conditionné par les contenus, les
+accès, les disponibilités et la validation de la solution technique.

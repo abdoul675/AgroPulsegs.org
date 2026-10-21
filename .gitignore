@@ -1,0 +1,7 @@
+.work/
+node_modules/
+.env
+.env.*
+!.env.example
+docs/*_v0.1.docx
+
