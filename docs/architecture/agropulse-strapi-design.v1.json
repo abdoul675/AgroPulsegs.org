@@ -1,0 +1,633 @@
+{
+  "project": "AgroPulse",
+  "version": "1.0",
+  "date": "2026-10-26",
+  "status": "proposed-for-review",
+  "runtimeSchema": false,
+  "models": [
+    {
+      "key": "site-settings",
+      "kind": "singleType",
+      "localized": true,
+      "draftAndPublish": true,
+      "fields": [
+        {
+          "name": "brandName",
+          "type": "string",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "AgroPulse Global Solutions ; nom approuvé."
+        },
+        {
+          "name": "tagline",
+          "type": "string",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Slogan officiel conservé ; traduction seulement si approuvée."
+        },
+        {
+          "name": "logo",
+          "type": "media:image",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Logo autorisé ; alternative définie dans le composant média."
+        },
+        {
+          "name": "navigation",
+          "type": "component:navigation-item[]",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Libellé et route interne validée ; pas de lien vers un aperçu tiers."
+        },
+        {
+          "name": "publicContact",
+          "type": "component:public-contact",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Uniquement coordonnées publiques confirmées, jamais une clé ou un destinataire interne."
+        },
+        {
+          "name": "socialLinks",
+          "type": "component:social-link[]",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Réseau et URL officielle vérifiée ; entrée omise si inconnue."
+        }
+      ],
+      "relations": []
+    },
+    {
+      "key": "page",
+      "kind": "collectionType",
+      "localized": true,
+      "draftAndPublish": true,
+      "fields": [
+        {
+          "name": "key",
+          "type": "enum",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "home, about, contact, legal ou privacy ; identité métier commune aux traductions."
+        },
+        {
+          "name": "slug",
+          "type": "uid",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Unique par type et locale ; conserver la correspondance FR/EN par documentId."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Un titre de page."
+        },
+        {
+          "name": "summary",
+          "type": "text",
+          "localized": true,
+          "requiredBeforePublication": false,
+          "rule": "Résumé utile sans promesse non approuvée."
+        },
+        {
+          "name": "sections",
+          "type": "dynamicZone:approved-sections",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Blocs autorisés et structurés ; aucun script ou HTML arbitraire."
+        },
+        {
+          "name": "seo",
+          "type": "component:seo",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Titre et description ; indexation de préproduction bloquée par environnement."
+        }
+      ],
+      "relations": []
+    },
+    {
+      "key": "expertise",
+      "kind": "collectionType",
+      "localized": true,
+      "draftAndPublish": true,
+      "fields": [
+        {
+          "name": "code",
+          "type": "enum:01..06",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Un seul document métier par code, avec ses versions FR/EN ; unicité interlocale à concevoir."
+        },
+        {
+          "name": "slug",
+          "type": "uid",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "URL stable et lisible."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Intitulé métier validé du pôle."
+        },
+        {
+          "name": "need",
+          "type": "text",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Besoin adressé."
+        },
+        {
+          "name": "audiences",
+          "type": "component:text-item[]",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Publics visés."
+        },
+        {
+          "name": "services",
+          "type": "component:service-item[]",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Titre et description des services approuvés."
+        },
+        {
+          "name": "visual",
+          "type": "component:visual",
+          "localized": true,
+          "requiredBeforePublication": false,
+          "rule": "Média, texte alternatif et légende photo/illustration."
+        },
+        {
+          "name": "seo",
+          "type": "component:seo",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Métadonnées localisées."
+        }
+      ],
+      "relations": [
+        {
+          "field": "programmes",
+          "target": "programme",
+          "cardinality": "oneToMany",
+          "inverse": "expertise"
+        }
+      ]
+    },
+    {
+      "key": "programme",
+      "kind": "collectionType",
+      "localized": true,
+      "draftAndPublish": true,
+      "fields": [
+        {
+          "name": "key",
+          "type": "enum:fellowship|agir-ia",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Identité métier stable ; ne pas fusionner les programmes."
+        },
+        {
+          "name": "slug",
+          "type": "uid",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "URL du programme."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Titre approuvé."
+        },
+        {
+          "name": "objective",
+          "type": "text",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Objectif, sans garantie de résultat inventée."
+        },
+        {
+          "name": "audience",
+          "type": "text",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Public du programme."
+        },
+        {
+          "name": "durationDescription",
+          "type": "text",
+          "localized": true,
+          "requiredBeforePublication": false,
+          "rule": "Formation Fellowship 2 à 3 mois ; durée totale à confirmer."
+        },
+        {
+          "name": "body",
+          "type": "blocks",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Parcours, conditions et récit validés ; date AGIR-IA confirmée séparément."
+        },
+        {
+          "name": "visual",
+          "type": "component:visual",
+          "localized": true,
+          "requiredBeforePublication": false,
+          "rule": "Illustration ou photo avec droits."
+        },
+        {
+          "name": "seo",
+          "type": "component:seo",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Titre et description FR/EN."
+        }
+      ],
+      "relations": [
+        {
+          "field": "expertise",
+          "target": "expertise",
+          "cardinality": "manyToOne",
+          "inverse": "programmes"
+        },
+        {
+          "field": "campaigns",
+          "target": "campaign",
+          "cardinality": "oneToMany",
+          "inverse": "programme"
+        },
+        {
+          "field": "partners",
+          "target": "partner",
+          "cardinality": "manyToMany",
+          "inverse": "programmes"
+        }
+      ]
+    },
+    {
+      "key": "campaign",
+      "kind": "collectionType",
+      "localized": false,
+      "draftAndPublish": true,
+      "fields": [
+        {
+          "name": "key",
+          "type": "uid",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Identifiant de campagne distinct du programme."
+        },
+        {
+          "name": "state",
+          "type": "enum:closed|open",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Valeur initiale closed ; l’état seul ne suffit pas à autoriser un dépôt."
+        },
+        {
+          "name": "opensAt",
+          "type": "datetime:UTC",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Requis avant activation ouverte ; date réelle à confirmer."
+        },
+        {
+          "name": "closesAt",
+          "type": "datetime:UTC",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Requis avant activation ouverte ; strictement après opensAt."
+        },
+        {
+          "name": "criteria",
+          "type": "component:localized-text",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Versions fr/en requises avant ouverture ; campagne partagée entre langues."
+        },
+        {
+          "name": "notice",
+          "type": "component:localized-text",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Message de statut FR/EN."
+        },
+        {
+          "name": "applicationRoute",
+          "type": "enum:fellowship-v1",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Route connue côté serveur ; jamais une URL d’exécution arbitraire."
+        }
+      ],
+      "relations": [
+        {
+          "field": "programme",
+          "target": "programme",
+          "cardinality": "manyToOne",
+          "inverse": "campaigns"
+        }
+      ]
+    },
+    {
+      "key": "resource",
+      "kind": "collectionType",
+      "localized": false,
+      "draftAndPublish": true,
+      "fields": [
+        {
+          "name": "key",
+          "type": "uid",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Un fichier par langue et version approuvées."
+        },
+        {
+          "name": "language",
+          "type": "enum:fr|en",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Langue effective du fichier."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Titre dans la langue du document."
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Résumé du document."
+        },
+        {
+          "name": "file",
+          "type": "media:approved-document",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Téléverser seulement un fichier autorisé à devenir public ; pas de brouillon confidentiel dans le stockage public."
+        },
+        {
+          "name": "format",
+          "type": "derived:string",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Dérivé du type réel du fichier."
+        },
+        {
+          "name": "sizeBytes",
+          "type": "derived:integer",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Dérivé du fichier, supérieur à zéro."
+        },
+        {
+          "name": "releaseVersion",
+          "type": "string",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Version documentaire si utile."
+        }
+      ],
+      "relations": [
+        {
+          "field": "programme",
+          "target": "programme",
+          "cardinality": "manyToOne"
+        },
+        {
+          "field": "expertise",
+          "target": "expertise",
+          "cardinality": "manyToOne"
+        }
+      ]
+    },
+    {
+      "key": "partner",
+      "kind": "collectionType",
+      "localized": true,
+      "draftAndPublish": true,
+      "fields": [
+        {
+          "name": "key",
+          "type": "uid",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Identité de l’organisation, distincte de son nom traduit."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "localized": true,
+          "requiredBeforePublication": true,
+          "rule": "Nom autorisé."
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "localized": true,
+          "requiredBeforePublication": false,
+          "rule": "Rôle exact dans la collaboration."
+        },
+        {
+          "name": "status",
+          "type": "enum:unconfirmed|confirmed",
+          "localized": false,
+          "requiredBeforePublication": true,
+          "rule": "Seules les organisations confirmées peuvent être publiées."
+        },
+        {
+          "name": "logo",
+          "type": "media:image",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Logo dont l’usage est autorisé."
+        },
+        {
+          "name": "website",
+          "type": "url",
+          "localized": false,
+          "requiredBeforePublication": false,
+          "rule": "Adresse officielle vérifiée."
+        }
+      ],
+      "relations": [
+        {
+          "field": "programmes",
+          "target": "programme",
+          "cardinality": "manyToMany",
+          "inverse": "partners"
+        }
+      ]
+    }
+  ],
+  "adminRoles": [
+    "agropulse-editor",
+    "agropulse-publisher",
+    "technical-admin"
+  ],
+  "permissions": {
+    "columns": [
+      "action",
+      "editor",
+      "publisher",
+      "technicalAdmin",
+      "visitor"
+    ],
+    "rows": [
+      [
+        "Lire contenus et brouillons",
+        "Oui",
+        "Oui",
+        "Oui",
+        "Non"
+      ],
+      [
+        "Créer et modifier les contenus",
+        "Oui",
+        "Oui",
+        "Oui",
+        "Non"
+      ],
+      [
+        "Publier et dépublier",
+        "Non",
+        "Oui",
+        "Oui",
+        "Non"
+      ],
+      [
+        "Supprimer un contenu",
+        "Non",
+        "Non par défaut",
+        "Oui après vérification des dépendances",
+        "Non"
+      ],
+      [
+        "Téléverser un média publiable",
+        "Oui selon formats",
+        "Oui selon formats",
+        "Oui",
+        "Non"
+      ],
+      [
+        "Supprimer ou remplacer un média existant",
+        "Non par défaut",
+        "Non par défaut",
+        "Oui après vérification des usages",
+        "Non"
+      ],
+      [
+        "Prévisualiser un brouillon",
+        "Oui via accès contrôlé",
+        "Oui via accès contrôlé",
+        "Oui",
+        "Non"
+      ],
+      [
+        "Gérer comptes et rôles",
+        "Non",
+        "Non",
+        "Oui",
+        "Non"
+      ],
+      [
+        "Modifier schémas, jetons ou réglages techniques",
+        "Non",
+        "Non",
+        "Oui, accès minimal",
+        "Non"
+      ],
+      [
+        "Ouvrir une campagne",
+        "Non",
+        "Selon conditions validées",
+        "Selon conditions validées",
+        "Non"
+      ]
+    ]
+  },
+  "checks": [
+    {
+      "id": "MC01",
+      "scenario": "Éditeur crée un brouillon FR incomplet.",
+      "expected": "Sauvegarde possible ; publication refusée au rôle.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC02",
+      "scenario": "Éditeur tente une publication directe via API.",
+      "expected": "Action refusée et contenu toujours non publié.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC03",
+      "scenario": "Publicateur publie une expertise avec les prérequis remplis.",
+      "expected": "Bonne version publique ; aucun champ privé sérialisé.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC04",
+      "scenario": "Visiteur appelle une URL ou API de brouillon.",
+      "expected": "Aucun accès au brouillon ni à son média confidentiel.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC05",
+      "scenario": "Passage FR/EN sur une expertise.",
+      "expected": "Même document métier ; titre, services et SEO dans la langue attendue.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC06",
+      "scenario": "Date absente, fin dépassée ou state=closed.",
+      "expected": "Dépôt interdit, y compris par appel direct.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC07",
+      "scenario": "Une relation pointe vers un partenaire non confirmé.",
+      "expected": "Publication refusée ou relation exclue selon la règle choisie, sans fuite.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC08",
+      "scenario": "Ressource sans fichier ou langue demandée absente.",
+      "expected": "Aucun faux téléchargement ; disponibilité correctement affichée.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC09",
+      "scenario": "Prévisualisation sans secret ou avec document non autorisé.",
+      "expected": "Accès refusé ; pas de cache partagé avec le public.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC10",
+      "scenario": "Éditeur tente gestion des comptes ou suppression de média.",
+      "expected": "Action refusée ; les droits restent conformes à la matrice.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC11",
+      "scenario": "Requête publique avec populate ou champs supplémentaires.",
+      "expected": "Aucun secret, demande privée ou preuve d’autorisation exposé.",
+      "executionStatus": "not-run"
+    },
+    {
+      "id": "MC12",
+      "scenario": "Un média confidentiel est proposé à l’import.",
+      "expected": "Circuit privé ou refus ; aucun fichier accessible publiquement par simple URL.",
+      "executionStatus": "not-run"
+    }
+  ]
+}

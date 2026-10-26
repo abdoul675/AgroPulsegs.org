@@ -4,9 +4,23 @@ Documents de référence au 26 octobre 2026 :
 
 - [Cahier des charges fonctionnel v0.5](AgroPulse_Cahier_des_charges_v0.5.docx) — proposition validée par le porteur avec conditions d’activation ; [lecture HTML](AgroPulse_Cahier_des_charges_v0.5.html).
 - [Cadrage technique L3 v1.0](AgroPulse_Cadrage_technique_L3_v1.0.docx) — orientation Next.js, Strapi Community, PostgreSQL, Docker Compose et GitHub Actions ; proposition OVHcloud et Brevo, budget indicatif et tâches suivantes ; [lecture HTML](AgroPulse_Cadrage_technique_L3_v1.0.html).
+- [Modèle Strapi et droits v1.0](AgroPulse_Modele_Strapi_et_droits_v1.0.docx) — sept types de contenus, relations, FR/EN, rôles et scénarios du pilote à exécuter ; [lecture HTML](AgroPulse_Modele_Strapi_et_droits_v1.0.html) et [spécification JSON de conception](architecture/agropulse-strapi-design.v1.json). Ce JSON n’est pas un schéma Strapi exécutable.
+- [Contexte actuel](PROJECT_CONTEXT.md) — sources, limites et prochaine étape.
 
 Le cadrage L3 complète les options techniques encore ouvertes dans le cahier des charges. Il consigne l’accord du porteur sur la proposition 2, sans commande de services ni approbation distincte de Mme Hélène Nichy. Configuration exacte, devis, responsabilités et dates restent à confirmer.
 
 Les copies HTML sont destinées à la revue dans un navigateur. Le contenu des fichiers Word a été contrôlé structurellement ; leur rendu visuel n’a pas pu être vérifié, faute de moteur LibreOffice disponible dans le runtime de cette session.
 
 Les documents antérieurs et le questionnaire restent conservés comme historique. Leurs noms de validateurs, propositions techniques ou dates ne remplacent pas les décisions consignées dans les versions ci-dessus.
+
+## Skills AgroPulse
+
+Les sources partageables sont dans `skills/` à la racine du dépôt. Les instructions se réfèrent au workspace AgroPulse courant et aux documents de cet index, sans importer les contraintes de Talent-Job.
+
+- `agropulse-project-context` : reprendre le projet et retrouver les décisions.
+- `agropulse-functional-analysis` : cadrer les comportements et critères observables.
+- `agropulse-strapi-modeling` : concevoir contenus, langues et permissions Strapi.
+- `agropulse-ui-review` : analyser les maquettes par rapport aux besoins.
+- `agropulse-delivery-planning` : préparer lots, coûts, recette et livraison.
+
+Exemples d’invocation : `$agropulse-strapi-modeling` pour revoir le modèle et les droits ; `$agropulse-ui-review` pour une nouvelle archive de maquettes. La création de skills ne modifie pas les configurations CMS et n’autorise pas de publication ni d’achat.
