@@ -22,5 +22,20 @@ Les sources partageables sont dans `skills/` à la racine du dépôt. Les instru
 - `agropulse-strapi-modeling` : concevoir contenus, langues et permissions Strapi.
 - `agropulse-ui-review` : analyser les maquettes par rapport aux besoins.
 - `agropulse-delivery-planning` : préparer lots, coûts, recette et livraison.
+- `agropulse-nextjs-development` : réaliser le frontend Next.js et sa connexion au CMS.
+- `agropulse-strapi-development` : implémenter modèles, rôles et validations Strapi.
+- `agropulse-api-design` : définir les contrats des contenus et formulaires.
+- `agropulse-testing` : préparer et exécuter des vérifications avec preuves.
+- `agropulse-security-review` : examiner les accès, secrets et données privées.
+- `agropulse-accessibility-responsive` : vérifier clavier, mobile et accessibilité.
+- `agropulse-i18n-seo` : vérifier FR/EN, routes et référencement.
+- `agropulse-database-review` : examiner PostgreSQL, migrations et restauration.
+- `agropulse-deployment` : mettre en œuvre Docker, CI/CD et procédures de livraison.
+- `agropulse-observability` : préparer santé, logs et alertes d’exploitation.
+- `agropulse-code-review` : revoir un patch selon les exigences du projet.
+- `agropulse-documentation` : maintenir les documents, décisions et preuves.
+- `agropulse-architecture-decisions` : évaluer et consigner les changements d’architecture.
 
 Exemples d’invocation : `$agropulse-strapi-modeling` pour revoir le modèle et les droits ; `$agropulse-ui-review` pour une nouvelle archive de maquettes. La création de skills ne modifie pas les configurations CMS et n’autorise pas de publication ni d’achat.
+
+Le pack comprend 18 skills. `scripts/install-agropulse-skills.ps1` installe les fichiers dans le dossier personnel Codex, conserve les copies identiques et refuse d’écraser un skill local différent. La validation structurelle des skills ne prouve pas les résultats des futurs travaux techniques.
