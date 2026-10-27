@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "agropulse_campaigns",
+  "info": {
+    "singularName": "campaign",
+    "pluralName": "campaigns",
+    "displayName": "Campagne — fermée par défaut"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": false
+    }
+  },
+  "attributes": {
+    "key": {
+      "type": "uid",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "closed",
+        "open"
+      ],
+      "default": "closed",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "opensAt": {
+      "type": "datetime"
+    },
+    "closesAt": {
+      "type": "datetime"
+    },
+    "criteria": {
+      "type": "component",
+      "component": "shared.localized-text",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "notice": {
+      "type": "component",
+      "component": "shared.localized-text",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "applicationRoute": {
+      "type": "enumeration",
+      "enum": [
+        "fellowship-v1"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "programme": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::programme.programme",
+      "inversedBy": "campaigns"
+    }
+  }
+}

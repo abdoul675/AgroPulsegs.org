@@ -1,0 +1,15 @@
+/* Only media sizing: layouts, cards, typography and forms come from the homepage. */
+.about-identity .about-photo-pair{grid-column:1/-1}
+.about-photo-pair .editorial-photo,.about-territory .editorial-photo,.about-team .editorial-photo{overflow:hidden;min-width:0;min-height:260px}
+.about-photo-pair img,.about-territory .editorial-photo img,.about-team .editorial-photo img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:3/2}
+.about-identity .text-link{display:inline-block;margin-top:20px}
+.about-territory .program-grid>article{justify-content:center}
+.about-countries{list-style:none;padding:0;margin:0}
+.about-countries li{font:400 clamp(26px,3vw,38px) var(--serif);padding:12px 0;border-bottom:1px solid var(--line)}
+.about-team .program-grid>article{justify-content:center}
+.about-team .program-grid>article>p{font-size:16px}
+.about-note{display:block;font-size:10px;color:var(--muted);margin-top:12px}
+.about-contact .editorial-photo{margin-top:28px;height:210px;overflow:hidden}
+.about-contact .editorial-photo img{width:100%;height:100%;object-fit:cover}
+.hero-copy,.hero-art{min-width:0}
+@media(max-width:760px){.about-photo-pair .editorial-photo,.about-territory .editorial-photo,.about-team .editorial-photo{min-height:0}.about-team .program-grid>article>p{font-size:15px}}

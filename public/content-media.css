@@ -1,0 +1,57 @@
+/* Media replacements only. The original home design remains in styles.css and refinements.css. */
+[hidden]{display:none!important}
+.fellow-art>img,.agir-symbol>img{display:block;width:100%;height:100%;object-fit:cover}
+.service-link{margin-top:auto;align-self:flex-end;border:1px solid #a8b79c;border-radius:50%;height:35px;width:35px;display:grid;place-items:center;color:var(--ink);background:none;font-size:20px}
+.service-link:hover{background:var(--ink);color:white}
+/* Internal content uses the home hero, steps and programme card layouts. */
+.internal .editorial-photo{margin:0;position:relative}
+.internal .hero-art>img{width:100%;height:100%;object-fit:cover}
+.internal .editorial-photo figcaption{position:absolute;bottom:20px;left:20px;right:20px;background:#173f32d9;color:white;font-size:10px;padding:6px 10px;line-height:1.5}
+.internal .breadcrumb{padding:22px max(6vw,24px) 0;font-size:11px;display:flex;gap:12px;color:var(--muted)}
+.internal .breadcrumb a{text-decoration:underline}
+.internal .steps{margin-block:30px}
+.internal .business-details{padding-block:20px;border-block:1px solid var(--line)}
+.internal summary{cursor:pointer;padding-block:10px}
+.internal summary:focus-visible{outline:3px solid #b17422;outline-offset:5px}
+.internal .business-details p{margin-top:15px;max-width:850px}
+.internal .key-number{margin-bottom:30px;display:flex;align-items:center;gap:20px}
+.internal .key-number strong{font:400 64px var(--serif)}
+.internal .key-number span{font-size:13px;max-width:240px}
+.internal .territories{margin-block:35px}
+.internal .programme-directory{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.internal .programme-directory>article{min-width:0}
+.internal .programme-directory .editorial-photo{height:260px;margin-bottom:25px;overflow:hidden}
+.internal .programme-directory img{width:100%;height:100%;object-fit:cover}
+.internal .diagram{height:550px;background:var(--ink);color:#d7e989;display:flex;flex-direction:column;justify-content:center;padding:30px;overflow:hidden}
+.internal .diagram svg{width:100%;height:auto}
+.internal .diagram-flow{display:flex;justify-content:space-between;gap:8px;font-size:12px}
+.internal .diagram-kicker,.internal .diagram small{font-size:10px;letter-spacing:1px}
+.internal .diagram small{margin-top:20px}
+/* Reuse home shapes; only size the added media and detail content. */
+.hero-copy,.hero-art,.program-grid>*,.steps>*,.services>*{min-width:0}
+.internal .scope-section>.business-details{grid-column:1/-1}
+.internal .scope-photo-strip{grid-column:1/-1}
+.internal .scope-photo-strip .editorial-photo{height:300px;overflow:hidden}
+.internal .scope-photo-strip img{display:block;width:100%;height:100%;object-fit:cover}
+.internal .programme-cards .editorial-photo{height:230px;overflow:hidden;margin-bottom:26px}
+.internal .programme-cards .editorial-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.internal .programme-cards h2{font-size:32px;letter-spacing:-1px}
+.internal .programme-cards .fellowship .button{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.internal .programme-cards .fellowship .intro{color:inherit}
+.internal .service-photo{display:block;width:calc(100% + 52px);max-width:none;height:160px;object-fit:cover;margin:-28px -26px 24px}
+.internal .journey,.internal .project-facts{background:#edf0e5}
+.internal .programme-note{border-bottom:1px solid var(--line)}
+.internal .programme-photo .editorial-photo{height:290px;overflow:hidden}
+.internal .programme-photo img{display:block;width:100%;height:100%;object-fit:cover}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .hero-art>img,.editorial-photo>img,.fellow-art>img,.agir-symbol>img{transition:transform .8s cubic-bezier(.22,1,.36,1)}
+ .hero-art:hover>img,.editorial-photo:hover>img,.fellow-art:hover>img,.agir-symbol:hover>img{transform:scale(1.035)}
+ .program-grid>article,.service{transition:transform .3s ease,box-shadow .3s ease,background .3s ease}
+ .program-grid>article:hover,.service:hover{transform:translateY(-4px);box-shadow:0 12px 28px #173f3210}
+ .text-link{transition:color .2s ease,border-color .2s ease}
+ nav>a:not(.button){transition:border-color .25s ease,color .25s ease}
+}
+@media(max-width:760px){.internal .service-photo{width:calc(100% + 36px);height:130px;margin:-22px -18px 20px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.button:hover{transform:none}}
+@media(max-width:1050px){.internal .hero h1{font-size:clamp(38px,4.7vw,50px)}}
+@media(max-width:760px){.internal .programme-directory{grid-template-columns:1fr}.internal .diagram{height:400px}.internal .hero h1{font-size:clamp(36px,8.5vw,62px)}.internal .hero-art{margin:0}.internal .steps{grid-template-columns:1fr}.internal .steps>article{min-width:0}.internal .key-number strong{font-size:54px}}

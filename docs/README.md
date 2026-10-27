@@ -6,6 +6,8 @@ Documents de référence au 26 octobre 2026 :
 - [Cadrage technique L3 v1.0](AgroPulse_Cadrage_technique_L3_v1.0.docx) — orientation Next.js, Strapi Community, PostgreSQL, Docker Compose et GitHub Actions ; proposition OVHcloud et Brevo, budget indicatif et tâches suivantes ; [lecture HTML](AgroPulse_Cadrage_technique_L3_v1.0.html).
 - [Modèle Strapi et droits v1.0](AgroPulse_Modele_Strapi_et_droits_v1.0.docx) — sept types de contenus, relations, FR/EN, rôles et scénarios du pilote à exécuter ; [lecture HTML](AgroPulse_Modele_Strapi_et_droits_v1.0.html) et [spécification JSON de conception](architecture/agropulse-strapi-design.v1.json). Ce JSON n’est pas un schéma Strapi exécutable.
 - [Contexte actuel](PROJECT_CONTEXT.md) — sources, limites et prochaine étape.
+- [Compte rendu du pilote technique v1.0](AgroPulse_Pilote_technique_v1.0.md) — essai local FR/EN, rôles, brouillons et preview ; 77 assertions techniques réussies, couverture et limites ; [lecture HTML](AgroPulse_Pilote_technique_v1.0.html) et [guide de lancement](../pilot/README.md).
+- [Administration des contenus v1.0](AgroPulse_Administration_contenus_v1.0.md) — six modèles complémentaires, blocs et règles de publication ; état local et limites des médias ; [lecture HTML](AgroPulse_Administration_contenus_v1.0.html).
 
 Le cadrage L3 complète les options techniques encore ouvertes dans le cahier des charges. Il consigne l’accord du porteur sur la proposition 2, sans commande de services ni approbation distincte de Mme Hélène Nichy. Configuration exacte, devis, responsabilités et dates restent à confirmer.
 
@@ -39,3 +41,10 @@ Les sources partageables sont dans `skills/` à la racine du dépôt. Les instru
 Exemples d’invocation : `$agropulse-strapi-modeling` pour revoir le modèle et les droits ; `$agropulse-ui-review` pour une nouvelle archive de maquettes. La création de skills ne modifie pas les configurations CMS et n’autorise pas de publication ni d’achat.
 
 Le pack comprend 18 skills. `scripts/install-agropulse-skills.ps1` installe les fichiers dans le dossier personnel Codex, conserve les copies identiques et refuse d’écraser un skill local différent. La validation structurelle des skills ne prouve pas les résultats des futurs travaux techniques.
+
+## Réunion de vingt minutes
+
+- [Support court à suivre pendant la réunion](AgroPulse_Reunion_technique_20_minutes_v1.0.html) : déroulé, validation des maquettes, CMS FR/EN, planning sur trois semaines et compte rendu vierge.
+- [Annexes détaillées](AgroPulse_Reunion_technique_annexes_v1.0.html) : informations à consulter seulement en cas de besoin.
+- Échéance de fin rappelée par le porteur : **12 novembre 2026**. Les dates intermédiaires restent à convenir.
+- Dernière vérification CMS : 13 assertions de saisie simplifiée et 14 assertions d’interface FR/EN réussies ; médias, candidatures et déploiement restent à terminer.

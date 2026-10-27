@@ -1,0 +1,118 @@
+{
+  "kind": "collectionType",
+  "collectionName": "agropulse_programmes",
+  "info": {
+    "singularName": "programme",
+    "pluralName": "programmes",
+    "displayName": "Programme"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "key": {
+      "type": "enumeration",
+      "enum": [
+        "fellowship",
+        "agir-ia"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "objective": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "audience": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "durationDescription": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "body": {
+      "type": "blocks",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "visual": {
+      "type": "component",
+      "component": "shared.visual",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "expertise": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::expertise.expertise",
+      "inversedBy": "programmes"
+    },
+    "campaigns": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::campaign.campaign",
+      "mappedBy": "programme"
+    },
+    "partners": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::partner.partner",
+      "inversedBy": "programmes"
+    }
+  }
+}

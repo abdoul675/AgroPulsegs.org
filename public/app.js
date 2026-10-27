@@ -38,23 +38,38 @@ function renderDialog(kind) {
 function openDetail(kind) { activeDialog=kind; renderDialog(kind); dialog.showModal(); }
 function render() {
  const t=copy[language]; document.documentElement.lang=language;
- document.title=t.pageTitle;
- document.querySelector('meta[name="description"]').content=t.description;
+ document.title=document.body.dataset[language==='fr'?'titleFr':'titleEn'] || t.pageTitle;
+ document.querySelector('meta[name="description"]').content=document.body.dataset[language==='fr'?'descriptionFr':'descriptionEn'] || t.description;
  document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t[el.dataset.i18n];});
  document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=t[el.dataset.i18nHtml];});
  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{el.placeholder=t[el.dataset.i18nPlaceholder];});
+ document.querySelectorAll('[data-fr][data-en]').forEach(el=>{el.textContent=el.dataset[language];});
+ document.querySelectorAll('[data-alt-fr]').forEach(el=>{el.alt=el.dataset[language==='fr'?'altFr':'altEn'];});
  document.querySelector('.language').textContent = language==='fr'?'EN ↗':'FR ↗';
  document.querySelector('.language').setAttribute('aria-label',language==='fr'?'Switch to English':'Passer en français');
  document.querySelector('#navigation').setAttribute('aria-label',t.navLabel);
  document.querySelector('.dialog-close').setAttribute('aria-label',t.close);
- document.querySelector('#services').replaceChildren(...services[language].map((s,i)=>{
+ document.querySelector('#services')?.replaceChildren(...services[language].map((s,i)=>{
    const card=document.createElement('article');card.className='service';
    const num=document.createElement('span');num.className='service-number';num.textContent=String(i+1).padStart(2,'0');num.setAttribute('aria-hidden','true');
    const title=document.createElement('h3');title.textContent=s[0];
    const desc=document.createElement('p');desc.textContent=s[1];
-   const button=document.createElement('button');button.type='button';button.textContent='↗';button.setAttribute('aria-label',`${t.details} — ${s[0]}`);button.addEventListener('click',()=>openDetail(i));
+   const button=document.createElement('a');button.className='service-link';button.textContent='↗';button.setAttribute('aria-label',`${t.details} — ${s[0]}`);button.href=['formation-talents','systemes-donnees','ia-analytics','climat-economie-verte','incubation-agritech','conseil-mecanisation'][i]+'.html';
+   if(document.body.classList.contains('internal')){
+    const image=document.createElement('img');
+    image.src='assets/'+['formation-agents-cooperative','data-agricole-tablette','incubation-capteur-agricole','climat-parcelles-senegal','jeunes-formation-agritech','conseil-mecanisation-motoculteur'][i]+'.webp';
+    image.alt=language==='fr'?'Visuel illustratif créé par IA — '+s[0]:'AI generated illustrative visual — '+s[0];
+    image.className='service-photo';image.width=480;image.height=320;image.loading='lazy';image.decoding='async';card.append(image);
+   }
    card.append(num,title,desc,button);return card;
  }));
+ document.querySelectorAll('a[href]').forEach(a=>{
+   const url=new URL(a.getAttribute('href'),location.href);
+   if(url.origin===location.origin && /\.html$/.test(url.pathname)){
+     if(language==='en')url.searchParams.set('lang','en');else url.searchParams.delete('lang');
+     a.setAttribute('href',url.pathname.split('/').pop()+url.search+url.hash);
+   }
+ });
  if(dialog.open)renderDialog(activeDialog);
  if(!document.querySelector('#draft').hidden)prepareDraft();
 }
@@ -82,3 +97,33 @@ function prepareDraft(){
 document.querySelector('#request-form').addEventListener('submit',e=>{e.preventDefault();prepareDraft();});
 document.querySelector('#year').textContent=new Date().getUTCFullYear();
 render();
+
+// Reveal once, without hiding content: failed or disabled motion leaves it readable.
+const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+let motionObserver;
+const runningAnimations=new Set();
+function startPageMotion(){
+ motionObserver?.disconnect();
+ runningAnimations.forEach(animation=>animation.cancel());runningAnimations.clear();
+ if(motionPreference.matches || !('IntersectionObserver' in window) || !Element.prototype.animate)return;
+ const hero=document.querySelector('.hero');
+ const targets=new Set(hero ? [...hero.querySelectorAll('.hero-copy>*'),...hero.querySelectorAll('.hero-art')] : []);
+ document.querySelectorAll('main>section').forEach(section=>{
+  if(section===hero)return;
+  section.querySelectorAll(':scope>h1,:scope>h2,:scope>p,:scope>.section-heading,:scope>.about-section-heading,:scope>.about-text,:scope>.key-number,:scope>.editorial-photo,:scope>form,:scope>.business-details,:scope>.steps>*,:scope>.program-grid>*,:scope>.services>*,:scope>.programme-directory>*,:scope>div>.steps>*').forEach(el=>targets.add(el));
+ });
+ motionObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+   if(!entry.isIntersecting)return;
+   motionObserver.unobserve(entry.target);
+   const siblings=[...entry.target.parentElement.children];
+   const delay=Math.min(siblings.indexOf(entry.target),3)*65;
+   const animation=entry.target.animate([{opacity:0,transform:'translateY(20px)'},{opacity:1,transform:'translateY(0)'}],{duration:620,delay,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'});
+   runningAnimations.add(animation);
+   animation.finished.then(()=>runningAnimations.delete(animation),()=>runningAnimations.delete(animation));
+  });
+ },{threshold:.08});
+ targets.forEach(el=>motionObserver.observe(el));
+}
+motionPreference.addEventListener('change',startPageMotion);
+startPageMotion();

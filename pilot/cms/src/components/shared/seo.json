@@ -1,0 +1,14 @@
+{
+  "collectionName": "agropulse_shared_seo",
+  "info": {
+    "displayName": "seo"
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

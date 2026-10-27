@@ -1,0 +1,72 @@
+{
+  "executedAt": "2026-10-27T00:37:49.528Z",
+  "browser": "Microsoft Edge headless",
+  "completed": true,
+  "results": [
+    {
+      "name": "Débordement horizontal 375px",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Débordement horizontal 768px",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Débordement horizontal 1440px",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Navigation clavier : premier lien",
+      "result": "PASS",
+      "actual": "/fr/expertise/gjxsyg6881hu0d0rsrmzk8m8"
+    },
+    {
+      "name": "Changement de langue conserve le document",
+      "result": "PASS",
+      "actual": "/en/expertise/gjxsyg6881hu0d0rsrmzk8m8"
+    },
+    {
+      "name": "Langue EN dans le DOM",
+      "result": "PASS",
+      "actual": "en"
+    },
+    {
+      "name": "Titre traduit visible",
+      "result": "PASS",
+      "actual": "Fictional pilot expertise"
+    },
+    {
+      "name": "Interface editor : publication disponible",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Navigateur : brouillon visible après lien signé",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Navigateur : autre session reste publique",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Navigateur : sortie revient à la version publiée",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Interface publisher : publication disponible",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Interface admin : publication disponible",
+      "result": "PASS",
+      "actual": true
+    }
+  ]
+}

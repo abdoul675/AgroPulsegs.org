@@ -1,0 +1,192 @@
+{
+  "executedAt": "2026-10-26T19:56:27.748Z",
+  "completed": true,
+  "environment": "Local isolated fictional fixture",
+  "results": [
+    {
+      "name": "Connexion admin",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Connexion editor",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Connexion publisher",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Administrateur : gestion des rôles",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Éditeur : gestion des rôles interdite",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Publieur : gestion des rôles interdite",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Éditeur : création d’un brouillon incomplet",
+      "result": "PASS",
+      "actual": 201
+    },
+    {
+      "name": "Éditeur : publication du nouveau brouillon refusée",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Nouveau brouillon invisible à la lecture publiée",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "Nettoyage du seul brouillon de test temporaire",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Lecture anonyme refusée",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Preview CMS sans secret refusée",
+      "result": "PASS",
+      "actual": 401
+    },
+    {
+      "name": "Brouillon FR incomplet enregistré",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Éditeur : publication directe refusée",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Publieur : publication incomplète refusée",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Enregistrement fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publication autorisée fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Lecture publiée fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Identité métier fr",
+      "result": "PASS",
+      "actual": "gjxsyg6881hu0d0rsrmzk8m8"
+    },
+    {
+      "name": "Locale fr",
+      "result": "PASS",
+      "actual": "fr"
+    },
+    {
+      "name": "Enregistrement en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publication autorisée en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Lecture publiée en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Identité métier en",
+      "result": "PASS",
+      "actual": "gjxsyg6881hu0d0rsrmzk8m8"
+    },
+    {
+      "name": "Locale en",
+      "result": "PASS",
+      "actual": "en"
+    },
+    {
+      "name": "Nouvelle révision FR non publiée",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "La lecture publiée ne fuit pas la révision",
+      "result": "PASS",
+      "actual": "Version publiée FR — démonstration."
+    },
+    {
+      "name": "Aucun compte administrateur exposé",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Statut brouillon refusé au jeton de lecture",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Écriture interdite au jeton de lecture",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Lecture serveur du brouillon",
+      "result": "PASS",
+      "actual": "BROUILLON_CONFIDENTIEL_PILOTE"
+    },
+    {
+      "name": "Brouillon sans cache",
+      "result": "PASS",
+      "actual": "private, no-store"
+    },
+    {
+      "name": "Autre document refusé en preview",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "Locale non autorisée refusée en preview",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Éditeur : génération native du lien de preview",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Lien signé produit",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Lien natif anonyme refusé",
+      "result": "PASS",
+      "actual": 401
+    }
+  ]
+}

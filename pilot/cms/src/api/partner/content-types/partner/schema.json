@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "agropulse_partners",
+  "info": {
+    "singularName": "partner",
+    "pluralName": "partners",
+    "displayName": "Partenaire"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "key": {
+      "type": "string",
+      "regex": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "name": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "confirmationStatus": {
+      "type": "enumeration",
+      "enum": [
+        "unconfirmed",
+        "confirmed"
+      ],
+      "default": "unconfirmed",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "website": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "programmes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::programme.programme",
+      "mappedBy": "partners"
+    }
+  }
+}

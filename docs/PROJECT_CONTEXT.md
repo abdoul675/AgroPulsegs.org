@@ -10,6 +10,7 @@
 - OVHcloud et Brevo sont les services proposés ; aucune souscription, capacité, localisation ou enveloppe définitive n’est engagée. Les 20 à 40 €/mois sont une estimation d’infrastructure, hors développement, maintenance humaine et autres postes explicités dans le cadrage.
 - La personne de validation désignée par le porteur est **Mme Hélène Nichy**. Les mentions historiques d’un autre validateur ne prévalent pas. Ne pas fabriquer sa signature ou lui attribuer l’accord du porteur.
 - Le modèle Strapi et les droits v1.0 constituent une proposition de conception, pas une instance CMS configurée ni un test exécuté.
+- Son premier lot exécutable est maintenant dans `pilot/cms/src/` : expertise réduite du pilote et six modèles complémentaires. `docs/AgroPulse_Administration_contenus_v1.0.md` distingue les schémas et règles testés des fonctions encore suspendues. Le document de conception historique ne représente pas à lui seul l’état d’exécution.
 
 ## Produit
 
@@ -21,10 +22,28 @@ Seule Fondation AWI est indiquée comme partenaire confirmé. Aucun chiffre de r
 
 ## Limites actuelles
 
-Le travail en cours est le cadrage technique et le modèle de contenu, après analyse fonctionnelle. Les fichiers de `public/` sont un aperçu statique existant ; CMS, envois, candidatures et newsletter ne sont pas déclarés opérationnels. Plusieurs changements locaux du site proviennent d’autres travaux : les examiner avant toute modification ou commit et préserver les fichiers hors du périmètre demandé.
+Le cadrage technique et le modèle de contenu sont suivis d’un pilote local dans `pilot/`, réalisé le 26 octobre 2026. Strapi Community 5.59.0, PostgreSQL 17.10 portable et Next.js 16.4.3 fonctionnent sur une expertise fictive FR/EN. Trois suites finales totalisent 77 assertions réussies : droits administratifs, brouillons/publication, liens de preview, langues et parcours navigateur. Lire `docs/AgroPulse_Pilote_technique_v1.0.md` pour les preuves et limites. Les campagnes, relations et médias privés, formulaires, Docker et hébergement ne sont pas vérifiés par ce pilote.
+
+Les fichiers de `public/` restent un aperçu statique existant ; les envois, candidatures et newsletter ne sont pas déclarés opérationnels. Plusieurs changements locaux du site proviennent d’autres travaux : les examiner avant toute modification ou commit et préserver les fichiers hors du périmètre demandé. Les fichiers du pilote ne sont pas encore commités ni poussés sur GitHub.
+
+Après accord oral du porteur pour poursuivre, six modèles ont été ajoutés : paramètres, pages, programmes, campagnes, ressources et partenaires, avec onze composants. La suite finale des nouveaux modèles comporte 75 assertions réussies, dont publications FR/EN, partenaire non confirmé, identité immuable et créations concurrentes. Les preuves d’interface comportent 8 assertions réussies, avec `completed: true` ; le parcours initial a également été revérifié. L’Éditeur ne publie pas et ne modifie pas dates/état de campagne ou confirmation de partenaire. Le pilote conserve les médias fermés à l’import et les candidatures inactives ; la publication de ressources et des paramètres avec logo n’est pas finalisée.
+
+Adaptations Strapi : type `site-setting` pour les paramètres ; `confirmationStatus` pour éviter le champ réservé `status` ; clé de partenaire en chaîne non localisée, car Strapi localise toujours les UID. Sauvegarde locale à froid réalisée avant migration, restauration non testée. Respecter la limitation native des connexions administratives lors des suites répétées, sans désactiver la protection.
 
 La dernière archive `files.zip` revue contient deux aperçus HTML et un ZIP de site avec configuration Decap CMS. Cette configuration ne remplace pas le choix Strapi retenu pour le cadrage. Consulter l’archive effectivement fournie pour toute nouvelle revue ; le nom du fichier peut rester identique alors que son contenu change.
 
 ## Prochaine étape
 
-Valider le modèle de contenu et la matrice des droits, vérifier les versions compatibles, puis effectuer un essai local limité FR/EN, brouillon, prévisualisation et publication. Le pilote n’est pas encore réalisé. Les preuves et limites de vérification sont à consigner avant estimation définitive.
+Compléter le circuit des médias publics autorisés et ses métadonnées, puis les champs métier complets de l’expertise. Reprendre les scénarios MC non exécutés ou partiels avant la recette globale ; relier ensuite les blocs aux maquettes retenues et intégrer les éléments communs et l’accueil. Les maquettes restent la référence visuelle, comme rappelé au porteur pendant la conversation vocale. Préparer Docker, préproduction et restauration dans un lot distinct, avec les services et responsabilités confirmés. Les succès locaux ne valent pas validation client ni mise en production.
+
+## Réunion et échéance — mise à jour du 27 octobre 2026
+
+Le porteur demande une réunion de vingt minutes centrée sur la validation des maquettes. M. Dongo est le décideur annoncé pour cette réunion ; Mme Hélène Nichy sera absente. Cela ne modifie pas les validations historiques. Le support court est `AgroPulse_Reunion_technique_20_minutes_v1.0.html` ; les détails restent dans les annexes.
+
+**Fin du projet prévue le 12 novembre 2026**, rappelée explicitement par le porteur. Fixer les dates intermédiaires, la recette et les contenus à fournir en fonction de cette échéance. La mise en ligne reste conditionnée aux vérifications, à l’hébergement et à l’accord de lancement ; aucun de ces accords n’est présumé.
+
+Le CMS propose une saisie directe des pages (grand titre, introduction, texte principal), avec synchronisation vers les blocs existants. Les libellés personnalisés suivent désormais la langue du profil plutôt que de mélanger les deux langues. Le français est le choix initial ; l’anglais est disponible. La langue du contenu reste distincte et ne déclenche aucune traduction automatique. Les suites `simple-entry-tests.json` (13 assertions) et `editorial-ui-tests.json` (14 assertions) sont terminées avec succès. Le compte utilisé pour l’essai de langue a été remis en français.
+
+Le porteur a demandé de pousser tout le travail du projet : cela inclut l’aperçu statique existant, le pilote et le dossier. Les secrets, accès locaux et sauvegardes restent exclus du dépôt. Les mentions précédentes « non commité » décrivent l’état antérieur ; vérifier Git pour l’état courant.
+
+Planning hebdomadaire proposé dans le support de réunion : semaine 1 du 26 octobre au 1er novembre (validation, corrections, contenus et vérification du CMS) ; semaine 2 du 2 au 8 novembre (intégration et environnement de test) ; semaine 3 du 9 au 12 novembre (recette, corrections, formation et livraison). Ce découpage est une proposition à confirmer, sans accord client présumé ; l’échéance du 12 novembre est celle rappelée par le porteur.

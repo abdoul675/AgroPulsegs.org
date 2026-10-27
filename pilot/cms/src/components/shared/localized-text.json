@@ -1,0 +1,14 @@
+{
+  "collectionName": "agropulse_shared_localized_text",
+  "info": {
+    "displayName": "localized-text"
+  },
+  "attributes": {
+    "fr": {
+      "type": "text"
+    },
+    "en": {
+      "type": "text"
+    }
+  }
+}

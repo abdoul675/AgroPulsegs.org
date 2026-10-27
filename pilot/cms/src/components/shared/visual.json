@@ -1,0 +1,32 @@
+{
+  "collectionName": "agropulse_shared_visual",
+  "info": {
+    "displayName": "visual"
+  },
+  "attributes": {
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "alt": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "text"
+    },
+    "kind": {
+      "type": "enumeration",
+      "enum": [
+        "illustration",
+        "photo"
+      ]
+    },
+    "rightsConfirmed": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "tool": "image_gen (outil intégré)",
+  "usage": "Scènes illustratives fictives. Ne constituent pas des photographies de projets ou des résultats AgroPulse.",
+  "assets": [
+    {
+      "file": "public/assets/agriculture-cooperative-cacao.webp",
+      "prompt": "Use case: photorealistic-natural. Create a professional editorial landscape photo for a West African agriculture consulting website. Wide 3:2 composition: a mature Ivorian agronomist in a pale blue shirt talking with a woman cooperative leader among cocoa trees, examining a cocoa pod together. Candid interaction, subjects to right, lush foliage with cocoa pods, soft morning daylight, true skin texture, realistic agricultural setting, no text, no logo, no futuristic graphics. Illustrative fictional people, not documentation of a real project."
+    },
+    {
+      "file": "public/assets/jeunes-formation-agritech.webp",
+      "prompt": "Use case: photorealistic-natural. Create a wide 3:2 professional editorial photo for an agricultural digital training programme in Abidjan. Three young West African professionals, two women and a man, collaboratively studying on laptops at a long wooden desk in a bright contemporary modest training room. Side view, foreground laptop and notebooks, airy composition, cool natural window light, blue and neutral clothing, authentic candid concentration, no posing, no text, no logos, no fake holograms. Illustrative fictional scene."
+    },
+    {
+      "file": "public/assets/femme-agripreneure-numerique.webp",
+      "prompt": "Use case: photorealistic-natural. Create a wide 3:2 professional editorial photo for a women agripreneurs AI learning programme in Côte d'Ivoire. Close candid view of a confident middle aged Black West African woman entrepreneur with short natural hair and a warm rust patterned blouse using a smartphone while a female colleague beside her explains something. Bright covered cashew processing cooperative workspace with baskets in softly blurred background. Warm natural afternoon light, real skin texture, dignified agency, no text, no logos, no futuristic overlays. Illustrative fictional scene."
+    },
+    {
+      "file": "public/assets/data-agricole-tablette.webp",
+      "prompt": "Photorealistic editorial landscape 3:2 image. Close view of hands of a Black West African field technician using a sturdy tablet showing a simple field map with unlabeled colored parcels, cocoa leaves soft in foreground, technician in navy shirt partly visible on left, farm in background. Natural overcast daylight, teal and earthy colors, realistic screen, no holograms, no text or logos, illustrative fictional scene for agricultural information systems website."
+    },
+    {
+      "file": "public/assets/climat-parcelles-senegal.webp",
+      "prompt": "Photorealistic editorial aerial landscape 3:2 image for a West African climate resilience website. High angle view of varied small vegetable garden plots beside a narrow river in Senegal, curved paths, scattered trees, ochre earth, varied greens, morning haze, strong geometric composition, natural realistic colors, no text or logos, no fabricated result statistics. Illustrative landscape."
+    },
+    {
+      "file": "public/assets/incubation-capteur-agricole.webp",
+      "prompt": "Photorealistic editorial landscape 3:2 image for an agricultural entrepreneurship website. Two young Black West African startup founders, man and woman, testing a compact irrigation sensor on a workbench in a modest bright workshop in Abidjan. Close composition on prototype and hands, founders discussing in background, terracotta wall, daylight, practical everyday technology, varied clothing, no text, no logos, no holograms. Fictional illustrative scene."
+    },
+    {
+      "file": "public/assets/partenariat-equipe-agricole.webp",
+      "prompt": "Photorealistic natural editorial landscape 3:2 website photo of an agricultural consulting collaboration in West Africa. Four adult Black West African professionals, two women and two men of varied ages, discussing a large paper map at a shaded veranda table overlooking a cooperative warehouse, pens and notebook, relaxed candid professional interaction, no handshake poses. Wide architectural composition, cream and blue tones, midday indirect light, no text or logos. Fictional illustrative scene."
+    },
+    {
+      "file": "public/assets/conseil-mecanisation-motoculteur.webp",
+      "prompt": "Photorealistic natural editorial landscape 3:2 photograph for a West African agricultural mechanisation consulting website. A Black African equipment operator in a work shirt inspecting a small red walking tractor with an older female cooperative manager in an ochre headwrap at the edge of a prepared farm plot. Low wide perspective with the machine clearly visible in foreground, dry terracotta soil and trees in background, natural late afternoon light, realistic practical rural equipment, no logos, no text. Fictional illustrative scene."
+    },
+    {
+      "file": "public/assets/formation-agents-cooperative.webp",
+      "prompt": "Photorealistic natural editorial landscape 3:2 photograph for a West African agricultural capacity building website. A Black West African woman instructor wearing indigo explaining simple printed field survey sheets to two young male cooperative agents sitting at an outdoor shaded wooden table, one holding a pen, the other listening. Mid-distance candid view, cocoa sacks stacked behind, softly lit green background, natural accurate anatomy, documentary style, no text or logos. Fictional illustrative scene, not a real project photo."
+    }
+  ]
+}

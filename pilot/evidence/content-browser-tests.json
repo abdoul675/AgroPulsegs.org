@@ -1,0 +1,47 @@
+{
+  "executedAt": "2026-10-26T20:05:20.467Z",
+  "completed": true,
+  "browser": "Microsoft Edge headless",
+  "results": [
+    {
+      "name": "Interface editor : page chargé",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Interface editor : publication interdite page",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Interface editor : campaign chargé",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Interface editor : publication interdite campaign",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Interface Éditeur : ouverture non modifiable",
+      "result": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "Interface Éditeur : dates non modifiables",
+      "result": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "Interface publisher : programme chargé",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Interface publisher : commande de publication présente programme",
+      "result": "PASS",
+      "actual": true
+    }
+  ]
+}

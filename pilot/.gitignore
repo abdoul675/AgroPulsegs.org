@@ -1,0 +1,8 @@
+.local/
+.next/
+.tmp/
+.cache/
+dist/
+build/
+.strapi/
+*.tsbuildinfo

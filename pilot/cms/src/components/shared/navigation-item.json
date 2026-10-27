@@ -1,0 +1,14 @@
+{
+  "collectionName": "agropulse_shared_navigation_item",
+  "info": {
+    "displayName": "navigation-item"
+  },
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    }
+  }
+}

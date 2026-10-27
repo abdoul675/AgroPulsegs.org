@@ -1,0 +1,20 @@
+{
+  "collectionName": "agropulse_shared_social_link",
+  "info": {
+    "displayName": "social-link"
+  },
+  "attributes": {
+    "network": {
+      "type": "enumeration",
+      "enum": [
+        "linkedin",
+        "facebook",
+        "instagram",
+        "youtube"
+      ]
+    },
+    "url": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,102 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AgroPulse — Compte rendu du pilote technique</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#edf3ed;color:#173f35;font:17px/1.65 'Segoe UI',sans-serif}main{max-width:1080px;margin:36px auto;padding:40px 48px;background:white;border-radius:16px;border:1px solid #d5e2d5}h1{font-size:2.1rem;line-height:1.2}h2{margin-top:2.3em;border-top:2px solid #d5e2d5;padding-top:1em;line-height:1.3}a{color:#086050;text-underline-offset:3px}table{border-collapse:collapse;width:100%;font-size:.91em;margin:24px 0}th,td{border:1px solid #d5e2d5;padding:10px 13px;text-align:left;vertical-align:top}th{background:#eaf3e8}code{background:#edf3ed;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}li{margin:.6em 0}@media(max-width:700px){main{margin:0;padding:22px 16px;border-radius:0}body{font-size:16px}h1{font-size:1.7rem}table{font-size:.8em}td,th{padding:6px;overflow-wrap:anywhere}}@media print{body{background:white}main{border:0;margin:0;padding:0}h2{break-after:avoid}tr{break-inside:avoid}}
+</style></head><body><main><h1>AgroPulse — Administration des contenus v1.0</h1>
+<p><strong>26 octobre 2026 — Lot local de préparation des contenus.</strong></p>
+<p>Le CMS dispose maintenant des six modèles complémentaires à l’expertise du premier pilote : paramètres du site, pages, programmes, campagnes, ressources et partenaires. Les contenus restent fictifs. Les pages finales des maquettes ne sont pas encore raccordées ; ce travail n’a pas modifié le site statique existant.</p>
+<p>La réalisation fait suite à la demande du porteur de poursuivre la préparation des contenus. Elle ne vaut pas validation éditoriale de Mme Hélène Nichy, personne désignée pour la validation client.</p>
+<h2>Ce qui est disponible</h2>
+<table>
+<thead>
+<tr>
+<th>Contenu</th>
+<th>Configuration et comportement vérifié</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Paramètres du site</td>
+<td>Nom, slogan, navigation, coordonnées publiques, réseaux et logo ; brouillon FR enregistré, publication refusée sans logo.</td>
+</tr>
+<tr>
+<td>Pages</td>
+<td>Identité de page, titre, URL, résumé, blocs structurés et SEO ; une page fictive publiée et relue en FR/EN.</td>
+</tr>
+<tr>
+<td>Programmes</td>
+<td>Fellowship et AGIR-IA distingués par leur identité ; objectif, public, durée libre, texte structuré, SEO et relations. Un exemple Fellowship est publié en FR/EN.</td>
+</tr>
+<tr>
+<td>Campagnes</td>
+<td>État fermé par défaut, dates, critères et messages FR/EN ; une campagne fictive fermée est publiée. Les candidatures ne sont pas activées.</td>
+</tr>
+<tr>
+<td>Ressources</td>
+<td>Langue, titre, description, fichier, format/taille réservés aux données dérivées et version ; brouillons possibles, publication de fichiers désactivée dans ce lot.</td>
+</tr>
+<tr>
+<td>Partenaires</td>
+<td>Identité partagée, nom/description FR/EN, confirmation, logo et site ; un exemple confirmé publié et un exemple non confirmé laissé en brouillon. Aucun partenaire réel n’a été ajouté.</td>
+</tr>
+</tbody></table>
+<p>Onze composants structurent les contenus : SEO, navigation, coordonnées publiques, réseau social, texte FR/EN partagé, visuel, service, bloc principal, texte, grille de cartes et appel à l’action. Ils préparent les données nécessaires aux maquettes ; leur existence dans le CMS ne définit pas l’apparence du futur site.</p>
+<p>Les relations programme–expertise, programme–campagnes et programme–partenaires sont déclarées dans les schémas. Le premier modèle d’expertise conserve ses champs de démonstration et reçoit la relation réciproque vers les programmes ; il doit encore être enrichi avec les champs métier complets du modèle de conception.</p>
+<h2>Règles exécutées côté serveur</h2>
+<ul>
+<li>Un brouillon peut être incomplet. Les champs nécessaires sont contrôlés au moment de publier, y compris pour les blocs et leurs données SEO.</li>
+<li>L’Éditeur ne publie aucun des nouveaux contenus. Il ne modifie ni état, dates ou circuit d’une campagne, ni confirmation d’un partenaire. Les permissions de champs et un contrôle des appels directs appliquent cette restriction.</li>
+<li>Les clés métier déjà renseignées restent stables. Un autre document ne peut pas reprendre la même clé, même lors de deux créations simultanées. Le contrôle utilise une transaction PostgreSQL et un verrou par identité.</li>
+<li>Le Publieur ne peut pas publier un partenaire non confirmé. La publication d’un programme est refusée si un partenaire associé n’est pas publié et confirmé dans la langue du programme.</li>
+<li>Une campagne doit référencer un programme publié dans les deux langues et posséder son message FR/EN. Les dates inversées empêchent la publication. L’ouverture reste refusée tant que les conditions approuvées et le circuit de candidature ne sont pas raccordés.</li>
+<li>Les lectures serveur exposent uniquement la version publiée et des champs/blocs autorisés. Les paramètres de population fournis par l’appelant ne permettent pas d’ajouter arbitrairement des relations ou de choisir leurs brouillons.</li>
+<li>Une ressource sans fichier ne se publie pas et ne produit pas de faux téléchargement. Les imports et modifications de médias par HTTP sont fermés dans ce lot, même pour l’administrateur technique.</li>
+</ul>
+<p>La dernière mesure est une limite volontaire du lot : elle ne constitue pas un stockage privé opérationnel. Le circuit d’import de médias publics autorisés, le calcul réel du format et de la taille, les contrôles des logos et la gestion éventuelle de documents confidentiels restent à réaliser. Ne pas téléverser de dossier privé dans le stockage public de Strapi.</p>
+<h2>Adaptations entre conception et Strapi</h2>
+<table>
+<thead>
+<tr>
+<th>Conception v1.0</th>
+<th>Configuration exécutable</th>
+<th>Motif</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>site-settings</code></td>
+<td>Type <code>site-setting</code>, pluriel <code>site-settings</code></td>
+<td>Strapi impose la cohérence du nom singulier avec le dossier de type.</td>
+</tr>
+<tr>
+<td>Partenaire : <code>status</code></td>
+<td><code>confirmationStatus</code></td>
+<td><code>status</code> est réservé au brouillon/publié avec Draft &amp; Publish.</td>
+</tr>
+<tr>
+<td>Partenaire : clé UID non traduite</td>
+<td>Chaîne contrôlée, non traduite</td>
+<td>Strapi traite les champs UID comme localisés même si leur option de localisation est désactivée. La chaîne partagée conserve l’identité prévue.</td>
+</tr>
+<tr>
+<td>Ressource : format/taille dérivés</td>
+<td>Champs non modifiables, publication suspendue</td>
+<td>Aucune valeur fictive de format ou de taille n’est présentée comme issue d’un vrai fichier.</td>
+</tr>
+</tbody></table>
+<p>Ces adaptations ont été fondées sur le code de Strapi installé et sur des essais réels. Le JSON de conception d’origine reste inchangé et conserve sa fonction de document historique, sans être chargé comme schéma d’exécution.</p>
+<h2>Preuves du lot</h2>
+<p>La suite <a href="../pilot/evidence/content-model-tests.json">content-model-tests.json</a> comporte <strong>75 assertions techniques réussies</strong> lors de son exécution finale. Elle couvre les publications FR/EN, les quatre types de blocs, les données SEO, les interdictions de rôle, les partenaires non confirmés, l’identité stable, la création concurrente, les campagnes fermées et dates inversées, les ressources absentes, les imports fermés et les lectures publiées.</p>
+<p>La vérification des écrans comporte <strong>8 assertions réussies</strong> dans <a href="../pilot/evidence/content-browser-tests.json">content-browser-tests.json</a>, avec <code>completed: true</code> : pages et campagnes de l’Éditeur, état/dates non modifiables, programme et commande du Publieur. Les captures associées sont : <a href="../pilot/evidence/content-page-editor.png">page — Éditeur</a>, <a href="../pilot/evidence/content-campaign-editor.png">campagne — Éditeur</a>, <a href="../pilot/evidence/content-programme-publisher.png">programme — Publieur</a>. Les titres d’administration utilisent le titre, le nom ou la clé du contenu plutôt qu’un identifiant technique.</p>
+<p>Les vérifications de l’expertise et du frontend du premier pilote ont été reprises après l’ajout des modèles. Leurs preuves restent dans <a href="../pilot/evidence/cms-tests.json">cms-tests.json</a>, <a href="../pilot/evidence/web-tests.json">web-tests.json</a> et <a href="../pilot/evidence/browser-tests.json">browser-tests.json</a>. Le premier <a href="AgroPulse_Pilote_technique_v1.0.md">compte rendu du pilote</a> est conservé comme état de l’étape précédente.</p>
+<p>Les essais ont rencontré la limitation native des connexions administratives, après plusieurs relances rapprochées. La protection est conservée ; les tests navigateur réutilisent leur session et doivent respecter la fenêtre de limitation. Les contrôles de préparation des contenus et de lecture de preview doivent aussi être exécutés dans l’ordre, puisqu’ils utilisent la même expertise fictive.</p>
+<p>Ces preuves ne constituent pas une recette globale du site. Les médias privés, la disponibilité positive d’une ressource avec fichier, les candidatures, les envois, l’hébergement et la restauration n’ont pas été validés dans ce lot.</p>
+<h2>Préservation des données et accès</h2>
+<p>Une copie à froid de la base PostgreSQL et des fichiers locaux de configuration a été réalisée avant l’évolution du schéma, après arrêt propre du serveur. Elle se trouve dans le dossier local ignoré <code>pilot/.local/backups/</code>. La base existante a été conservée et le document d’expertise du premier pilote garde son identité. La présence de cette copie ne prouve pas qu’une restauration a été testée.</p>
+<p>L’administration reste locale : <a href="http://127.0.0.1:1338/admin">ouvrir le CMS</a>. Les comptes fictifs et le démarrage sont décrits dans le <a href="../pilot/README.md">guide du pilote</a>. Aucun secret ou contenu de la sauvegarde n’est destiné au dépôt Git.</p>
+<p>Les schémas et composants sont dans <code>pilot/cms/src/</code>. Le générateur explicite <code>pilot/tools/create-content-models.mjs</code> vérifie les fichiers existants et refuse d’écraser un schéma différent. Les scripts du lot sont <code>test-content-models.mjs</code> et <code>test-content-browser.mjs</code>. La construction de l’administration Strapi a réussi ; aucun achat, déploiement ni push n’a été effectué.</p>
+<h2>Suite concrète</h2>
+<ol>
+<li>Terminer le circuit des médias publics autorisés et les métadonnées de fichiers, puis vérifier la publication des ressources et paramètres avec des fichiers de test adaptés.</li>
+<li>Enrichir l’expertise avec les besoins, publics, services, visuels et SEO prévus ; vérifier les relations réciproques et les parcours encore partiels.</li>
+<li>Reprendre les maquettes retenues, fixer la correspondance entre leurs blocs et les données CMS, puis intégrer les éléments communs et l’accueil avant les pages internes. La mise en page, les couleurs et les composants des maquettes restent la référence ; aucune refonte visuelle n’a été introduite par ce lot.</li>
+<li>Brancher les pages et leur prévisualisation sur ces modèles, faire valider les vrais textes FR/EN, puis préparer les intégrations et la préproduction selon le cadrage L3.</li>
+</ol>
+<p>Les campagnes réelles restent fermées jusqu’à clarification des dates, critères et responsabilités déjà identifiés dans le cahier des charges. Les exemples fictifs ne remplacent aucune de ces décisions.</p>
+</main></body></html>

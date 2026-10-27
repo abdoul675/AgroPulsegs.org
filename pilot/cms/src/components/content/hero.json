@@ -1,0 +1,19 @@
+{
+  "collectionName": "agropulse_content_hero",
+  "info": {
+    "displayName": "hero"
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "intro": {
+      "type": "text"
+    },
+    "visual": {
+      "type": "component",
+      "component": "shared.visual",
+      "repeatable": false
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "collectionName": "agropulse_shared_public_contact",
+  "info": {
+    "displayName": "public-contact"
+  },
+  "attributes": {
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    }
+  }
+}

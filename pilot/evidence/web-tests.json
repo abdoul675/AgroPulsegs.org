@@ -1,0 +1,141 @@
+{
+  "executedAt": "2026-10-26T19:56:47.305Z",
+  "completed": true,
+  "results": [
+    {
+      "name": "Page fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Langue HTML fr",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Brouillon absent de la page publique fr",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Secrets absents du HTML fr",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Page en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Langue HTML en",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Brouillon absent de la page publique en",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Secrets absents du HTML en",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Document inconnu",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "Locale non supportée",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "Signature incorrecte",
+      "result": "PASS",
+      "actual": 401
+    },
+    {
+      "name": "Lien expiré",
+      "result": "PASS",
+      "actual": 401
+    },
+    {
+      "name": "Lien trop long",
+      "result": "PASS",
+      "actual": 401
+    },
+    {
+      "name": "Autre document même signé",
+      "result": "PASS",
+      "actual": 401
+    },
+    {
+      "name": "Lien valide redirige",
+      "result": "PASS",
+      "actual": 307
+    },
+    {
+      "name": "Destination interne",
+      "result": "PASS",
+      "actual": "http://127.0.0.1:3100/fr/expertise/gjxsyg6881hu0d0rsrmzk8m8"
+    },
+    {
+      "name": "Preview sans cache",
+      "result": "PASS",
+      "actual": "private, no-store"
+    },
+    {
+      "name": "Cookie limité et HttpOnly",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Page brouillon",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Brouillon visible en session autorisée",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Page brouillon non stockable",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Autre session reste publique",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Cookie Next seul insuffisant",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Portée expirée refusée même avec cookie Next",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Sortie de preview",
+      "result": "PASS",
+      "actual": 307
+    },
+    {
+      "name": "Sortie supprime la portée",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Bundle navigateur inspecté sans secret",
+      "result": "PASS",
+      "actual": true
+    }
+  ]
+}

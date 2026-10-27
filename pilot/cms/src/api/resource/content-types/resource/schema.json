@@ -1,0 +1,90 @@
+{
+  "kind": "collectionType",
+  "collectionName": "agropulse_resources",
+  "info": {
+    "singularName": "resource",
+    "pluralName": "resources",
+    "displayName": "Ressource documentaire"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": false
+    }
+  },
+  "attributes": {
+    "key": {
+      "type": "uid",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "language": {
+      "type": "enumeration",
+      "enum": [
+        "fr",
+        "en"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "files"
+      ]
+    },
+    "format": {
+      "type": "string",
+      "configurable": false,
+      "writable": false
+    },
+    "sizeBytes": {
+      "type": "biginteger",
+      "configurable": false,
+      "writable": false
+    },
+    "releaseVersion": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "programme": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::programme.programme"
+    },
+    "expertise": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::expertise.expertise"
+    }
+  }
+}

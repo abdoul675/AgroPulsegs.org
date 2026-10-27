@@ -1,7 +1,29 @@
+RÉUNION COURTE : ouvrir ../AgroPulse_Reunion_technique_20_minutes_v1.0.html
+Durée 20 minutes ; échéance projet le 12 novembre 2026.
+Les documents ci-dessous conservent l’historique.
+
+VALIDATION DU 26 OCTOBRE 2026
+Le porteur du projet a validé la proposition fonctionnelle v0.5 dans la
+conversation. Les informations manquantes restent des conditions avant
+activation. Prochaine étape : L3 Technique. Les mentions antérieures
+d’attente de validation décrivent l’historique de préparation.
+
 AGROPULSE — DOSSIER DE RÉUNION CLIENT
 
 DOCUMENT PRINCIPAL
-AgroPulse_Cahier_des_charges_v0.3.docx regroupe désormais les besoins,
+La dernière proposition est AgroPulse_Cahier_des_charges_v0.5.html, du
+26 octobre 2026. Lire les sections 4 et 5, puis répondre à CF01 à CF06
+en section 16 pour fermer l'analyse fonctionnelle. La copie Word v0.5
+est préparée, mais son rendu visuel n'est pas vérifié. Aucun accord client
+n'est enregistré ; les versions précédentes restent conservées.
+
+AgroPulse_Cahier_des_charges_v0.4.docx est la version à relire du 25 octobre
+2026. Elle intègre l'analyse de la nouvelle archive files.zip, les parcours,
+les responsabilités et les décisions V01 à V10 à valider. La copie HTML
+permet une lecture avec sommaire dans le navigateur. Le projet reste en
+phase d'analyse ; aucune décision non confirmée n'est présentée comme acquise.
+
+La version v0.3 regroupait les besoins,
 le socle technique, l'hébergement à définir, le déploiement, la maintenance,
 le planning, le budget et les supports de réunion et de validation.
 Utiliser cette version consolidée pour la réunion. Les fiches ci-dessous

@@ -1,0 +1,180 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AgroPulse — Compte rendu du pilote technique</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#edf3ed;color:#173f35;font:17px/1.65 'Segoe UI',sans-serif}main{max-width:1080px;margin:36px auto;padding:40px 48px;background:white;border-radius:16px;border:1px solid #d5e2d5}h1{font-size:2.1rem;line-height:1.2}h2{margin-top:2.3em;border-top:2px solid #d5e2d5;padding-top:1em;line-height:1.3}a{color:#086050;text-underline-offset:3px}table{border-collapse:collapse;width:100%;font-size:.91em;margin:24px 0}th,td{border:1px solid #d5e2d5;padding:10px 13px;text-align:left;vertical-align:top}th{background:#eaf3e8}code{background:#edf3ed;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}li{margin:.6em 0}@media(max-width:700px){main{margin:0;padding:22px 16px;border-radius:0}body{font-size:16px}h1{font-size:1.7rem}table{font-size:.8em}td,th{padding:6px;overflow-wrap:anywhere}}@media print{body{background:white}main{border:0;margin:0;padding:0}h2{break-after:avoid}tr{break-inside:avoid}}
+</style></head><body><main><h1>AgroPulse — Compte rendu du pilote technique v1.0</h1>
+<p><strong>Date : 26 octobre 2026. Statut : pilote local réalisé ; périmètre limité vérifié.</strong></p>
+<p>Le pilote confirme le fonctionnement local d’une expertise fictive FR/EN, de ses brouillons, de sa publication et de sa prévisualisation avec Next.js, Strapi Community et PostgreSQL. Il ne constitue ni une mise en production ni la recette des sept types de contenus du modèle v1.0.</p>
+<p>La personne de validation client désignée reste <strong>Mme Hélène Nichy</strong>. Les résultats ci-dessous sont des observations techniques ; ils ne constituent pas une approbation client ou une signature de sa part.</p>
+<h2>Réalisation</h2>
+<p>Le dossier <code>pilot/</code> contient un CMS autonome, un frontend Next.js et les outils de lancement et de vérification. Le site statique existant dans <code>public/</code> n’a pas été modifié par ce pilote.</p>
+<p>Une seule expertise de démonstration possède deux traductions partageant le même <code>documentId</code>. Une version FR et une version EN sont publiées. Une révision FR distincte reste en brouillon pour montrer la séparation entre contenu public et contenu en préparation. Aucun contenu client réel, candidature, envoi de message ou achat de service n’a été utilisé.</p>
+<table>
+<thead>
+<tr>
+<th>Rôle du pilote</th>
+<th>Comportement observé</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Éditeur</td>
+<td>Crée et modifie des brouillons incomplets ; prévisualise ; ne publie pas et ne gère pas les rôles.</td>
+</tr>
+<tr>
+<td>Publieur</td>
+<td>Publie FR/EN lorsque titre, slug et résumé sont renseignés ; ne gère pas les rôles.</td>
+</tr>
+<tr>
+<td>Administrateur technique</td>
+<td>Compte natif Super Admin ; accès à la gestion des rôles et bouton de publication disponible.</td>
+</tr>
+</tbody></table>
+<p>Les rôles administratifs sont distincts des permissions de l’API de contenu. Le rôle Editor standard n’a pas été repris tel quel. Le frontend lit le contenu avec un jeton serveur limité aux deux actions de lecture de l’expertise. L’API REST anonyme du CMS est refusée ; le site Next.js reste consultable sans connexion.</p>
+<p>La prévisualisation native du CMS produit un lien signé de cinq minutes, limité au document fictif et aux locales FR/EN. Un cookie HttpOnly supplémentaire limite la session à la même durée. Les brouillons ne sont pas servis par l’API publiée et les réponses de prévisualisation ne sont pas mises en cache partagé.</p>
+<h2>Versions réellement exécutées</h2>
+<table>
+<thead>
+<tr>
+<th>Composant</th>
+<th>Version / constat</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Node.js</td>
+<td>24.11.0</td>
+</tr>
+<tr>
+<td>npm</td>
+<td>11.17.0</td>
+</tr>
+<tr>
+<td>Strapi Community</td>
+<td>5.59.0 ; plage Node déclarée par le paquet : &gt;=20 à 26.x</td>
+</tr>
+<tr>
+<td>Next.js</td>
+<td>16.4.3 ; Node minimum déclaré : 20.9</td>
+</tr>
+<tr>
+<td>React / React DOM</td>
+<td>18.3.1 dans les applications isolées</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>17.10 ; connexion réelle et migrations Strapi effectuées</td>
+</tr>
+<tr>
+<td>Pilote SQL Node</td>
+<td>pg 8.16.3</td>
+</tr>
+<tr>
+<td>Outil PostgreSQL portable</td>
+<td>embedded-postgres 17.10.0-beta.17 ; réservé à cet essai</td>
+</tr>
+<tr>
+<td>Navigateur</td>
+<td>Microsoft Edge, mode sans fenêtre, via Playwright du runtime Codex</td>
+</tr>
+</tbody></table>
+<p>Les constructions de l’administration Strapi et du frontend Next.js ont réussi. Next.js signale que le support de React 18 est déprécié : le choix du frontend définitif devra prévoir React 19 et vérifier ses dépendances. Les versions ne sont pas présentées comme un engagement de maintenance à long terme.</p>
+<p>Docker n’étant pas installé sur ce poste, PostgreSQL a été lancé en mode portable avec une base persistante dédiée, sans service Windows. Le déploiement Docker Compose retenu dans le cadrage reste à préparer et à tester. Le pilote JavaScript ne remplace pas l’orientation TypeScript de l’application finale.</p>
+<h2>Contrôles exécutés</h2>
+<p>Les preuves datées se trouvent dans <code>pilot/evidence/</code>. Chaque suite finale porte <code>completed: true</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Suite</th>
+<th align="right">Assertions réussies</th>
+<th>Preuve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CMS et droits, appels HTTP réels</td>
+<td align="right">37</td>
+<td><a href="../pilot/evidence/cms-tests.json">cms-tests.json</a></td>
+</tr>
+<tr>
+<td>Pages, signatures, cookies, confidentialité</td>
+<td align="right">27</td>
+<td><a href="../pilot/evidence/web-tests.json">web-tests.json</a></td>
+</tr>
+<tr>
+<td>Parcours dans Edge et interfaces des rôles</td>
+<td align="right">13</td>
+<td><a href="../pilot/evidence/browser-tests.json">browser-tests.json</a></td>
+</tr>
+</tbody></table>
+<p>Ces <strong>77 assertions techniques</strong> ne correspondent pas à 77 exigences métier. Elles couvrent le périmètre réduit de cet essai.</p>
+<p>Ont notamment été observés : création d’un brouillon incomplet, refus HTTP 403 de publication par l’Éditeur, refus HTTP 400 d’une publication incomplète par le Publieur, publication autorisée dans les deux langues et conservation de l’identité métier. Un nouveau brouillon reste introuvable dans la lecture publiée après la tentative de publication interdite.</p>
+<p>Une lecture publiée avec <code>populate=*</code> ne renvoie pas la révision en préparation ni les comptes administratifs. Le jeton de lecture ne peut pas écrire ni demander <code>status=draft</code>. Les secrets contrôlés sont absents du HTML public et des fichiers du bundle navigateur inspectés.</p>
+<p>Les signatures incorrectes, liens expirés, durées excessives et autres documents sont refusés. Le cookie Next.js seul et une portée expirée ne donnent pas accès au brouillon. Le parcours de preview a aussi été exécuté dans Edge, avec une seconde session indépendante et une sortie vers la version publiée.</p>
+<p>Les captures aux largeurs <strong>375, 768 et 1440 px</strong> montrent la page de démonstration sans débordement horizontal. Le premier lien reçoit le focus clavier ; le passage FR/EN conserve l’expertise et modifie correctement <code>html lang</code>. Ces contrôles ne constituent pas un audit complet d’accessibilité ou de performance.</p>
+<p>Captures : <a href="../pilot/evidence/public-fr-375.png">mobile</a>, <a href="../pilot/evidence/public-fr-1440.png">ordinateur</a>, <a href="../pilot/evidence/preview-fr.png">brouillon</a>, <a href="../pilot/evidence/cms-editor.png">Éditeur</a>, <a href="../pilot/evidence/cms-publisher.png">Publieur</a>, <a href="../pilot/evidence/cms-admin.png">Administrateur</a>.</p>
+<p>Deux anomalies rencontrées ont été corrigées puis revérifiées : l’adresse de retour de preview changeait de domaine local ; la navigation FR/EN conservait initialement une mauvaise langue HTML. Les suites finales incluent les contrôles correspondants.</p>
+<h2>Couverture des scénarios du modèle v1.0</h2>
+<p>Le modèle JSON de conception reste une source historique avec ses statuts prévus. Le tableau ci-dessous consigne la couverture effective du pilote, sans modifier rétroactivement cette source.</p>
+<table>
+<thead>
+<tr>
+<th>Scénario</th>
+<th>Résultat sur ce pilote</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MC01 — brouillon incomplet</td>
+<td>Vérifié pour l’expertise : création et sauvegarde possibles, publication Éditeur refusée.</td>
+</tr>
+<tr>
+<td>MC02 — publication directe Éditeur</td>
+<td>Vérifié par appel HTTP ; nouveau brouillon toujours absent de la lecture publiée.</td>
+</tr>
+<tr>
+<td>MC03 — publication autorisée</td>
+<td>Vérifié pour les champs simples de l’expertise FR/EN ; autres modèles hors périmètre.</td>
+</tr>
+<tr>
+<td>MC04 — accès public au brouillon</td>
+<td>Vérifié pour le texte ; médias confidentiels non testés.</td>
+</tr>
+<tr>
+<td>MC05 — équivalence FR/EN</td>
+<td>Identité, titre, contenu et langue HTML vérifiés ; services structurés et SEO éditorial complet non testés.</td>
+</tr>
+<tr>
+<td>MC06 — campagne fermée / dates</td>
+<td>Non exécuté : aucune campagne ni candidature implémentée.</td>
+</tr>
+<tr>
+<td>MC07 — partenaire non confirmé</td>
+<td>Non exécuté : modèle et relations absents du pilote.</td>
+</tr>
+<tr>
+<td>MC08 — ressource ou langue absente</td>
+<td>Non exécuté pour les ressources ; les locales non supportées de l’expertise sont refusées.</td>
+</tr>
+<tr>
+<td>MC09 — accès et cache de preview</td>
+<td>Vérifié pour l’expertise et les deux couches CMS/Next.js.</td>
+</tr>
+<tr>
+<td>MC10 — gestion des comptes / médias</td>
+<td>Gestion des rôles refusée à l’Éditeur ; suppression de média non testée.</td>
+</tr>
+<tr>
+<td>MC11 — population / champs privés</td>
+<td>Contrôlé sur l’expertise sans relations ; aucune conclusion sur les futures relations et preuves privées.</td>
+</tr>
+<tr>
+<td>MC12 — import confidentiel</td>
+<td>Non exécuté : aucun média importé.</td>
+</tr>
+</tbody></table>
+<h2>Revue et suite du projet</h2>
+<ol>
+<li>Examiner le pilote local et les rôles, avec les données fictives. Le <a href="../pilot/README.md">guide de lancement</a> décrit l’accès aux comptes et la reproduction.</li>
+<li>Compléter les six autres modèles et les règles transversales : paramètres du site, pages, programmes, campagnes, ressources et partenaires. Définir et tester les conditions de publication de chaque modèle.</li>
+<li>Couvrir les médias, relations privées, ressources absentes et conditions d’ouverture des campagnes, puis reprendre les scénarios partiellement ou non exécutés.</li>
+<li>Raccorder progressivement les pages des maquettes retenues au CMS et organiser la validation des contenus FR/EN avec Mme Hélène Nichy.</li>
+<li>Préparer ensuite Docker Compose, la préproduction, les sauvegardes/restaurations, l’envoi de formulaires et la recette de livraison, avec les services et responsabilités confirmés.</li>
+</ol>
+<p>Les dates, critères de campagne, contenus réels, abonnements d’hébergement et engagements de coûts restent soumis aux décisions déjà identifiées dans les documents de référence. Aucun déploiement, achat ni push GitHub n’a été effectué pour ce pilote à cette étape.</p>
+<p>Références techniques : <a href="https://docs.strapi.io/cms/features/rbac">Strapi RBAC</a>, <a href="https://docs.strapi.io/cms/features/draft-and-publish">Draft &amp; Publish</a>, <a href="https://docs.strapi.io/cms/features/preview">Preview</a>, <a href="https://nextjs.org/docs/app/api-reference/functions/draft-mode">Next.js Draft Mode</a>. Les API de rôles, utilisateurs, jetons et preview ont aussi été vérifiées dans le code de Strapi 5.59.0 effectivement installé.</p>
+</main></body></html>

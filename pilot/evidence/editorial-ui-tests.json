@@ -1,0 +1,77 @@
+{
+  "executedAt": "2026-10-27T00:45:50.571Z",
+  "completed": true,
+  "browser": "Microsoft Edge headless",
+  "results": [
+    {
+      "name": "Interface française par défaut",
+      "result": "PASS",
+      "actual": "fr"
+    },
+    {
+      "name": "Interface anglaise disponible",
+      "result": "PASS",
+      "actual": "en"
+    },
+    {
+      "name": "Connexion du community manager",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Grand titre en saisie directe",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Libellé français sans mélange anglais",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Introduction en saisie directe",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Blocs techniques absents du formulaire",
+      "result": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "Référencement imbriqué masqué",
+      "result": "PASS",
+      "actual": 0
+    },
+    {
+      "name": "Enregistrement réel par le formulaire",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Texte du formulaire transmis au bon bloc",
+      "result": "PASS",
+      "actual": "Grand titre fictif — essai 1793061925062"
+    },
+    {
+      "name": "Choix anglais sur le profil",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Administration authentifiée en anglais",
+      "result": "PASS",
+      "actual": "en"
+    },
+    {
+      "name": "Libellé anglais après choix de langue",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Traduction anglaise du contenu accessible",
+      "result": "PASS",
+      "actual": "Fictional pilot home"
+    }
+  ]
+}

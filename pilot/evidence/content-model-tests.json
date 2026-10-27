@@ -1,0 +1,382 @@
+{
+  "executedAt": "2026-10-26T19:55:47.691Z",
+  "completed": true,
+  "environment": "Isolated local fictional content fixtures",
+  "results": [
+    {
+      "name": "Connexion admin",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Connexion editor",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Connexion publisher",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Éditeur : publication interdite page",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Éditeur : publication interdite programme",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Éditeur : publication interdite partner",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Éditeur : publication interdite resource",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Éditeur : publication interdite campaign",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Éditeur : modification des dates interdite",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Éditeur : ouverture interdite",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Éditeur : confirmation partenaire interdite",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Préparation du brouillon de page incomplet",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publieur : page incomplète refusée",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Partenaire non confirmé refusé",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Ressource sans fichier refusée",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Aucun faux téléchargement publié",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "Sauvegarde des blocs de page fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publication de page fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Lecture des blocs publiés fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Quatre blocs publiés fr",
+      "result": "PASS",
+      "actual": 4
+    },
+    {
+      "name": "SEO localisé fr",
+      "result": "PASS",
+      "actual": "Démonstration AgroPulse"
+    },
+    {
+      "name": "Sauvegarde du programme fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Ajout d’un partenaire non confirmé au brouillon",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Programme lié à un partenaire non confirmé refusé",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Confirmation du partenaire fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publication du partenaire confirmé fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Relation au partenaire confirmé fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publication du programme fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Lecture du programme fr",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Identité du programme fr",
+      "result": "PASS",
+      "actual": "oqu07bb6ca68cz7567avhtal"
+    },
+    {
+      "name": "Relations arbitraires non exposées fr",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Sauvegarde des blocs de page en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publication de page en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Lecture des blocs publiés en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Quatre blocs publiés en",
+      "result": "PASS",
+      "actual": 4
+    },
+    {
+      "name": "SEO localisé en",
+      "result": "PASS",
+      "actual": "AgroPulse demonstration"
+    },
+    {
+      "name": "Sauvegarde du programme en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Confirmation du partenaire en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publication du partenaire confirmé en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Relation au partenaire confirmé en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publication du programme en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Lecture du programme en",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Identité du programme en",
+      "result": "PASS",
+      "actual": "oqu07bb6ca68cz7567avhtal"
+    },
+    {
+      "name": "Relations arbitraires non exposées en",
+      "result": "PASS",
+      "actual": false
+    },
+    {
+      "name": "Création d’une identité programme en doublon refusée",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Identité métier du programme immuable",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Deux créations concurrentes : une seule identité créée",
+      "result": "PASS",
+      "actual": "[201,400]"
+    },
+    {
+      "name": "Suppression du partenaire temporaire de concurrence",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Campagne fermée : relation au programme",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Publication de campagne fermée",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Brouillon de campagne ouverte incomplet conservé",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Ouverture sans circuit de candidature refusée",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "La campagne publique reste fermée",
+      "result": "PASS",
+      "actual": "closed"
+    },
+    {
+      "name": "Aucune route de dépôt active",
+      "result": "PASS",
+      "actual": true
+    },
+    {
+      "name": "Dates inversées : brouillon conservé",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Dates inversées : publication refusée",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Retour du brouillon de campagne à fermé",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Paramètres : brouillon FR incomplet possible",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Paramètres : publication sans logo refusée",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "Import public de média désactivé même pour admin",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Import API de média désactivé",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "API anonyme refusée pages",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Brouillons refusés au jeton de lecture pages",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "API anonyme refusée programmes",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Brouillons refusés au jeton de lecture programmes",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "API anonyme refusée campaigns",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Brouillons refusés au jeton de lecture campaigns",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "API anonyme refusée resources",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Brouillons refusés au jeton de lecture resources",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "API anonyme refusée partners",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Brouillons refusés au jeton de lecture partners",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Page : remplacement par lien exécutable sauvegardé comme brouillon",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Page : lien exécutable interdit à la publication",
+      "result": "PASS",
+      "actual": 400
+    },
+    {
+      "name": "L’échec ne remplace pas la page publique",
+      "result": "PASS",
+      "actual": 4
+    },
+    {
+      "name": "Restauration du brouillon de page depuis la version publiée",
+      "result": "PASS",
+      "actual": 200
+    }
+  ]
+}

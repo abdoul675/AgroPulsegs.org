@@ -4,6 +4,7 @@
   "private": true,
   "description": "Site institutionnel bilingue AgroPulse Global Solutions",
   "scripts": {
+    "build": "node scripts/build-pages.mjs",
     "dev": "node scripts/serve.mjs",
     "start": "node scripts/serve.mjs",
     "check": "node --check public/app.js && node scripts/check.mjs"
