@@ -1,0 +1,109 @@
+{
+  "executedAt": "2026-10-27T09:58:05.264Z",
+  "completed": true,
+  "scope": "Computed layout and typography compared with source, fonts blocked, hero logo removed as requested. Not a pixel-perfect or full content comparison.",
+  "measurements": [
+    {
+      "width": 1440,
+      "matching": [
+        "header",
+        "hero typography",
+        "contact columns",
+        "footer"
+      ],
+      "expected": {
+        "header": {
+          "height": "85px",
+          "backgroundColor": "rgba(255, 255, 255, 0.95)"
+        },
+        "hero": {
+          "fontSize": "64px",
+          "fontFamily": "\"Bricolage Grotesque\", sans-serif",
+          "maxWidth": "640px",
+          "lineHeight": "73.6px"
+        },
+        "contact": {
+          "display": "grid",
+          "gridTemplateColumns": "528px 528px",
+          "gap": "56px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      },
+      "received": {
+        "header": {
+          "height": "85px",
+          "backgroundColor": "rgba(255, 255, 255, 0.95)"
+        },
+        "hero": {
+          "fontSize": "64px",
+          "fontFamily": "\"Bricolage Grotesque\", sans-serif",
+          "maxWidth": "640px",
+          "lineHeight": "73.6px"
+        },
+        "contact": {
+          "display": "grid",
+          "gridTemplateColumns": "528px 528px",
+          "gap": "56px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      }
+    },
+    {
+      "width": 375,
+      "matching": [
+        "header",
+        "hero typography",
+        "contact columns",
+        "footer"
+      ],
+      "expected": {
+        "header": {
+          "height": "85px",
+          "backgroundColor": "rgba(255, 255, 255, 0.95)"
+        },
+        "hero": {
+          "fontSize": "35.2px",
+          "fontFamily": "\"Bricolage Grotesque\", sans-serif",
+          "maxWidth": "100%",
+          "lineHeight": "40.48px"
+        },
+        "contact": {
+          "display": "grid",
+          "gridTemplateColumns": "327px",
+          "gap": "56px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      },
+      "received": {
+        "header": {
+          "height": "85px",
+          "backgroundColor": "rgba(255, 255, 255, 0.95)"
+        },
+        "hero": {
+          "fontSize": "35.2px",
+          "fontFamily": "\"Bricolage Grotesque\", sans-serif",
+          "maxWidth": "100%",
+          "lineHeight": "40.48px"
+        },
+        "contact": {
+          "display": "grid",
+          "gridTemplateColumns": "327px",
+          "gap": "56px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      }
+    }
+  ]
+}

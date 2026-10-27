@@ -1,5 +1,5 @@
 {
-  "executedAt": "2026-10-27T09:34:06.896Z",
+  "executedAt": "2026-10-27T09:59:09.555Z",
   "completed": true,
   "fonts": "External Google Fonts blocked; system fallback tested",
   "results": [
@@ -28,6 +28,10 @@
       "result": "PASS"
     },
     {
+      "name": "Pas de logo superposé au hero fr 1440",
+      "result": "PASS"
+    },
+    {
       "name": "Accueil fr 375",
       "result": "PASS"
     },
@@ -49,6 +53,10 @@
     },
     {
       "name": "Aucun secret exposé fr 375",
+      "result": "PASS"
+    },
+    {
+      "name": "Pas de logo superposé au hero fr 375",
       "result": "PASS"
     },
     {
@@ -76,6 +84,10 @@
       "result": "PASS"
     },
     {
+      "name": "Pas de logo superposé au hero en 768",
+      "result": "PASS"
+    },
+    {
       "name": "Menu mobile ouvert",
       "result": "PASS"
     },
@@ -88,7 +100,79 @@
       "result": "PASS"
     },
     {
-      "name": "Équivalent anglais accessible",
+      "name": "Section de la maquette : circuit",
+      "result": "PASS"
+    },
+    {
+      "name": "Section de la maquette : expertises",
+      "result": "PASS"
+    },
+    {
+      "name": "Section de la maquette : fellowship",
+      "result": "PASS"
+    },
+    {
+      "name": "Section de la maquette : jeu",
+      "result": "PASS"
+    },
+    {
+      "name": "Section de la maquette : agir-ia",
+      "result": "PASS"
+    },
+    {
+      "name": "Section de la maquette : images",
+      "result": "PASS"
+    },
+    {
+      "name": "Section de la maquette : partenaires",
+      "result": "PASS"
+    },
+    {
+      "name": "Section de la maquette : ancrage",
+      "result": "PASS"
+    },
+    {
+      "name": "Section de la maquette : contact",
+      "result": "PASS"
+    },
+    {
+      "name": "Question expertise dépliée",
+      "result": "PASS"
+    },
+    {
+      "name": "Laboratoire : étape pratique sélectionnée",
+      "result": "PASS"
+    },
+    {
+      "name": "Globe initialisé",
+      "result": "PASS"
+    },
+    {
+      "name": "Seul le partenaire confirmé est présenté",
+      "result": "PASS"
+    },
+    {
+      "name": "Jeu démarré",
+      "result": "PASS"
+    },
+    {
+      "name": "Aucune fausse confirmation de réception",
+      "result": "PASS"
+    },
+    {
+      "name": "Le texte saisi reste disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "Aucun envoi de formulaire",
+      "result": "PASS"
+    },
+    {
+      "name": "Ancres internes sans destination manquante",
+      "result": "PASS"
+    },
+    {
+      "name": "Équivalent anglais et ancre conservés",
       "result": "PASS"
     },
     {

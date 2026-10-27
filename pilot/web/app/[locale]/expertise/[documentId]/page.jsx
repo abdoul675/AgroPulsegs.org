@@ -1,4 +1,5 @@
 import {draftMode,cookies} from 'next/headers';
+import '../../../style.css';
 import {scopeCookie,validScope} from '../../../preview-scope';
 import {notFound} from 'next/navigation';
 import Link from 'next/link';

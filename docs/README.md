@@ -52,3 +52,5 @@ Le pack comprend 18 skills. `scripts/install-agropulse-skills.ps1` installe les 
 ## Intégration en cours
 
 Le porteur autorise la poursuite à partir des maquettes le 27 octobre 2026. Le premier lot d’accueil Next.js est accessible localement sur le port 3100, en `/fr` et `/en` : menu, grand visuel, expertises, programmes et pied de page. Les preuves sont dans `pilot/evidence/home-browser-tests.json` (25 contrôles réussis) et `web-tests.json` (27 contrôles du parcours historique réussis). Le [guide du pilote](../pilot/README.md) précise la configuration et les limites. Cela ne constitue pas une validation client de la réalisation ni une livraison complète.
+
+L’accueil simplifié est remplacé par la composition complète de la maquette : laboratoire, jeu illustratif, galerie, globe, carte et contact en deux colonnes. Le retrait demandé du logo dans le hero est conservé. Les 46 contrôles de l’accueil et la comparaison de styles avec la source sont consignés dans `pilot/evidence/`. Les pages intérieures et l’administration intégrale du gabarit restent à raccorder.

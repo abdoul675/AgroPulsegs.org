@@ -1,31 +1,26 @@
+import Script from 'next/script';
 import {notFound} from 'next/navigation';
+import layout from '../../content/home-layout.json';
 import reference from '../../content/home-reference.json';
-import SiteHeader from '../components/site-header';
 import {publishedHome} from '../home-content';
-import '../home.css';
+import '../reference-home.css';
 export const dynamic='force-dynamic';
+const escape=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const text=value=>String(value||'').replace(/<[^>]*>/g,'').replaceAll('&amp;','&');
-function Emphasis({value}){return String(value).split(/(<em>.*?<\/em>)/g).map((part,index)=>part.startsWith('<em>')?<em key={index}>{text(part)}</em>:text(part));}
-export async function generateMetadata({params}){const {locale}=await params;return {title:locale==='en'?'AgroPulse — Data for growth, youth for change!':'AgroPulse — Transformation digitale et verte',description:text(reference.hero.subtitle[locale==='en'?'en':'fr']),alternates:{languages:{fr:'/fr',en:'/en'}}};}
+function referenceTitle(value){return value.split(/(<em>.*?<\/em>)/g).map(part=>part.startsWith('<em>')?'<em>'+escape(text(part))+'</em>':escape(text(part))).join('');}
+export async function generateMetadata({params}){
+ const {locale}=await params;return {title:locale==='en'?'AgroPulse — Data for growth, youth for change!':'AgroPulse — Transformation digitale et verte',description:reference.hero.subtitle[locale==='en'?'en':'fr'],alternates:{languages:{fr:'/fr',en:'/en'}}};
+}
 export default async function Home({params}){
- const {locale}=await params;if(!['fr','en'].includes(locale))notFound();const en=locale==='en';const t=(fr,english)=>en?english:fr;
+ const {locale}=await params;if(!['fr','en'].includes(locale))notFound();
  const home=await publishedHome(locale);const hero=home.content?.sections?.find(section=>section.__component==='content.hero');
- const positions=[[250,80],[397,165],[397,335],[250,420],[103,335],[103,165]];
- return <div className="agro-site" id="top">
+ const title=hero?.title?escape(hero.title):referenceTitle(reference.hero.title[locale]);
+ const intro=escape(hero?.intro||reference.hero.subtitle[locale]);
+ let html=layout.variants[locale].replace('__AGROPULSE_HERO_TITLE__',()=>title).replace('__AGROPULSE_HERO_INTRO__',()=>intro);
+ if(['absent','unavailable'].includes(home.state))html=html.replace('<main id="main">','<main id="main"><p role="status" class="w">'+(locale==='en'?'Updated content is temporarily unavailable. The reference presentation remains available.':'Le contenu actualisé est temporairement indisponible. La présentation de référence reste consultable.')+'</p>');
+ return <>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;800&family=Figtree:wght@400;500;600&display=swap"/>
-  <a className="skip" href="#home-main">{t('Aller au contenu','Skip to content')}</a>
-  <SiteHeader locale={locale} logo={reference.logo}/>
-  <main id="home-main">
-   <section className="hero" style={{backgroundImage:`linear-gradient(90deg,#0f2f44b8 0%,#0f2f4466 42%,#0f2f4412 78%),url(${reference.hero.image})`}}><div className="w"><p className="eyebrow">Data for growth, youth for change!</p><h1>{hero?.title||<Emphasis value={reference.hero.title[locale]}/>}</h1><p className="hero-intro">{hero?.intro||reference.hero.subtitle[locale]}</p><div className="hero-actions"><a className="btn" href="#expertises">{reference.hero.cta1[locale]}</a><a className="btn outline" href="#contact">{t('Demander un devis','Request a quote')}</a></div></div></section>
-   <div className="ticker"><div className="w">{t('Formation des jeunes · Données agricoles · Intelligence artificielle · Climat · Mécanisation','Youth training · Agricultural data · Artificial intelligence · Climate · Mechanisation')}</div></div>
-   {home.state==='unavailable'||home.state==='absent'?<p className="w content-state" role="status">{t('Le contenu actualisé est temporairement indisponible. Cette présentation reste consultable.','Updated content is temporarily unavailable. This presentation remains available.')}</p>:null}
-   <section id="circuit"><div className="w"><p className="eyebrow blue">{t('Comment ça marche','How it works')}</p><h2>{t('Du terrain à la décision','From field to decision')}</h2><p className="lead">{t('Un circuit simple : le terrain parle, nous analysons, l’agriculteur décide.','A simple circuit: the field speaks, we analyse, the farmer decides.')}</p><ol className="circuit">{[t('Capteur','Sensor'),t('Donnée','Data'),t('Analyse','Analysis'),t('Décision','Decision')].map((item,index)=><li key={item}><span>{String(index+1).padStart(2,'0')}</span><strong>{item}</strong></li>)}</ol></div></section>
-   <section id="expertises"><div className="w"><h2>{reference.expertises.title[locale]}</h2><p className="lead">{t('Des compétences complémentaires pour accompagner les filières agricoles, de la stratégie au terrain.','Complementary skills supporting agricultural value chains, from strategy to the field.')}</p><div className="poles"><svg viewBox="0 0 500 500" role="img" aria-label={t('Six pôles autour d’AgroPulse','Six areas of expertise around AgroPulse')}><circle className="orbit" cx="250" cy="250" r="232"/>{positions.map(([x,y],index)=><g key={index}><line x1="250" y1="250" x2={x} y2={y}/><circle className="node" cx={x} cy={y} r="30"/><text x={x} y={y+6} textAnchor="middle">0{index+1}</text></g>)}<circle className="hub" cx="250" cy="250" r="66"/><text className="hub-text" x="250" y="257" textAnchor="middle">AgroPulse</text></svg><ol>{reference.poles.map((pole,index)=><li key={index}><h3>{text(pole.title[locale])}</h3><p>{text(pole.desc[locale])}</p><a href="#contact">{t('Parlons de votre besoin','Tell us about your needs')} ↗</a></li>)}</ol></div></div></section>
-   <section id="fellowship" className="dark"><div className="w"><p className="eyebrow">AgroPulse Youth Fellowship</p><h2>{reference.fellowship.title[locale]}</h2><p className="lead">{t('Une formation de 2 à 3 mois, suivie d’une certification et d’un accompagnement vers l’emploi. La durée totale du parcours reste à confirmer.','Two to three months of training, followed by certification and support towards employment. The total programme duration remains to be confirmed.')}</p><div className="programme-steps">{[t('Apprendre','Learn'),t('Pratiquer','Practise'),t('Préparer son insertion','Prepare for employment')].map((step,index)=><div key={step}><img src={reference.fellowship.images[index]} alt="" width="480" height="320" loading="lazy"/><h3>0{index+1} · {step}</h3></div>)}</div><p className="note">{t('Calendrier et conditions à confirmer. Les candidatures ne sont pas ouvertes.','Dates and conditions to be confirmed. Applications are closed.')}</p></div></section>
-   <section id="agir-ia"><div className="w split"><img src={reference.agir.image} alt={t('Illustration de femmes agripreneures','Illustration of women agripreneurs')} width="1280" height="714" loading="lazy"/><div><p className="eyebrow blue">AGIR-IA · 26/09/2026</p><h2>{reference.agir.title[locale]}</h2><p className="lead">{reference.agir.text[locale]}</p><p>{t('Conception, animation et suivi pédagogique : AgroPulse.','Design, delivery and educational follow-up: AgroPulse.')}</p></div></div></section>
-   <section id="ancrage"><div className="w"><p className="eyebrow blue">{t('Notre ancrage','Our presence')}</p><h2>{t('En Afrique de l’Ouest','In West Africa')}</h2><p className="lead">{t('Pays d’intervention : Côte d’Ivoire, Sénégal et Guinée-Bissau.','Countries of intervention: Côte d’Ivoire, Senegal and Guinea-Bissau.')}</p><p>{t('Partenaire confirmé : Fondation AWI.','Confirmed partner: AWI Foundation.')}</p></div></section>
-   <section id="contact" className="dark"><div className="w"><p className="eyebrow">{t('Construisons la suite ensemble','Let’s build what comes next')}</p><h2>{t('Initier un dialogue technique','Start a technical dialogue')}</h2><p className="lead">{t('Présentez votre projet, votre filière et vos besoins.','Tell us about your project, value chain and needs.')}</p><p>{t('Les coordonnées et le formulaire de contact seront ajoutés après validation. Aucun message n’est envoyé depuis cette version.','Contact details and the enquiry form will be added once approved. This version does not send messages.')}</p></div></section>
-  </main>
-  <footer><div className="w"><div className="footer-row"><a href="#top" className="footer-brand">AgroPulse <span>Global Solutions</span></a><a href="#top">{t('Retour en haut','Back to top')} ↑</a></div><p>Data for growth, youth for change!</p><p className="fine">© {new Date().getFullYear()} AgroPulse Global Solutions · {t('Visuels issus de la maquette ; ils ne constituent pas des preuves de réalisations.','Reference design visuals do not constitute evidence of completed projects.')}</p></div></footer>
- </div>;
+  <div className="reference-home" dangerouslySetInnerHTML={{__html:html}}/>
+  <Script src="/reference/home-interactions.js?v=3" strategy="afterInteractive"/>
+ </>;
 }
