@@ -44,6 +44,7 @@ script=script.replace("try{if(localStorage.getItem('ap-lang')=='en')setLang('en'
 script=script.replace("q('#lang').onclick=()=>setLang(document.documentElement.lang=='en'?'fr':'en');","q('#lang').onclick=()=>location.assign('/'+(document.documentElement.lang==='en'?'fr':'en')+location.hash);");
 script=script.replace("qa('[data-en]').forEach(el=>el.dataset.fr=el.innerHTML);","qa('[data-en]').forEach(el=>{if(!el.dataset.fr)el.dataset.fr=el.innerHTML});q('#lang').textContent=document.documentElement.lang==='en'?'FR':'EN';");
 script=script.replaceAll('CERTIFIÉ AGROPULSE','SIMULATION TERMINÉE').replaceAll('AGROPULSE CERTIFIED','SIMULATION COMPLETE').replaceAll('Candidater au Fellowship','Découvrir le Fellowship').replaceAll('Apply to the Fellowship','Explore the Fellowship');
+script=script.replaceAll('Bricolage Grotesque','Arial').replaceAll('Figtree','Arial');
 if(/fetch\(|XMLHttpRequest|sendBeacon|eval\(|new Function/.test(script))throw Error('Unexpected network or dynamic execution in reference interaction code.');
 await fs.writeFile(new URL('home-interactions.js',root),'// Adapted from the user-supplied home mockup. Source SHA-256: '+originalHash+'\n(()=>{\n'+script+'\n})();\n');
 const css=html.match(/<style>([\s\S]*?)<\/style>/)[1];
@@ -60,6 +61,7 @@ try{
    const lookup=key=>key.split('.').reduce((value,part)=>value?.[part],content);
    doc.querySelectorAll('[data-cms]').forEach(node=>{const value=lookup(node.dataset.cms);if(value?.fr){node.innerHTML=value.fr;node.dataset.en=value.en||value.fr;}});
    doc.querySelectorAll('[data-en]').forEach(node=>{node.dataset.fr=node.innerHTML;if(locale==='en')node.innerHTML=node.dataset.en;});
+   const keep=['accueil','a-propos','expertises','fellowship','contact'];doc.querySelectorAll('#nav li').forEach(item=>{const link=item.querySelector('a');if(!keep.includes(link?.dataset.pg))item.remove();else if(link.dataset.pg==='fellowship'){link.textContent='Programmes';link.removeAttribute('data-en');}});doc.querySelector('.tools .cta')?.remove();
    doc.querySelectorAll('[onload],[onclick],[onerror],[onsubmit]').forEach(node=>{for(const attr of [...node.attributes])if(attr.name.startsWith('on'))node.removeAttribute(attr.name);});
    for(const node of doc.querySelectorAll('*'))for(const attr of [...node.attributes])if(attr.name.startsWith('on')||/^(?:javascript|vbscript):/i.test(attr.value))node.removeAttribute(attr.name);
    doc.querySelectorAll('.hero [data-cms]').forEach(node=>node.removeAttribute('data-cms'));
@@ -68,7 +70,8 @@ try{
    const heroIntro=doc.querySelector('.hero .w > p:not(.eyebrow):not(.rot)');if(heroIntro)heroIntro.innerHTML='__AGROPULSE_HERO_INTRO__';
    const first=doc.querySelector('.skip');if(first)first.href='#main';
    const aliases={'accueil':'top','a-propos':'ancrage','contact':'contact','partenaires':'partenaires','fellowship':'fellowship','agir-ia':'agir-ia','expertises':'expertises','ressources':'ressources','candidature':'fellowship','mentions-legales':'informations','confidentialite':'informations'};
-   doc.querySelectorAll('a[href]').forEach(link=>{const raw=link.getAttribute('href');let slug;if(raw.startsWith('https://claude.ai/artifact/'))slug=raw.includes('#p-')?raw.split('#p-')[1]:'accueil';if(slug){const target=slug.startsWith('pole-')?'expertises':aliases[slug]||'contact';link.setAttribute('href','#'+target);}});
+   doc.querySelectorAll('a[href]').forEach(link=>{const raw=link.getAttribute('href');let slug;if(raw.startsWith('https://claude.ai/artifact/'))slug=raw.includes('#p-')?raw.split('#p-')[1]:'accueil';if(slug){if(['a-propos','expertises','pole-1','pole-2','pole-3','pole-4','pole-5','pole-6'].includes(slug))link.setAttribute('href','/'+locale+'/'+slug);else{const target=aliases[slug]||'contact';link.setAttribute('href','#'+target);}}});
+   doc.querySelectorAll('.poles ol>li').forEach((item,index)=>{const link=doc.createElement('a');link.href='/'+locale+'/pole-'+(index+1);link.className='pole-page-link';link.textContent=locale==='en'?'Explore this area →':'Découvrir ce pôle →';item.append(link);});
    doc.querySelectorAll('.soc a').forEach(link=>{const span=doc.createElement('span');span.className='social-placeholder';span.setAttribute('aria-label',link.getAttribute('aria-label')+' — '+(locale==='en'?'link pending':'lien à compléter'));span.innerHTML=link.innerHTML;link.replaceWith(span);});
    const form=doc.querySelector('#f');form.removeAttribute('action');form.removeAttribute('novalidate');form.method='dialog';form.querySelector('button[type=submit]').textContent=locale==='en'?'Prepare my enquiry':'Préparer ma demande';
    const label=doc.createElement('p');label.className='nt';label.textContent=locale==='en'?'No transmission: keep your draft before leaving the page.':'Aucun envoi : conserve ton brouillon avant de quitter la page.';form.prepend(label);

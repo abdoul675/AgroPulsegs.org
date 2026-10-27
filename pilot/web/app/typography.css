@@ -1,0 +1,4 @@
+/* Owner-approved readable typography; no external font dependency. */
+body,h1,h2,h3,h4,h5,p,a,li,dt,dd,span,strong,b,label,summary,button,input,select,textarea,svg text{font-family:Arial,Helvetica,sans-serif!important}
+h1,h2,h3,h4,h5{font-weight:700!important;letter-spacing:normal!important}
+#app.num section h2::before{display:none!important}

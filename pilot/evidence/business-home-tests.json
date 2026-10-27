@@ -1,0 +1,187 @@
+{
+  "executedAt": "2026-10-27T15:00:00.092Z",
+  "completed": true,
+  "reference": "SMAG visual organisation; original AgroPulse content and assets",
+  "results": [
+    {
+      "name": "fr 1440px : accueil",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 1440px : langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 1440px : pas de débordement",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 1440px : six cartes accessibles",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 1440px : deux programmes distincts",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 1440px : logo hors du hero",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 1440px : images affichées",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 1440px : secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 375px : accueil",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 375px : langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 375px : pas de débordement",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 375px : six cartes accessibles",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 375px : deux programmes distincts",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 375px : logo hors du hero",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 375px : images affichées",
+      "result": "PASS"
+    },
+    {
+      "name": "fr 375px : secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en 1440px : accueil",
+      "result": "PASS"
+    },
+    {
+      "name": "en 1440px : langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en 1440px : pas de débordement",
+      "result": "PASS"
+    },
+    {
+      "name": "en 1440px : six cartes accessibles",
+      "result": "PASS"
+    },
+    {
+      "name": "en 1440px : deux programmes distincts",
+      "result": "PASS"
+    },
+    {
+      "name": "en 1440px : logo hors du hero",
+      "result": "PASS"
+    },
+    {
+      "name": "en 1440px : images affichées",
+      "result": "PASS"
+    },
+    {
+      "name": "en 1440px : secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en 375px : accueil",
+      "result": "PASS"
+    },
+    {
+      "name": "en 375px : langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en 375px : pas de débordement",
+      "result": "PASS"
+    },
+    {
+      "name": "en 375px : six cartes accessibles",
+      "result": "PASS"
+    },
+    {
+      "name": "en 375px : deux programmes distincts",
+      "result": "PASS"
+    },
+    {
+      "name": "en 375px : logo hors du hero",
+      "result": "PASS"
+    },
+    {
+      "name": "en 375px : images affichées",
+      "result": "PASS"
+    },
+    {
+      "name": "en 375px : secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "Premier lien clavier : contenu",
+      "result": "PASS"
+    },
+    {
+      "name": "Menu mobile ouvert",
+      "result": "PASS"
+    },
+    {
+      "name": "Menu fermé au clavier",
+      "result": "PASS"
+    },
+    {
+      "name": "Accès direct aux expertises",
+      "result": "PASS"
+    },
+    {
+      "name": "Une carte ouvre son pôle",
+      "result": "PASS"
+    },
+    {
+      "name": "Aucune fausse confirmation d’envoi",
+      "result": "PASS"
+    },
+    {
+      "name": "Texte conservé",
+      "result": "PASS"
+    },
+    {
+      "name": "Aucune transmission",
+      "result": "PASS"
+    },
+    {
+      "name": "Langue et section conservées",
+      "result": "PASS"
+    },
+    {
+      "name": "Présentation disponible sans JavaScript",
+      "result": "PASS"
+    },
+    {
+      "name": "Envoi désactivé sans JavaScript",
+      "result": "PASS"
+    },
+    {
+      "name": "Ancres valides",
+      "result": "PASS"
+    },
+    {
+      "name": "Aucune erreur JavaScript",
+      "result": "PASS"
+    }
+  ]
+}

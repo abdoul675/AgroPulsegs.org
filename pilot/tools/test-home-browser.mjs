@@ -24,7 +24,8 @@ try{
  }
  await page.setViewportSize({width:375,height:844});await page.goto(base+'/fr');await page.locator('[data-enable-draft]:not([disabled])').waitFor();
  await page.locator('#bg').click();check('Menu mobile ouvert',await page.locator('#bg').getAttribute('aria-expanded'),'true');
- await page.locator('#nav').getByRole('link',{name:'Expertises',exact:true}).click();check('Menu fermé après navigation',await page.locator('#bg').getAttribute('aria-expanded'),'false');
+ await page.locator('#nav').getByRole('link',{name:'Contacts',exact:true}).click();check('Menu fermé après navigation',await page.locator('#bg').getAttribute('aria-expanded'),'false');
+ await page.locator('.hero a[href="#expertises"]').click();
  check('Ancre expertise atteinte',new URL(page.url()).hash,'#expertises');
  for(const id of ['circuit','expertises','fellowship','jeu','agir-ia','images','partenaires','ancrage','contact'])check(`Section de la maquette : ${id}`,await page.locator('#'+id).count(),1);
  const faq=page.locator('.qb').first();await faq.click();check('Question expertise dépliée',await faq.getAttribute('aria-expanded'),'true');

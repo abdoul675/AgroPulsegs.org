@@ -1,0 +1,1199 @@
+{
+  "a-propos": {
+    "title": {
+      "fr": "À propos",
+      "en": "About"
+    },
+    "hero": {
+      "eyebrow": {
+        "fr": "Qui sommes-nous ?",
+        "en": "Who are we?"
+      },
+      "crumb": {
+        "fr": "",
+        "en": ""
+      },
+      "title": {
+        "fr": "À propos d’AgroPulse",
+        "en": "About AgroPulse"
+      },
+      "quote": {
+        "fr": "",
+        "en": ""
+      },
+      "lead": [
+        {
+          "fr": "AgroPulse Global Solutions est une société de conseil et de services numériques pour les filières agricoles en Afrique de l’Ouest.",
+          "en": "AgroPulse Global Solutions is a consulting and digital services company for agricultural value chains in West Africa."
+        }
+      ],
+      "ctas": [],
+      "aside": [],
+      "scene": "",
+      "image": "/reference/52f10123f2904ad5.webp"
+    },
+    "sections": [
+      {
+        "id": "mission",
+        "type": "text",
+        "title": {
+          "fr": "Notre mission",
+          "en": "Our mission"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [
+          {
+            "fr": "Mettre la donnée, l’intelligence artificielle et l’économie verte au service des acteurs agricoles.",
+            "en": "Put data, artificial intelligence and the green economy at the service of agricultural stakeholders."
+          }
+        ],
+        "groups": [],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      },
+      {
+        "id": "equipe",
+        "type": "text",
+        "title": {
+          "fr": "Notre équipe",
+          "en": "Our team"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [
+          {
+            "fr": "Conseil agricole, numérique, climat et formation : des compétences complémentaires au service du terrain.",
+            "en": "Agricultural consulting, digital technology, climate and training: complementary skills serving the field."
+          },
+          {
+            "fr": "La présentation des membres sera ajoutée après validation des noms et fonctions.",
+            "en": "Team profiles will be added once names and roles are approved."
+          }
+        ],
+        "groups": [],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      }
+    ],
+    "slug": "a-propos",
+    "nosub": true,
+    "noticker": true
+  },
+  "expertises": {
+    "title": {
+      "fr": "Nos expertises",
+      "en": "Our expertise"
+    },
+    "hero": {
+      "eyebrow": {
+        "fr": "Six pôles",
+        "en": "Six areas"
+      },
+      "crumb": {
+        "fr": "",
+        "en": ""
+      },
+      "title": {
+        "fr": "Nos 6 pôles d’expertise",
+        "en": "Our 6 areas of expertise"
+      },
+      "quote": {
+        "fr": "",
+        "en": ""
+      },
+      "lead": [
+        {
+          "fr": "Six domaines pour accompagner vos projets agricoles.",
+          "en": "Six areas of expertise to support your agricultural projects."
+        }
+      ],
+      "ctas": [],
+      "aside": [],
+      "scene": "",
+      "image": "/reference/02191bc323e57c5d.webp"
+    },
+    "sections": [
+      {
+        "id": "domaines",
+        "type": "poles",
+        "title": {
+          "fr": "Choisissez votre besoin",
+          "en": "Find the expertise you need"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [
+          {
+            "title": {
+              "fr": "Formation, Emploi et Talents numériques",
+              "en": "Training, Jobs & Digital Talent"
+            },
+            "text": [
+              {
+                "fr": "Former les talents et renforcer les compétences des équipes agricoles.",
+                "en": "Train talent and strengthen agricultural teams’ skills."
+              }
+            ],
+            "image": "/reference/e0fd4f3b0ddc39a9.webp",
+            "to": "pole-1"
+          },
+          {
+            "title": {
+              "fr": "SI agricoles et Gouvernance des données",
+              "en": "Agricultural Information Systems & Data Governance"
+            },
+            "text": [
+              {
+                "fr": "Organiser les données et moderniser les systèmes d’information agricoles.",
+                "en": "Organise data and modernise agricultural information systems."
+              }
+            ],
+            "image": "/reference/44042dbf8c788ae8.webp",
+            "to": "pole-2"
+          },
+          {
+            "title": {
+              "fr": "IA et Data Analytics",
+              "en": "AI & Data Analytics"
+            },
+            "text": [
+              {
+                "fr": "Analyser les données pour éclairer les décisions agricoles.",
+                "en": "Analyse data to support agricultural decisions."
+              }
+            ],
+            "image": "/reference/52f10123f2904ad5.webp",
+            "to": "pole-3"
+          },
+          {
+            "title": {
+              "fr": "Climat, Économie verte et Finance climatique",
+              "en": "Climate, Green Economy & Climate Finance"
+            },
+            "text": [
+              {
+                "fr": "Accompagner les projets de résilience et de transition verte.",
+                "en": "Support resilience and green transition projects."
+              }
+            ],
+            "image": "/reference/fcf33e1300b14b2a.webp",
+            "to": "pole-4"
+          },
+          {
+            "title": {
+              "fr": "Incubation et Startups agri-tech",
+              "en": "Incubation & Agri-tech Startups"
+            },
+            "text": [
+              {
+                "fr": "Accompagner les porteurs de projets et les startups agri-tech.",
+                "en": "Support project founders and agri-tech startups."
+              }
+            ],
+            "image": "/reference/11fe81d2b02f3cc2.webp",
+            "to": "pole-5"
+          },
+          {
+            "title": {
+              "fr": "Conseil stratégique, Études et Mécanisation",
+              "en": "Strategic Consulting, Studies & Mechanisation"
+            },
+            "text": [
+              {
+                "fr": "Évaluer les projets et choisir des solutions adaptées au terrain.",
+                "en": "Assess projects and choose solutions suited to field conditions."
+              }
+            ],
+            "image": "/reference/530fd2c8a9500610.webp",
+            "to": "pole-6"
+          }
+        ],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      }
+    ],
+    "slug": "expertises",
+    "nosub": true,
+    "noticker": true
+  },
+  "pole-1": {
+    "title": {
+      "fr": "Formation, Emploi et Talents numériques",
+      "en": "Training, Jobs & Digital Talent"
+    },
+    "hero": {
+      "eyebrow": {
+        "fr": "Pôle 01",
+        "en": "Area 01"
+      },
+      "crumb": {
+        "fr": "Nos expertises",
+        "en": "Our expertise"
+      },
+      "title": {
+        "fr": "Formation, Emploi et Talents numériques",
+        "en": "Training, Jobs & Digital Talent"
+      },
+      "quote": {
+        "fr": "",
+        "en": ""
+      },
+      "lead": [
+        {
+          "fr": "Former les talents et renforcer les compétences des équipes agricoles.",
+          "en": "Train talent and strengthen agricultural teams’ skills."
+        }
+      ],
+      "ctas": [],
+      "aside": [],
+      "scene": "",
+      "image": "/reference/e0fd4f3b0ddc39a9.webp"
+    },
+    "pole": 1,
+    "sections": [
+      {
+        "id": "services",
+        "type": "features",
+        "title": {
+          "fr": "Nos services",
+          "en": "Our services"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [
+          {
+            "title": {
+              "fr": "Formation",
+              "en": "Training"
+            },
+            "text": [
+              {
+                "fr": "Parcours Fellowship et renforcement des compétences en données et numérique.",
+                "en": "Fellowship pathways and capacity building in data and digital skills."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Insertion professionnelle",
+              "en": "Professional integration"
+            },
+            "text": [
+              {
+                "fr": "Accompagnement des talents et mise en relation avec les employeurs.",
+                "en": "Talent support and introductions to employers."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Appui aux équipes",
+              "en": "Team support"
+            },
+            "text": [
+              {
+                "fr": "Mise à disposition de compétences et accompagnement des systèmes d’information.",
+                "en": "Access to skilled professionals and information system support."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          }
+        ],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": [],
+        "noimg": true
+      },
+      {
+        "id": "public",
+        "type": "text",
+        "title": {
+          "fr": "Pour qui ?",
+          "en": "Who is it for?"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [
+          {
+            "fr": "Jeunes talents, coopératives, entreprises et institutions agricoles.",
+            "en": "Young talent, cooperatives, agricultural businesses and institutions."
+          }
+        ],
+        "groups": [],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      },
+      {
+        "id": "contact",
+        "type": "cta",
+        "title": {
+          "fr": "Parlons de votre projet",
+          "en": "Let’s discuss your project"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [],
+        "ctas": [
+          {
+            "label": {
+              "fr": "Nous contacter",
+              "en": "Contact us"
+            },
+            "to": "contact"
+          }
+        ],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      }
+    ],
+    "slug": "pole-1",
+    "nosub": true,
+    "noticker": true
+  },
+  "pole-2": {
+    "title": {
+      "fr": "SI agricoles et Gouvernance des données",
+      "en": "Agricultural Information Systems & Data Governance"
+    },
+    "hero": {
+      "eyebrow": {
+        "fr": "Pôle 02",
+        "en": "Area 02"
+      },
+      "crumb": {
+        "fr": "Nos expertises",
+        "en": "Our expertise"
+      },
+      "title": {
+        "fr": "SI agricoles et Gouvernance des données",
+        "en": "Agricultural Information Systems & Data Governance"
+      },
+      "quote": {
+        "fr": "",
+        "en": ""
+      },
+      "lead": [
+        {
+          "fr": "Organiser les données et moderniser les systèmes d’information agricoles.",
+          "en": "Organise data and modernise agricultural information systems."
+        }
+      ],
+      "ctas": [],
+      "aside": [],
+      "scene": "",
+      "image": "/reference/44042dbf8c788ae8.webp"
+    },
+    "pole": 2,
+    "sections": [
+      {
+        "id": "services",
+        "type": "features",
+        "title": {
+          "fr": "Nos services",
+          "en": "Our services"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [
+          {
+            "title": {
+              "fr": "Diagnostic des données",
+              "en": "Data assessment"
+            },
+            "text": [
+              {
+                "fr": "Identifier les données disponibles, leurs usages et les besoins des équipes.",
+                "en": "Identify available data, its uses and team needs."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Outils et plateformes",
+              "en": "Tools and platforms"
+            },
+            "text": [
+              {
+                "fr": "Concevoir ou moderniser les applications et portails de filière.",
+                "en": "Design or modernise value-chain applications and portals."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Gouvernance",
+              "en": "Governance"
+            },
+            "text": [
+              {
+                "fr": "Définir les règles de qualité, de partage et de gestion des données.",
+                "en": "Define rules for data quality, sharing and management."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          }
+        ],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": [],
+        "noimg": true
+      },
+      {
+        "id": "public",
+        "type": "text",
+        "title": {
+          "fr": "Pour qui ?",
+          "en": "Who is it for?"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [
+          {
+            "fr": "Coopératives, agro-industries et organismes de gestion des filières.",
+            "en": "Cooperatives, agribusinesses and value-chain management bodies."
+          }
+        ],
+        "groups": [],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      },
+      {
+        "id": "contact",
+        "type": "cta",
+        "title": {
+          "fr": "Parlons de votre projet",
+          "en": "Let’s discuss your project"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [],
+        "ctas": [
+          {
+            "label": {
+              "fr": "Nous contacter",
+              "en": "Contact us"
+            },
+            "to": "contact"
+          }
+        ],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      }
+    ],
+    "slug": "pole-2",
+    "nosub": true,
+    "noticker": true
+  },
+  "pole-3": {
+    "title": {
+      "fr": "IA et Data Analytics",
+      "en": "AI & Data Analytics"
+    },
+    "hero": {
+      "eyebrow": {
+        "fr": "Pôle 03",
+        "en": "Area 03"
+      },
+      "crumb": {
+        "fr": "Nos expertises",
+        "en": "Our expertise"
+      },
+      "title": {
+        "fr": "IA et Data Analytics",
+        "en": "AI & Data Analytics"
+      },
+      "quote": {
+        "fr": "",
+        "en": ""
+      },
+      "lead": [
+        {
+          "fr": "Analyser les données pour éclairer les décisions agricoles.",
+          "en": "Analyse data to support agricultural decisions."
+        }
+      ],
+      "ctas": [],
+      "aside": [],
+      "scene": "",
+      "image": "/reference/52f10123f2904ad5.webp"
+    },
+    "pole": 3,
+    "sections": [
+      {
+        "id": "services",
+        "type": "features",
+        "title": {
+          "fr": "Nos services",
+          "en": "Our services"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [
+          {
+            "title": {
+              "fr": "Analyse et prévision",
+              "en": "Analysis and forecasting"
+            },
+            "text": [
+              {
+                "fr": "Étudier les prix, les rendements et les évolutions des filières.",
+                "en": "Study prices, yields and changes in agricultural value chains."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Tableaux de bord",
+              "en": "Dashboards"
+            },
+            "text": [
+              {
+                "fr": "Présenter les indicateurs utiles au suivi des activités et des projets.",
+                "en": "Present indicators useful for monitoring activities and projects."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Aide à la décision",
+              "en": "Decision support"
+            },
+            "text": [
+              {
+                "fr": "Adapter les méthodes d’intelligence artificielle aux données et aux besoins du projet.",
+                "en": "Adapt AI methods to project data and needs."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          }
+        ],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": [],
+        "noimg": true
+      },
+      {
+        "id": "public",
+        "type": "text",
+        "title": {
+          "fr": "Pour qui ?",
+          "en": "Who is it for?"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [
+          {
+            "fr": "Entreprises, coopératives et institutions qui souhaitent mieux exploiter leurs données.",
+            "en": "Businesses, cooperatives and institutions seeking to make better use of their data."
+          }
+        ],
+        "groups": [],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      },
+      {
+        "id": "contact",
+        "type": "cta",
+        "title": {
+          "fr": "Parlons de votre projet",
+          "en": "Let’s discuss your project"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [],
+        "ctas": [
+          {
+            "label": {
+              "fr": "Nous contacter",
+              "en": "Contact us"
+            },
+            "to": "contact"
+          }
+        ],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      }
+    ],
+    "slug": "pole-3",
+    "nosub": true,
+    "noticker": true
+  },
+  "pole-4": {
+    "title": {
+      "fr": "Climat, Économie verte et Finance climatique",
+      "en": "Climate, Green Economy & Climate Finance"
+    },
+    "hero": {
+      "eyebrow": {
+        "fr": "Pôle 04",
+        "en": "Area 04"
+      },
+      "crumb": {
+        "fr": "Nos expertises",
+        "en": "Our expertise"
+      },
+      "title": {
+        "fr": "Climat, Économie verte et Finance climatique",
+        "en": "Climate, Green Economy & Climate Finance"
+      },
+      "quote": {
+        "fr": "",
+        "en": ""
+      },
+      "lead": [
+        {
+          "fr": "Accompagner les projets de résilience et de transition verte.",
+          "en": "Support resilience and green transition projects."
+        }
+      ],
+      "ctas": [],
+      "aside": [],
+      "scene": "",
+      "image": "/reference/fcf33e1300b14b2a.webp"
+    },
+    "pole": 4,
+    "sections": [
+      {
+        "id": "services",
+        "type": "features",
+        "title": {
+          "fr": "Nos services",
+          "en": "Our services"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [
+          {
+            "title": {
+              "fr": "Résilience climatique",
+              "en": "Climate resilience"
+            },
+            "text": [
+              {
+                "fr": "Analyser les risques et préparer les actions d’adaptation.",
+                "en": "Analyse risks and prepare adaptation actions."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Traçabilité et suivi",
+              "en": "Traceability and monitoring"
+            },
+            "text": [
+              {
+                "fr": "Structurer les données nécessaires au suivi environnemental des filières.",
+                "en": "Structure data needed for environmental monitoring of value chains."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Financement vert",
+              "en": "Green finance"
+            },
+            "text": [
+              {
+                "fr": "Accompagner la préparation des projets et dossiers de financement climatique.",
+                "en": "Support the preparation of climate projects and funding applications."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          }
+        ],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": [],
+        "noimg": true
+      },
+      {
+        "id": "public",
+        "type": "text",
+        "title": {
+          "fr": "Pour qui ?",
+          "en": "Who is it for?"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [
+          {
+            "fr": "Coopératives, entreprises et organismes porteurs de projets environnementaux.",
+            "en": "Cooperatives, businesses and organisations developing environmental projects."
+          }
+        ],
+        "groups": [],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      },
+      {
+        "id": "contact",
+        "type": "cta",
+        "title": {
+          "fr": "Parlons de votre projet",
+          "en": "Let’s discuss your project"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [],
+        "ctas": [
+          {
+            "label": {
+              "fr": "Nous contacter",
+              "en": "Contact us"
+            },
+            "to": "contact"
+          }
+        ],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      }
+    ],
+    "slug": "pole-4",
+    "nosub": true,
+    "noticker": true
+  },
+  "pole-5": {
+    "title": {
+      "fr": "Incubation et Startups agri-tech",
+      "en": "Incubation & Agri-tech Startups"
+    },
+    "hero": {
+      "eyebrow": {
+        "fr": "Pôle 05",
+        "en": "Area 05"
+      },
+      "crumb": {
+        "fr": "Nos expertises",
+        "en": "Our expertise"
+      },
+      "title": {
+        "fr": "Incubation et Startups agri-tech",
+        "en": "Incubation & Agri-tech Startups"
+      },
+      "quote": {
+        "fr": "",
+        "en": ""
+      },
+      "lead": [
+        {
+          "fr": "Accompagner les porteurs de projets et les startups agri-tech.",
+          "en": "Support project founders and agri-tech startups."
+        }
+      ],
+      "ctas": [],
+      "aside": [],
+      "scene": "",
+      "image": "/reference/11fe81d2b02f3cc2.webp"
+    },
+    "pole": 5,
+    "sections": [
+      {
+        "id": "services",
+        "type": "features",
+        "title": {
+          "fr": "Nos services",
+          "en": "Our services"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [
+          {
+            "title": {
+              "fr": "Structuration du projet",
+              "en": "Project development"
+            },
+            "text": [
+              {
+                "fr": "Préciser le besoin, le modèle économique et les premières étapes.",
+                "en": "Clarify the need, business model and first steps."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Incubation et mentorat",
+              "en": "Incubation and mentoring"
+            },
+            "text": [
+              {
+                "fr": "Accompagner le développement et l’expérimentation des solutions.",
+                "en": "Support solution development and experimentation."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Passage à l’échelle",
+              "en": "Scaling up"
+            },
+            "text": [
+              {
+                "fr": "Préparer le développement de l’activité et la mise en relation avec les investisseurs.",
+                "en": "Prepare business growth and introductions to investors."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          }
+        ],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": [],
+        "noimg": true
+      },
+      {
+        "id": "public",
+        "type": "text",
+        "title": {
+          "fr": "Pour qui ?",
+          "en": "Who is it for?"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [
+          {
+            "fr": "Porteurs de projets, startups, chercheurs et partenaires de l’innovation agricole.",
+            "en": "Founders, startups, researchers and agricultural innovation partners."
+          }
+        ],
+        "groups": [],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      },
+      {
+        "id": "contact",
+        "type": "cta",
+        "title": {
+          "fr": "Parlons de votre projet",
+          "en": "Let’s discuss your project"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [],
+        "ctas": [
+          {
+            "label": {
+              "fr": "Nous contacter",
+              "en": "Contact us"
+            },
+            "to": "contact"
+          }
+        ],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      }
+    ],
+    "slug": "pole-5",
+    "nosub": true,
+    "noticker": true
+  },
+  "pole-6": {
+    "title": {
+      "fr": "Conseil stratégique, Études et Mécanisation",
+      "en": "Strategic Consulting, Studies & Mechanisation"
+    },
+    "hero": {
+      "eyebrow": {
+        "fr": "Pôle 06",
+        "en": "Area 06"
+      },
+      "crumb": {
+        "fr": "Nos expertises",
+        "en": "Our expertise"
+      },
+      "title": {
+        "fr": "Conseil stratégique, Études et Mécanisation",
+        "en": "Strategic Consulting, Studies & Mechanisation"
+      },
+      "quote": {
+        "fr": "",
+        "en": ""
+      },
+      "lead": [
+        {
+          "fr": "Évaluer les projets et choisir des solutions adaptées au terrain.",
+          "en": "Assess projects and choose solutions suited to field conditions."
+        }
+      ],
+      "ctas": [],
+      "aside": [],
+      "scene": "",
+      "image": "/reference/530fd2c8a9500610.webp"
+    },
+    "pole": 6,
+    "sections": [
+      {
+        "id": "services",
+        "type": "features",
+        "title": {
+          "fr": "Nos services",
+          "en": "Our services"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [
+          {
+            "title": {
+              "fr": "Études et diagnostics",
+              "en": "Studies and assessments"
+            },
+            "text": [
+              {
+                "fr": "Évaluer la faisabilité, les besoins et les conditions de mise en œuvre des projets.",
+                "en": "Assess project feasibility, needs and implementation conditions."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Conseil stratégique",
+              "en": "Strategic consulting"
+            },
+            "text": [
+              {
+                "fr": "Appuyer les stratégies de filière et l’évaluation des programmes.",
+                "en": "Support value-chain strategies and programme evaluation."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          },
+          {
+            "title": {
+              "fr": "Mécanisation",
+              "en": "Mechanisation"
+            },
+            "text": [
+              {
+                "fr": "Conseiller le choix, le financement, la maintenance et l’utilisation des équipements.",
+                "en": "Advise on equipment selection, financing, maintenance and use."
+              }
+            ],
+            "points": [],
+            "bullets": [],
+            "meta": []
+          }
+        ],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": [],
+        "noimg": true
+      },
+      {
+        "id": "public",
+        "type": "text",
+        "title": {
+          "fr": "Pour qui ?",
+          "en": "Who is it for?"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [
+          {
+            "fr": "Institutions, entreprises, coopératives et partenaires de développement.",
+            "en": "Institutions, businesses, cooperatives and development partners."
+          }
+        ],
+        "groups": [],
+        "ctas": [],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      },
+      {
+        "id": "contact",
+        "type": "cta",
+        "title": {
+          "fr": "Parlons de votre projet",
+          "en": "Let’s discuss your project"
+        },
+        "kicker": {
+          "fr": "",
+          "en": ""
+        },
+        "lead": [],
+        "groups": [],
+        "ctas": [
+          {
+            "label": {
+              "fr": "Nous contacter",
+              "en": "Contact us"
+            },
+            "to": "contact"
+          }
+        ],
+        "quote": {
+          "fr": "",
+          "en": ""
+        },
+        "meta": []
+      }
+    ],
+    "slug": "pole-6",
+    "nosub": true,
+    "noticker": true
+  }
+}

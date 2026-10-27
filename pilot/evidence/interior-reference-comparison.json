@@ -1,0 +1,203 @@
+{
+  "executedAt": "2026-10-27T10:21:08.887Z",
+  "completed": true,
+  "scope": "Header, hero grid and typography, form columns and footer styles compared with original source. Fonts blocked, reduced motion. Not a pixel-perfect comparison.",
+  "measurements": [
+    {
+      "slug": "a-propos",
+      "width": 1440,
+      "expected": {
+        "header .bar": {
+          "height": "84px",
+          "paddingLeft": "34.56px"
+        },
+        "#app .ph .w": {
+          "display": "grid",
+          "gridTemplateColumns": "640.797px 427.203px",
+          "gap": "44px"
+        },
+        "#app h1": {
+          "fontSize": "52.8px",
+          "lineHeight": "60.72px",
+          "maxWidth": "739.561px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      },
+      "received": {
+        "header .bar": {
+          "height": "84px",
+          "paddingLeft": "34.56px"
+        },
+        "#app .ph .w": {
+          "display": "grid",
+          "gridTemplateColumns": "640.797px 427.203px",
+          "gap": "44px"
+        },
+        "#app h1": {
+          "fontSize": "52.8px",
+          "lineHeight": "60.72px",
+          "maxWidth": "739.561px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      }
+    },
+    {
+      "slug": "a-propos",
+      "width": 375,
+      "expected": {
+        "header .bar": {
+          "height": "84px",
+          "paddingLeft": "16px"
+        },
+        "#app .ph .w": {
+          "display": "grid",
+          "gridTemplateColumns": "327px",
+          "gap": "44px"
+        },
+        "#app h1": {
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "maxWidth": "448.219px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      },
+      "received": {
+        "header .bar": {
+          "height": "84px",
+          "paddingLeft": "16px"
+        },
+        "#app .ph .w": {
+          "display": "grid",
+          "gridTemplateColumns": "327px",
+          "gap": "44px"
+        },
+        "#app h1": {
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "maxWidth": "448.219px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      }
+    },
+    {
+      "slug": "pole-2",
+      "width": 1440,
+      "expected": {
+        "header .bar": {
+          "height": "84px",
+          "paddingLeft": "34.56px"
+        },
+        "#app .ph .w": {
+          "display": "grid",
+          "gridTemplateColumns": "640.797px 427.203px",
+          "gap": "44px"
+        },
+        "#app h1": {
+          "fontSize": "52.8px",
+          "lineHeight": "60.72px",
+          "maxWidth": "739.561px"
+        },
+        "#app .fgrid": {
+          "display": "grid",
+          "gridTemplateColumns": "528px 528px",
+          "gap": "56px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      },
+      "received": {
+        "header .bar": {
+          "height": "84px",
+          "paddingLeft": "34.56px"
+        },
+        "#app .ph .w": {
+          "display": "grid",
+          "gridTemplateColumns": "640.797px 427.203px",
+          "gap": "44px"
+        },
+        "#app h1": {
+          "fontSize": "52.8px",
+          "lineHeight": "60.72px",
+          "maxWidth": "739.561px"
+        },
+        "#app .fgrid": {
+          "display": "grid",
+          "gridTemplateColumns": "528px 528px",
+          "gap": "56px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      }
+    },
+    {
+      "slug": "pole-2",
+      "width": 375,
+      "expected": {
+        "header .bar": {
+          "height": "84px",
+          "paddingLeft": "16px"
+        },
+        "#app .ph .w": {
+          "display": "grid",
+          "gridTemplateColumns": "327px",
+          "gap": "44px"
+        },
+        "#app h1": {
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "maxWidth": "448.219px"
+        },
+        "#app .fgrid": {
+          "display": "grid",
+          "gridTemplateColumns": "327px",
+          "gap": "56px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      },
+      "received": {
+        "header .bar": {
+          "height": "84px",
+          "paddingLeft": "16px"
+        },
+        "#app .ph .w": {
+          "display": "grid",
+          "gridTemplateColumns": "327px",
+          "gap": "44px"
+        },
+        "#app h1": {
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "maxWidth": "448.219px"
+        },
+        "#app .fgrid": {
+          "display": "grid",
+          "gridTemplateColumns": "327px",
+          "gap": "56px"
+        },
+        "footer": {
+          "backgroundColor": "rgb(11, 34, 49)",
+          "fontSize": "14.72px"
+        }
+      }
+    }
+  ]
+}

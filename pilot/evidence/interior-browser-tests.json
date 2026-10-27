@@ -1,0 +1,555 @@
+{
+  "executedAt": "2026-10-27T10:18:40.126Z",
+  "completed": true,
+  "fonts": "External Google Fonts blocked; system fallback tested",
+  "results": [
+    {
+      "name": "fr/a-propos disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/a-propos langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/a-propos titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/a-propos illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/a-propos débordement 1440px",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/a-propos images",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/a-propos secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/expertises disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/expertises langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/expertises titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/expertises illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/expertises débordement 1440px",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/expertises images",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/expertises secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-1 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-1 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-1 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-1 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-1 débordement 1440px",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-1 images",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-1 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-2 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-2 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-2 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-2 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-2 débordement 1440px",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-2 images",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-2 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-3 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-3 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-3 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-3 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-3 débordement 1440px",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-3 images",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-3 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-4 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-4 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-4 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-4 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-4 débordement 1440px",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-4 images",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-4 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-5 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-5 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-5 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-5 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-5 débordement 1440px",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-5 images",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-5 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-6 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-6 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-6 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-6 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-6 débordement 1440px",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-6 images",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-6 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en/a-propos disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/a-propos langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en/a-propos titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "en/a-propos illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/a-propos débordement 375px",
+      "result": "PASS"
+    },
+    {
+      "name": "en/a-propos images",
+      "result": "PASS"
+    },
+    {
+      "name": "en/a-propos secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en/expertises disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/expertises langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en/expertises titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "en/expertises illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/expertises débordement 375px",
+      "result": "PASS"
+    },
+    {
+      "name": "en/expertises images",
+      "result": "PASS"
+    },
+    {
+      "name": "en/expertises secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-1 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-1 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-1 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-1 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-1 débordement 375px",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-1 images",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-1 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-2 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-2 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-2 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-2 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-2 débordement 375px",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-2 images",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-2 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-3 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-3 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-3 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-3 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-3 débordement 375px",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-3 images",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-3 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-4 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-4 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-4 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-4 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-4 débordement 375px",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-4 images",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-4 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-5 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-5 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-5 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-5 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-5 débordement 375px",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-5 images",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-5 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-6 disponible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-6 langue",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-6 titre unique",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-6 illustration du hero visible",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-6 débordement 375px",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-6 images",
+      "result": "PASS"
+    },
+    {
+      "name": "en/pole-6 secrets absents",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/a-propos mobile",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/expertises mobile",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-1 mobile",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-2 mobile",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-3 mobile",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-4 mobile",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-5 mobile",
+      "result": "PASS"
+    },
+    {
+      "name": "fr/pole-6 mobile",
+      "result": "PASS"
+    },
+    {
+      "name": "Présentation À propos : choix actif",
+      "result": "PASS"
+    },
+    {
+      "name": "Carte : pays sélectionné",
+      "result": "PASS"
+    },
+    {
+      "name": "Menu intérieur mobile ouvert",
+      "result": "PASS"
+    },
+    {
+      "name": "Navigation À propos vers Expertises",
+      "result": "PASS"
+    },
+    {
+      "name": "Six pôles accessibles",
+      "result": "PASS"
+    },
+    {
+      "name": "Orientation expertise utilisable",
+      "result": "PASS"
+    },
+    {
+      "name": "Onglet métier utilisable",
+      "result": "PASS"
+    },
+    {
+      "name": "Message de préparation sans faux envoi",
+      "result": "PASS"
+    },
+    {
+      "name": "Brouillon conservé",
+      "result": "PASS"
+    },
+    {
+      "name": "Aucun message transmis",
+      "result": "PASS"
+    },
+    {
+      "name": "Changement de langue conserve le pôle",
+      "result": "PASS"
+    },
+    {
+      "name": "Accueil relié à À propos",
+      "result": "PASS"
+    },
+    {
+      "name": "Contenu rendu sans JavaScript",
+      "result": "PASS"
+    },
+    {
+      "name": "Envoi désactivé sans JavaScript",
+      "result": "PASS"
+    },
+    {
+      "name": "Page inconnue refusée",
+      "result": "PASS"
+    },
+    {
+      "name": "Locale inconnue refusée",
+      "result": "PASS"
+    },
+    {
+      "name": "Aucune erreur JavaScript",
+      "result": "PASS"
+    }
+  ]
+}
