@@ -100,3 +100,13 @@ Les pages proposent le grand titre, l’introduction et le texte principal sans 
 La langue du profil détermine les menus et les libellés personnalisés (français initial, anglais disponible). Le sélecteur de langue du contenu ouvre la version FR ou EN du document : il ne traduit pas automatiquement les textes. Les noms métier de certaines collections et les codes d’énumérations restent ceux du modèle ; cela ne change pas les valeurs enregistrées.
 
 Vérifications complémentaires : `node pilot/tools/test-simple-entry.mjs` (13 assertions) et `node pilot/tools/test-editorial-ui.mjs` (14 assertions, Playwright/Edge requis). Preuves datées dans `pilot/evidence/`, avec `completed: true`. L’essai visuel modifie uniquement la page fictive et remet la préférence de langue à sa valeur initiale.
+
+## Accueil issu de la maquette
+
+La racine redirige maintenant vers `/fr` ; l’accueil anglais est `/en`. Les anciennes adresses du pilote d’expertise restent disponibles. L’accueil reprend le logo, les images, la palette et la structure principale de la dernière maquette. Le menu mobile et la navigation par ancres sont réalisés en React. Ce premier lot ne comprend pas les simulations, le jeu ni le globe interactif.
+
+Le contenu de référence est dans `web/content/home-reference.json`. `node pilot/tools/import-home-reference.mjs <chemin-du-HTML>` extrait uniquement les champs sélectionnés et images locales ; il n’exécute pas les scripts de la source. Les documents et coordonnées non confirmés ne sont pas importés.
+
+Pour raccorder un véritable accueil publié, ajouter côté serveur `CMS_HOME_DOCUMENT_ID` et `CMS_CONTENT_READ_TOKEN` (jeton de lecture limité aux contenus). Ne pas utiliser automatiquement la fixture fictive. Sans configuration, l’accueil conserve les textes de référence ; si le document configuré manque ou le CMS ne répond pas, la présentation de référence reste disponible avec une indication d’indisponibilité. La route publique ne lit jamais les brouillons.
+
+Vérification du lot après construction et démarrage : `node pilot/tools/test-home-browser.mjs` (Playwright/Edge). Les captures et résultats sont dans `evidence/home-*`. Les polices Google sont bloquées pendant ce contrôle afin de vérifier aussi le rendu de secours ; cela ne prouve pas une comparaison pixel par pixel avec les polices de la maquette.

@@ -47,3 +47,13 @@ Le CMS propose une saisie directe des pages (grand titre, introduction, texte pr
 Le porteur a demandé de pousser tout le travail du projet : cela inclut l’aperçu statique existant, le pilote et le dossier. Les secrets, accès locaux et sauvegardes restent exclus du dépôt. Les mentions précédentes « non commité » décrivent l’état antérieur ; vérifier Git pour l’état courant.
 
 Planning hebdomadaire proposé dans le support de réunion : semaine 1 du 26 octobre au 1er novembre (validation, corrections, contenus et vérification du CMS) ; semaine 2 du 2 au 8 novembre (intégration et environnement de test) ; semaine 3 du 9 au 12 novembre (recette, corrections, formation et livraison). Ce découpage est une proposition à confirmer, sans accord client présumé ; l’échéance du 12 novembre est celle rappelée par le porteur.
+
+## Validation et début d’intégration — 27 octobre 2026
+
+Le porteur a demandé « considérons que c’est validé, donc continuons ». Cette décision autorise la poursuite de l’intégration à partir des dernières maquettes ; elle ne constitue pas une signature attribuée à M. Dongo ou à Mme Hélène Nichy. L’échéance du 12 novembre est conservée.
+
+Lot commencé : éléments communs et accueil Next.js FR/EN, à partir de `files.zip / apercu-agropulse-accueil.html`. Les images embarquées sélectionnées sont extraites localement ; aucun script fourni par la maquette n’est exécuté. L’ancien aperçu `public/` est conservé. Les écrans du pilote d’expertise restent disponibles à leur adresse existante.
+
+L’accueil utilise la référence visuelle par défaut. Le raccordement à un vrai document d’accueil publié est prévu par `CMS_HOME_DOCUMENT_ID` et `CMS_CONTENT_READ_TOKEN`, côté serveur. Ne pas y brancher automatiquement la page fictive des tests. Les sections interactives avancées de la maquette (globe, jeu, simulations) et les pages intérieures ne sont pas déclarées intégrées par ce premier lot. Contact et candidatures restent inactifs. Les tests du lot sont à consulter dans les preuves datées ; aucun résultat n’est présumé avant leur exécution.
+
+Vérifications du premier lot d’accueil : construction Next.js réussie ; 25 assertions du parcours d’accueil (FR/EN, 375/768/1440 px, images, menu, ancres, clavier, langue inconnue et absence de secret) réussies avec `completed: true`. Les 27 assertions du parcours historique de lecture et preview sont également réussies. Les polices externes ont été bloquées pendant les captures d’accueil ; le rendu des polices de secours est vérifié, pas une équivalence visuelle au pixel. Le raccordement du contenu institutionnel réel, les pages intérieures, les médias et interactions avancées restent les étapes suivantes.
