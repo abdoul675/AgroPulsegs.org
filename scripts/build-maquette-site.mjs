@@ -1,3 +1,4 @@
+import { expertiseAreas, applyProgrammeContent } from './editorial-content.mjs';
 import { createHash } from 'node:crypto';
 import { access, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -126,6 +127,7 @@ const getSection = (page, id) => {
 };
 const setGroup = (group, item) => {
   group.title = localized(item.titleFr, item.titleEn);
+  if (item.image) group.image = item.image;
   group.text = paragraphs(item.textFr, item.textEn);
   if (item.href) group.to = item.href;
   else delete group.to;
@@ -139,75 +141,15 @@ const setGroups = (section, items) => {
   });
 };
 
-const expertise = [
-  {
-    titleFr: 'Formation, emploi et talents numériques',
-    titleEn: 'Digital training, employment and talent',
-    textFr: 'Formation, certification, placement et renforcement des capacités numériques.',
-    textEn: 'Training, certification, placement and digital capacity building.',
-  },
-  {
-    titleFr: 'SI agricoles et gouvernance des données',
-    titleEn: 'Agricultural information systems and data governance',
-    textFr: 'Diagnostic, cartographie, applications, portails et politiques de gouvernance des données.',
-    textEn: 'Diagnostics, data mapping, applications, portals and data governance policies.',
-  },
-  {
-    titleFr: 'IA et Data Analytics',
-    titleEn: 'AI and data analytics',
-    textFr: 'Prévisions de prix et de rendements, aide à la décision, tableaux de bord et publications.',
-    textEn: 'Price and yield forecasting, decision support, dashboards and publications.',
-  },
-  {
-    titleFr: 'Climat, économie verte et finance climatique',
-    titleEn: 'Climate, green economy and climate finance',
-    textFr: 'Mesure, carbone, ESG, traçabilité, finance verte, risques et adaptation.',
-    textEn: 'Measurement, carbon, ESG, traceability, green finance, risks and adaptation.',
-  },
-  {
-    titleFr: 'Incubation et startups agri-tech',
-    titleEn: 'Agri-tech incubation and startups',
-    textFr: 'Modèles d’affaires, incubation, accélération, mentorat et mise en relation.',
-    textEn: 'Business models, incubation, acceleration, mentoring and connections.',
-  },
-  {
-    titleFr: 'Conseil stratégique, études et mécanisation',
-    titleEn: 'Strategic consulting, studies and mechanization',
-    textFr: 'Diagnostics, faisabilité, politiques de digitalisation, études de marché et mécanisation.',
-    textEn: 'Diagnostics, feasibility, digitalization policies, market studies and mechanization.',
-  },
-].map((item, index) => ({ ...item, href: `#p-pole-${index + 1}` }));
-
-const expertiseDetails = [
-  [
-    { titleFr: 'Formation numérique', titleEn: 'Digital training', textFr: 'Formation et renforcement des capacités numériques.', textEn: 'Digital training and capacity building.' },
-    { titleFr: 'Certification et placement', titleEn: 'Certification and placement', textFr: 'Certification et placement de talents numériques.', textEn: 'Certification and placement of digital talent.' },
-  ],
-  [
-    { titleFr: 'Diagnostic et cartographie', titleEn: 'Diagnostics and mapping', textFr: 'Diagnostic des systèmes d’information et cartographie des données agricoles.', textEn: 'Information-system diagnostics and mapping of agricultural data.' },
-    { titleFr: 'Applications et portails', titleEn: 'Applications and portals', textFr: 'Applications, portails et gouvernance des données.', textEn: 'Applications, portals and data governance.' },
-  ],
-  [
-    { titleFr: 'Prévisions', titleEn: 'Forecasting', textFr: 'Prévisions de prix et de rendements agricoles.', textEn: 'Price and agricultural yield forecasting.' },
-    { titleFr: 'Aide à la décision', titleEn: 'Decision support', textFr: 'Outils d’aide à la décision, tableaux de bord et publications.', textEn: 'Decision-support tools, dashboards and publications.' },
-  ],
-  [
-    { titleFr: 'Mesure et traçabilité', titleEn: 'Measurement and traceability', textFr: 'Mesure, carbone, ESG et traçabilité.', textEn: 'Measurement, carbon, ESG and traceability.' },
-    { titleFr: 'Finance et adaptation', titleEn: 'Finance and adaptation', textFr: 'Finance verte, risques climatiques et adaptation.', textEn: 'Green finance, climate risks and adaptation.' },
-  ],
-  [
-    { titleFr: 'Incubation et accélération', titleEn: 'Incubation and acceleration', textFr: 'Modèles d’affaires, incubation et accélération de startups agri-tech.', textEn: 'Business models, incubation and acceleration for agri-tech startups.' },
-    { titleFr: 'Mentorat et mise en relation', titleEn: 'Mentoring and connections', textFr: 'Mentorat et mise en relation.', textEn: 'Mentoring and connections.' },
-  ],
-  [
-    { titleFr: 'Conseil et études', titleEn: 'Consulting and studies', textFr: 'Diagnostics, études de faisabilité et études de marché.', textEn: 'Diagnostics, feasibility studies and market studies.' },
-    { titleFr: 'Digitalisation et mécanisation', titleEn: 'Digitalisation and mechanization', textFr: 'Politiques de digitalisation et mécanisation agricole.', textEn: 'Digitalisation policies and agricultural mechanization.' },
-  ],
-];
+const expertise = expertiseAreas.map((item, index) => ({
+  ...item, image: pages[item.slug]?.hero?.image,
+}));
+const expertiseDetails = expertise.map(item => item.details);
 
 expertise.forEach((item, index) => {
   const page = pages[`pole-${index + 1}`];
   if (!page) throw new Error(`Missing expertise page "pole-${index + 1}" in the design page.`);
+  page.title = localized(item.titleFr, item.titleEn);
   page.hero.title = localized(item.titleFr, item.titleEn);
   page.hero.lead = paragraphs(item.textFr, item.textEn);
   const details = getSection(page, 'faire');
@@ -220,7 +162,7 @@ for (const pageName of ['accueil', 'expertises']) {
   if (!page) throw new Error(`Missing page "${pageName}" in the design page.`);
   const section = page.sections.find(item => item.type === 'acc6');
   if (!section) throw new Error(`Missing expertise cards in page "${pageName}".`);
-  section.title = localized('Six pôles complémentaires', 'Six complementary areas of expertise');
+  section.title = localized('Huit pôles complémentaires', 'Eight complementary areas of expertise');
   section.lead = paragraphs(
     'Des compétences en formation, données, climat, innovation et conseil stratégique pour les filières agricoles.',
     'Expertise in training, data, climate, innovation and strategic consulting for agricultural value chains.',
@@ -244,10 +186,10 @@ homeYida.button = localized('En savoir plus sur YIDA-Cashew', 'Learn more about 
 
 const expertisePage = pages.expertises;
 if (!expertisePage) throw new Error('Missing Expertise page in the design page.');
-expertisePage.hero.title = localized('Six pôles d’expertise', 'Six areas of expertise');
+expertisePage.hero.title = localized('Huit pôles d’expertise', 'Eight areas of expertise');
 expertisePage.hero.lead = paragraphs(
-  'Six domaines complémentaires au service des filières agricoles.',
-  'Six complementary areas supporting agricultural value chains.',
+  'Huit domaines complémentaires au service des filières agricoles.',
+  'Eight complementary areas supporting agricultural value chains.',
 );
 
 const about = pages['a-propos'];
@@ -292,15 +234,15 @@ setGroups(team, [{
 const aboutFacts = getSection(about, 'impact');
 aboutFacts.title = localized('Repères AgroPulse', 'AgroPulse at a glance');
 aboutFacts.lead = paragraphs(
-  'Les informations validées présentent six pôles d’expertise et des pays d’intervention en Afrique de l’Ouest.',
-  'Validated information identifies six areas of expertise and countries of operation in West Africa.',
+  'Les informations validées présentent huit pôles d’expertise et des pays d’intervention en Afrique de l’Ouest.',
+  'Validated information identifies eight areas of expertise and countries of operation in West Africa.',
 );
 setGroups(aboutFacts, [
   {
-    titleFr: '6 pôles d’expertise',
-    titleEn: '6 areas of expertise',
-    textFr: 'Formation, systèmes d’information, IA et données, climat, incubation et conseil.',
-    textEn: 'Training, information systems, AI and data, climate, incubation and consulting.',
+    titleFr: '8 pôles d’expertise',
+    titleEn: '8 areas of expertise',
+    textFr: 'Formation, systèmes d’information, IA, climat, entrepreneuriat, conseil, experts et mécanisation.',
+    textEn: 'Training, information systems, AI, climate, entrepreneurship, consulting, experts and mechanisation.',
   },
   {
     titleFr: 'Côte d’Ivoire · Sénégal · Guinée-Bissau',
@@ -507,6 +449,7 @@ const resources = pages.ressources;
 if (!resources) throw new Error('Missing Resources page in the design page.');
 // Public files are explicitly listed; internal project documents are never enumerated.
 const catalog = JSON.parse(await readFile(path.join(publicRoot, 'documents', 'catalog.json'), 'utf8'));
+if (catalog.some(item => item.filename === 'revue-yida-cashew-n01.pdf')) throw new Error('YIDA-Cashew is an information page, not a public PDF download.');
 const documents = [];
 for (const document of catalog) {
   if (!/^[a-z0-9][a-z0-9-]*\.pdf$/u.test(document.filename)) throw new Error('Invalid public PDF filename');
@@ -553,6 +496,8 @@ for (const page of Object.values(pages)) {
     page.title.en = page.hero.title.en.replace(/<[^>]*>/gu, ' ').replace(/\s+/gu, ' ').trim();
   }
 }
+
+applyProgrammeContent(pages);
 
 html = html.replace(dataPattern, (_match, openingTag, _contents, closingTag) =>
   `${openingTag}${JSON.stringify(pages)}${closingTag}`);
@@ -899,6 +844,21 @@ if (!appScript.includes('"formEndpoint":"/api/contact"')) {
   throw new Error('Contact API endpoint was not configured in the design page.');
 }
 html = html.slice(0, appMatch.index) + appMatch[0].replace(appMatch[2], appScript) + html.slice(appMatch.index + appMatch[0].length);
+
+// Keep the brand spelling in visible copy; lowercase filenames and legacy URLs stay stable.
+html = html.replace(/Yidacashew|YIDA-CASHEW|Yida-Cashew|YIDA Cashew|Yida Cashew/gu, 'YIDA-Cashew');
+html = html.replace('data-en="Projects" type="button">Projets</button>', 'data-en="Initiatives" type="button">Initiatives</button>');
+html = html.replace('<h4 data-en="Programmes">Programmes</h4>', '<h4 data-en="Initiatives">Initiatives</h4>');
+const footerExpertise = '<div><h4 data-en="Expertise">Expertises</h4>' + expertise.map(item =>
+  '<a data-en="' + item.titleEn.replaceAll('&', '&amp;') + '" href="#p-' + item.slug + '">' + item.titleFr.replaceAll('&', '&amp;') + '</a>'
+).join('') + '</div>';
+html = html.replace(/<div><h4 data-en="Expertise">Expertises<\/h4>[\s\S]*?<\/div>/u, footerExpertise);
+if (!html.includes('data-brand="yida-cashew"')) {
+  html = html.replaceAll('>YIDA-Cashew<', ' data-brand="yida-cashew">YIDA-Cashew<');
+}
+if (!html.includes('[data-brand="yida-cashew"]{text-transform:none!important}')) {
+  html = html.replace('</style>', '[data-brand="yida-cashew"]{text-transform:none!important}</style>');
+}
 
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);

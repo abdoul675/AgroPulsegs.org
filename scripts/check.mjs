@@ -49,9 +49,9 @@ assert.doesNotMatch(html,/Siège ¦ HQ|Our countries of operation|Country of ope
 assert.match(html,/Countries of intervention: Côte d’Ivoire · Senegal · Guinea-Bissau/u,'The English footer must use validated intervention countries');
 const getSection=(page,id)=>maquettePages[page].sections.find(section=>section.id===id);
 for(const name of ['accueil','expertises','a-propos','fellowship','agir-ia','contact','partenaires','ressources'])assert.ok(maquettePages[name],`Missing maquette page ${name}`);
-assert.equal(getSection('accueil','poles').groups.length,6,'Homepage must show the six validated expertise areas');
-assert.equal(getSection('expertises','poles').groups.length,6,'Expertise page must show the six validated areas');
-for(const name of ['accueil','expertises'])assert.deepEqual(getSection(name,'poles').groups.map(group=>group.to),['#p-pole-1','#p-pole-2','#p-pole-3','#p-pole-4','#p-pole-5','#p-pole-6'],`${name} expertise links must target their corresponding pages`);
+assert.equal(getSection('accueil','poles').groups.length,8,'Homepage must show the eight validated expertise areas');
+assert.equal(getSection('expertises','poles').groups.length,8,'Expertise page must show the eight validated areas');
+for(const name of ['accueil','expertises'])assert.deepEqual(getSection(name,'poles').groups.map(group=>group.to),['#p-pole-1','#p-pole-2','#p-pole-3','#p-pole-4','#p-pole-5','#p-pole-6','#p-pole-7','#p-pole-8'],`${name} expertise links must target their corresponding pages`);
 for(const name of ['mentions-legales','confidentialite']){
  const page=maquettePages[name];
  assert.ok(page?.title?.en&&page.hero?.title?.en,`${name} must have an English title`);
@@ -103,10 +103,10 @@ assert.ok(!sitePagesScript.includes('RESEND_API_KEY'),'No mail service key may a
 assert.ok(!sitePagesScript.includes('AGROPULSE_RECIPIENT_EMAIL'),'No recipient address may appear in public scripts');
 const environmentExample=await readFile(new URL('../.env.example',import.meta.url),'utf8');
 for(const name of ['AGROPULSE_RECIPIENT_EMAIL','EMAIL_FROM','RESEND_API_KEY','AGROPULSE_CMS_URL','AGROPULSE_CMS_HOME_DOCUMENT_ID','AGROPULSE_CMS_READ_TOKEN'])assert.match(environmentExample,new RegExp(`^${name}=$`,'m'),`.env.example must contain an empty ${name}`);
-console.log(`OK — maquette design retained, six approved expertise areas, API-backed forms and ${imageReferences.size} image assets.`);
+console.log(`OK — maquette design retained, eight approved expertise areas, API-backed forms and ${imageReferences.size} image assets.`);
 for(const file of ['apropos.html','expertises.html','yida-cashew.html','agir-ia.html','contact.html'])await access(new URL(file,root));
 const deploymentPages=await Promise.all(['apropos.html','expertises.html','yida-cashew.html','agir-ia.html','contact.html'].map(file=>readFile(new URL(file,root),'utf8')));
-assert.ok(deploymentPages[1].includes('pole-6'),'Expertise page must expose all six approved poles');
+assert.ok(deploymentPages[1].includes('pole-8'),'Expertise page must expose all eight approved poles');
 assert.ok(deploymentPages[2].includes('Candidatures fermées'),'YIDA-Cashew applications must remain closed');
 assert.ok(deploymentPages[3].includes('distinct'),'AGIR-IA must remain separate from YIDA-Cashew');
 assert.ok(deploymentPages[4].includes('request-form'),'Contact page must provide the request form');
@@ -136,3 +136,17 @@ const visualCSS=await readFile(new URL('content-media.css',root),'utf8');
 for(const [,asset] of visualCSS.matchAll(/url\('([^']+)'\)/g))await access(new URL(asset,root));
 assert.match(await readFile(new URL('homepage.css',root),'utf8'),/prefers-reduced-motion/);
 console.log(`OK — ${pages.length} pages: H1, translations, internal links, anchors, image alternatives and CSS assets.`);
+
+assert.match(html, /data-en="Initiatives" type="button">Initiatives<\/button>/u, 'The navigation must group programmes under Initiatives');
+assert.doesNotMatch(html, /Yidacashew|YIDA-CASHEW|Yida-Cashew/u, 'The programme name must keep its exact spelling');
+assert.ok(maquettePages.fellowship.sections.some(section => section.id === 'objectifs'), 'The programme objectives must be on the page');
+assert.ok(maquettePages.fellowship.sections.some(section => section.id === 'publics'), 'Programme audiences must be on the page');
+assert.ok(maquettePages.fellowship.sections.every(section => section.type !== 'downloads'), 'YIDA-Cashew must be an information page');
+assert.ok(!html.includes('revue-yida-cashew-n01.pdf'), 'The review must not be offered as a public download');
+assert.deepEqual(JSON.parse(await readFile(new URL('documents/catalog.json',root),'utf8')), [], 'No public document is currently approved');
+for (let index=1; index<=8; index++) {
+ const page=maquettePages['pole-'+index];
+ assert.ok(page?.title?.fr&&page?.title?.en, 'Every expertise area must have both languages');
+ assert.deepEqual(page.title, page.hero.title, 'Expertise page titles must agree');
+}
+console.log('OK — eight distinct areas, Initiatives, exact YIDA-Cashew spelling and programme content on page.');

@@ -3,10 +3,12 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { createContactHandler } from './contact-handler.mjs';
+import { createHomeContentHandler } from './home-content.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../public/', import.meta.url)));
 const types = { '.pdf': 'application/pdf', '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
 const handleContact = createContactHandler();
+const handleHomeContent = createHomeContentHandler();
 const maquetteRoutes = new Map([
   ['/apropos.html', 'a-propos'],
   ['/expertises.html', 'expertises'],
@@ -16,6 +18,8 @@ const maquetteRoutes = new Map([
   ['/climat-economie-verte.html', 'pole-4'],
   ['/incubation-agritech.html', 'pole-5'],
   ['/conseil-mecanisation.html', 'pole-6'],
+  ['/experts-services.html', 'pole-7'],
+  ['/mecanisation-agricole.html', 'pole-8'],
   ['/programmes.html', 'fellowship'],
   ['/fellowship.html', 'fellowship'],
   ['/fellowship-concept.html', 'fellowship'],
@@ -27,6 +31,10 @@ const maquetteRoutes = new Map([
 ]);
 const server = http.createServer(async (req, res) => {
   const requestUrl = new URL(req.url, 'http://localhost');
+  if (requestUrl.pathname.toLowerCase() === '/documents/revue-yida-cashew-n01.pdf') {
+    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' }).end('404 — Document indisponible');
+    return;
+  }
   if (requestUrl.pathname === '/api/contact') {
     try {
       await handleContact(req, res);
@@ -43,6 +51,11 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ error: 'internal_error' }));
       }
     }
+    return;
+  }
+
+  if (requestUrl.pathname === '/api/home-content') {
+    await handleHomeContent(req, res);
     return;
   }
 

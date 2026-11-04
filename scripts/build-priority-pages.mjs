@@ -1,3 +1,4 @@
+import { expertiseAreas } from './editorial-content.mjs';
 import { writeFile } from 'node:fs/promises';
 
 const root = new URL('../public/', import.meta.url);
@@ -15,68 +16,11 @@ const image = (src, fr, en, className = '') => {
 const link = (href, fr, en, className = 'button') =>
   `<a class="${className}" href="${href}" data-fr="${escape(fr)}" data-en="${escape(en)}">${escape(fr)}</a>`;
 
-const expertise = [
-  {
-    id: 'pole-1',
-    image: 'pole-01.webp',
-    fr: 'Formation, emploi et talents numériques',
-    en: 'Digital training, employment and talent',
-    altFr: 'Formation de jeunes aux outils numériques.',
-    altEn: 'Young people learning digital tools.',
-    descriptionFr: 'Formation, certification, placement et renforcement des capacités numériques.',
-    descriptionEn: 'Training, certification, placement and digital capacity building.',
-  },
-  {
-    id: 'pole-2',
-    image: 'pole-02.webp',
-    fr: 'SI agricoles et gouvernance des données',
-    en: 'Agricultural information systems and data governance',
-    altFr: 'Outils numériques et collecte de données sur le terrain.',
-    altEn: 'Digital tools and field data collection.',
-    descriptionFr: 'Diagnostic, cartographie, applications, portails et politiques de gouvernance des données.',
-    descriptionEn: 'Diagnostics, data mapping, applications, portals and data governance policies.',
-  },
-  {
-    id: 'pole-3',
-    image: 'pole-03.webp',
-    fr: 'IA et Data Analytics',
-    en: 'AI and data analytics',
-    altFr: 'Analyse visuelle de données agricoles.',
-    altEn: 'Visual analysis of agricultural data.',
-    descriptionFr: 'Prévisions de prix et de rendements, aide à la décision, tableaux de bord et publications.',
-    descriptionEn: 'Price and yield forecasting, decision support, dashboards and publications.',
-  },
-  {
-    id: 'pole-4',
-    image: 'pole-04.webp',
-    fr: 'Climat, économie verte et finance climatique',
-    en: 'Climate, green economy and climate finance',
-    altFr: 'Suivi d’une exploitation agricole avec des outils numériques.',
-    altEn: 'Monitoring a farm with digital tools.',
-    descriptionFr: 'Mesure, carbone, ESG, traçabilité, finance verte, risques et adaptation.',
-    descriptionEn: 'Measurement, carbon, ESG, traceability, green finance, risks and adaptation.',
-  },
-  {
-    id: 'pole-5',
-    image: 'pole-05.webp',
-    fr: 'Incubation et startups agri-tech',
-    en: 'Agri-tech incubation and startups',
-    altFr: 'Équipe travaillant sur une solution agricole innovante.',
-    altEn: 'A team working on an agricultural innovation.',
-    descriptionFr: 'Modèles d’affaires, incubation, accélération, mentorat et mise en relation.',
-    descriptionEn: 'Business models, incubation, acceleration, mentoring and connections.',
-  },
-  {
-    id: 'pole-6',
-    image: 'pole-08.webp',
-    fr: 'Conseil stratégique, études et mécanisation',
-    en: 'Strategic consulting, studies and mechanization',
-    altFr: 'Matériel de mécanisation dans une exploitation agricole.',
-    altEn: 'Mechanization equipment on a farm.',
-    descriptionFr: 'Diagnostics, faisabilité, politiques de digitalisation, études de marché et mécanisation.',
-    descriptionEn: 'Diagnostics, feasibility, digitalization policies, market studies and mechanization.',
-  },
-];
+const expertise = expertiseAreas.map((item, index) => ({
+  id: item.slug, image: 'pole-' + ['01','02','03','04','05','05','01','08'][index] + '.webp',
+  fr: item.titleFr, en: item.titleEn, altFr: 'Illustration : ' + item.titleFr, altEn: 'Illustration: ' + item.titleEn,
+  descriptionFr: item.textFr, descriptionEn: item.textEn,
+}));
 
 const nav = [
   ['index.html', 'Accueil', 'Home'],
@@ -105,16 +49,16 @@ const pages = [
       <div class="intro-heading"><p class="eyebrow">AGROPULSE GLOBAL SOLUTIONS</p><h2 data-fr="Le numérique au service des filières agricoles." data-en="Digital solutions for agricultural value chains.">Le numérique au service des filières agricoles.</h2></div>
       <div class="intro-copy"><p data-fr="Conseil et solutions numériques pour accompagner la transformation digitale et verte de l’agriculture." data-en="Consulting and digital solutions supporting the digital and green transformation of agriculture.">Conseil et solutions numériques pour accompagner la transformation digitale et verte de l’agriculture.</p><p class="location-note" data-fr="Pays d’intervention indiqués : Côte d’Ivoire, Sénégal et Guinée-Bissau." data-en="Countries of intervention listed: Côte d’Ivoire, Senegal and Guinea-Bissau.">Pays d’intervention indiqués : Côte d’Ivoire, Sénégal et Guinée-Bissau.</p></div>
     </section>
-    <section class="page-band"><div class="content-wrap page-band-inner"><p class="eyebrow" data-fr="NOTRE APPROCHE" data-en="OUR APPROACH">NOTRE APPROCHE</p><h2 data-fr="Conseil · données · innovation" data-en="Consulting · data · innovation">Conseil · données · innovation</h2><p data-fr="Une offre articulée autour de six pôles complémentaires, présentés sur la page Expertises." data-en="An offer built around six complementary areas of expertise, presented on the Expertise page.">Une offre articulée autour de six pôles complémentaires, présentés sur la page Expertises.</p>${link('expertises.html', 'Découvrir les expertises ↗', 'Explore our expertise ↗')}</div></section>`,
+    <section class="page-band"><div class="content-wrap page-band-inner"><p class="eyebrow" data-fr="NOTRE APPROCHE" data-en="OUR APPROACH">NOTRE APPROCHE</p><h2 data-fr="Conseil · données · innovation" data-en="Consulting · data · innovation">Conseil · données · innovation</h2><p data-fr="Une offre articulée autour de huit pôles complémentaires, présentés sur la page Expertises." data-en="An offer built around eight complementary areas of expertise, presented on the Expertise page.">Une offre articulée autour de huit pôles complémentaires, présentés sur la page Expertises.</p>${link('expertises.html', 'Découvrir les expertises ↗', 'Explore our expertise ↗')}</div></section>`,
   },
   {
     file: 'expertises.html',
     titleFr: 'Expertises',
     titleEn: 'Expertise',
-    descFr: 'Les six pôles d’expertise d’AgroPulse Global Solutions.',
-    descEn: 'The six areas of expertise at AgroPulse Global Solutions.',
-    heroFr: 'Six pôles complémentaires.',
-    heroEn: 'Six complementary areas of expertise.',
+    descFr: 'Les huit pôles d’expertise d’AgroPulse Global Solutions.',
+    descEn: 'The eight areas of expertise at AgroPulse Global Solutions.',
+    heroFr: 'Huit pôles complémentaires.',
+    heroEn: 'Eight complementary areas of expertise.',
     introFr: 'Des compétences en formation, données, climat, innovation et conseil stratégique pour les filières agricoles.',
     introEn: 'Expertise in training, data, climate, innovation and strategic consulting for agricultural value chains.',
     heroImage: 'pole-03.webp',
@@ -140,7 +84,7 @@ const pages = [
     heroAltFr: 'Formation aux outils numériques.',
     heroAltEn: 'Training in digital tools.',
     sections: `<section class="program-section content-wrap page-program">
-      <article class="program-card fellowship-card"><p class="program-label">FELLOWSHIP · YIDA-CASHEW</p><h2 data-fr="Apprendre et développer des compétences." data-en="Learn and build skills.">Apprendre et développer des compétences.</h2><p data-fr="Le cahier des charges prévoit 2 à 3 mois de formation. Les informations disponibles mentionnent également la certification et un accompagnement vers l’emploi, sans garantie d’embauche." data-en="The requirements describe two to three months of training. Available information also mentions certification and support towards employment, without a job guarantee.">Le cahier des charges prévoit 2 à 3 mois de formation. Les informations disponibles mentionnent également la certification et un accompagnement vers l’emploi, sans garantie d’embauche.</p><p class="status-label"><span class="status-dot" aria-hidden="true"></span><span data-fr="Candidatures fermées · calendrier et critères à confirmer" data-en="Applications closed · schedule and criteria to be confirmed">Candidatures fermées · calendrier et critères à confirmer</span></p></article>
+      <article class="program-card fellowship-card"><p class="program-label">FELLOWSHIP · YIDA-Cashew</p><h2 data-fr="Apprendre et développer des compétences." data-en="Learn and build skills.">Apprendre et développer des compétences.</h2><p data-fr="Le cahier des charges prévoit 2 à 3 mois de formation. Les informations disponibles mentionnent également la certification et un accompagnement vers l’emploi, sans garantie d’embauche." data-en="The requirements describe two to three months of training. Available information also mentions certification and support towards employment, without a job guarantee.">Le cahier des charges prévoit 2 à 3 mois de formation. Les informations disponibles mentionnent également la certification et un accompagnement vers l’emploi, sans garantie d’embauche.</p><p class="status-label"><span class="status-dot" aria-hidden="true"></span><span data-fr="Candidatures fermées · calendrier et critères à confirmer" data-en="Applications closed · schedule and criteria to be confirmed">Candidatures fermées · calendrier et critères à confirmer</span></p></article>
     </section><section class="page-band"><div class="content-wrap page-band-inner"><p class="eyebrow" data-fr="POUR EN SAVOIR PLUS" data-en="FIND OUT MORE">POUR EN SAVOIR PLUS</p><h2 data-fr="Une question sur le programme ?" data-en="Questions about the program?">Une question sur le programme ?</h2>${link('contact.html', 'Contacter AgroPulse ↗', 'Contact AgroPulse ↗')}</div></section>`,
   },
   {

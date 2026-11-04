@@ -101,6 +101,23 @@ La langue du profil détermine les menus et les libellés personnalisés (franç
 
 Vérifications complémentaires : `node pilot/tools/test-simple-entry.mjs` (13 assertions) et `node pilot/tools/test-editorial-ui.mjs` (14 assertions, Playwright/Edge requis). Preuves datées dans `pilot/evidence/`, avec `completed: true`. L’essai visuel modifie uniquement la page fictive et remet la préférence de langue à sa valeur initiale.
 
+## Connexion de l’accueil maquette (pilote local uniquement)
+
+Le site public existant peut lire le titre et l’introduction publiés de la page `home` via le serveur Node ; le pilote Next.js reste indépendant. Pour vérifier le parcours complet sans exposer de contenu fictif publiquement, démarrer d’abord le CMS et le serveur AgroPulse sur loopback, après `node pilot/tools/test-content-models.mjs` :
+
+```powershell
+$fixture = Get-Content pilot/.local/content-fixtures.json | ConvertFrom-Json
+$token = Get-Content pilot/.local/content-read-token.json | ConvertFrom-Json
+$env:HOST = '127.0.0.1'
+$env:PORT = '4175'
+$env:AGROPULSE_CMS_URL = 'http://127.0.0.1:1338'
+$env:AGROPULSE_CMS_HOME_DOCUMENT_ID = $fixture.page
+$env:AGROPULSE_CMS_READ_TOKEN = $token.accessKey
+node scripts/serve.mjs
+```
+
+Dans un autre terminal, exécuter `node pilot/tools/test-home-connection.mjs`. Le contrôle modifie uniquement la page fictive de la base locale, vérifie que l’Éditeur ne publie pas et que le brouillon reste invisible, puis publie FR/EN avec le Publieur et relit le contenu depuis le serveur du site. Les valeurs d’environnement ci-dessus sont réservées à cette instance locale ; ne pas les recopier dans l’environnement institutionnel.
+
 ## Accueil issu de la maquette
 
 La racine redirige maintenant vers `/fr` ; l’accueil anglais est `/en`. Les anciennes adresses du pilote d’expertise restent disponibles. L’accueil reprend le logo, les images, la palette et la structure principale de la dernière maquette. Le menu mobile et la navigation par ancres sont réalisés en React. Ce premier lot ne comprend pas les simulations, le jeu ni le globe interactif.
