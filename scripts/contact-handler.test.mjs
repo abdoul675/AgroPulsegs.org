@@ -57,14 +57,14 @@ test('sends each supported request category to the configured recipient', async 
   });
 
   await withServer((req, res) => void handler(req, res), async base => {
-    for (const type of ['contact', 'partnership', 'training', 'quote']) {
+    for (const type of ['contact', 'partnership', 'training', 'quote', 'resources']) {
       const response = await request(`${base}/api/contact`, { ...validSubmission, type });
       assert.equal(response.status, 200);
       assert.deepEqual(await response.json(), { ok: true });
     }
   });
 
-  assert.equal(sent.length, 4);
+  assert.equal(sent.length, 5);
   for (const { url, options, payload } of sent) {
     assert.equal(url, 'https://api.resend.com/emails');
     assert.equal(options.headers.Authorization, 'Bearer test-key');
@@ -72,6 +72,33 @@ test('sends each supported request category to the configured recipient', async 
     assert.equal(payload.reply_to, validSubmission.email);
   }
   assert.match(sent[0].payload.text, /Contact général/u);
+  assert.match(sent[4].payload.subject, /Demande d’information sur les ressources/u);
+});
+
+test('accepts a resource notification request with only email and consent', async () => {
+  let sentEmail;
+  const handler = createContactHandler({
+    env: mailEnvironment,
+    fetchImpl: async (_url, options) => {
+      sentEmail = JSON.parse(options.body);
+      return new Response(null, { status: 200 });
+    },
+  });
+
+  await withServer((req, res) => void handler(req, res), async base => {
+    const response = await request(`${base}/api/contact`, {
+      email: 'reader@example.org',
+      type: 'resources',
+      locale: 'fr',
+      consent: true,
+    });
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), { ok: true });
+  });
+
+  assert.equal(sentEmail.reply_to, 'reader@example.org');
+  assert.match(sentEmail.text, /Demande à être informé/u);
+  assert.match(sentEmail.text, /Name: —/u);
 });
 
 test('does not send email or expose credentials when delivery is not configured', async () => {

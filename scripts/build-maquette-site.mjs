@@ -385,6 +385,65 @@ requestForm.fields = [
   { name: 'consent', label: localized('J’accepte que mes informations soient transmises à AgroPulse pour le traitement de ma demande.', 'I agree that my information may be sent to AgroPulse to handle my request.'), type: 'checkbox', required: true },
 ];
 
+const partners = pages.partenaires;
+if (!partners) throw new Error('Missing Partners page in the design page.');
+partners.hero.lead = paragraphs(
+  'Vous souhaitez collaborer avec AgroPulse ? Présentez votre organisation et votre proposition via le formulaire.',
+  'Interested in working with AgroPulse? Tell us about your organisation and proposal using the form.',
+);
+partners.hero.ctas = [{
+  label: localized('Devenir partenaire', 'Become a partner'),
+  to: '#sec-form',
+}];
+const partnerSteps = getSection(partners, 'etapes');
+partnerSteps.title = localized('Une démarche de partenariat', 'A partnership process');
+setGroups(partnerSteps, [
+  { titleFr: 'Prise de contact', titleEn: 'Initial contact', textFr: 'Présentez votre organisation et votre proposition.', textEn: 'Introduce your organisation and proposal.' },
+  { titleFr: 'Échange', titleEn: 'Discussion', textFr: 'Les modalités sont examinées avec AgroPulse.', textEn: 'Potential arrangements are discussed with AgroPulse.' },
+  { titleFr: 'Suite à convenir', titleEn: 'Next steps', textFr: 'Les étapes sont définies selon le projet.', textEn: 'Next steps are agreed according to the project.' },
+]);
+const partnerForm = getSection(partners, 'form');
+partnerForm.title = localized('Présenter une demande de partenariat', 'Submit a partnership enquiry');
+partnerForm.lead = paragraphs(
+  'Votre demande sera transmise à AgroPulse. Les modalités d’un partenariat seront discutées directement.',
+  'Your enquiry will be sent to AgroPulse. Partnership arrangements will be discussed directly.',
+);
+partnerForm.button = localized('Envoyer ma demande', 'Send my enquiry');
+partnerForm.success = localized('Votre demande a bien été transmise à AgroPulse.', 'Your enquiry has been sent to AgroPulse.');
+partnerForm.fields = [
+  { name: 'name', label: localized('Nom complet *', 'Full name *'), type: 'text', placeholder: localized('Votre nom', 'Your name'), required: true },
+  { name: 'email', label: localized('Adresse e-mail *', 'Email address *'), type: 'email', placeholder: localized('nom@organisation.org', 'name@organization.org'), required: true },
+  { name: 'organization', label: localized('Organisation (facultatif)', 'Organization (optional)'), type: 'text', placeholder: localized('Nom de votre organisation', 'Organization name'), required: false },
+  { name: 'message', label: localized('Votre proposition *', 'Your proposal *'), type: 'textarea', placeholder: localized('Présentez brièvement votre organisation et votre proposition...', 'Briefly describe your organisation and proposal...'), required: true },
+  { name: 'consent', label: localized('J’accepte que mes informations soient transmises à AgroPulse pour le traitement de ma demande.', 'I agree that my information may be sent to AgroPulse to handle my enquiry.'), type: 'checkbox', required: true },
+];
+
+const resources = pages.ressources;
+if (!resources) throw new Error('Missing Resources page in the design page.');
+resources.hero.eyebrow = localized('En préparation', 'In preparation');
+resources.hero.lead = paragraphs(
+  'Les premières ressources AgroPulse sont en préparation. Elles seront publiées ici lorsqu’elles seront disponibles.',
+  'The first AgroPulse resources are being prepared. They will be published here when available.',
+);
+const resourceExamples = getSection(resources, 'exemples');
+resourceExamples.title = localized('Ressources à venir', 'Upcoming resources');
+resourceExamples.lead = paragraphs(
+  'Aucun document n’est encore disponible au téléchargement.',
+  'No documents are available for download yet.',
+);
+const resourceNotice = getSection(resources, 'notif');
+resourceNotice.title = localized('Demander à être informé(e)', 'Request an update');
+resourceNotice.lead = paragraphs(
+  'Transmettez votre adresse à AgroPulse pour exprimer votre intérêt. Cette demande ne vous inscrit pas automatiquement à une liste de diffusion.',
+  'Send your email to AgroPulse to express your interest. This request does not automatically subscribe you to a mailing list.',
+);
+resourceNotice.button = localized('Transmettre ma demande', 'Send my request');
+resourceNotice.success = localized('Votre demande a bien été transmise à AgroPulse.', 'Your request has been sent to AgroPulse.');
+resourceNotice.fields = [
+  { name: 'email', label: localized('Adresse e-mail *', 'Email address *'), type: 'email', placeholder: localized('votre.email@exemple.org', 'your.email@example.org'), required: true },
+  { name: 'consent', label: localized('J’accepte que mon adresse soit transmise à AgroPulse pour traiter cette demande.', 'I agree that my email may be sent to AgroPulse to handle this request.'), type: 'checkbox', required: true },
+];
+
 html = html.replace(dataPattern, (_match, openingTag, _contents, closingTag) =>
   `${openingTag}${JSON.stringify(pages)}${closingTag}`);
 html = html
@@ -431,13 +490,32 @@ if (!appScript.includes('value="${E(o.value||\'\')}">${E(tr(o))}')) {
     'select option values',
   );
 }
-if (!appScript.includes('const demo=()=>[\'contact\',\'fellowship\',\'agir-ia\']')) {
-  appScript = replaceOnce(
-    appScript,
-    'const demo=()=>SITE.settings&&SITE.settings.formEndpoint?',
-    'const demo=()=>[\'contact\',\'fellowship\',\'agir-ia\'].includes(CUR)&&SITE.settings&&SITE.settings.formEndpoint?',
-    'active form helper',
-  );
+const activeFormHelper = 'const demo=()=>[\'contact\',\'fellowship\',\'agir-ia\',\'partenaires\',\'ressources\']';
+if (!appScript.includes(activeFormHelper)) {
+  const malformedFormHelper = 'const demo()=>[\'contact\',\'fellowship\',\'agir-ia\',\'partenaires\',\'ressources\']';
+  const previousFormHelper = 'const demo=()=>[\'contact\',\'fellowship\',\'agir-ia\']';
+  if (appScript.includes(malformedFormHelper)) {
+    appScript = replaceOnce(
+      appScript,
+      malformedFormHelper,
+      activeFormHelper,
+      'active form helper',
+    );
+  } else if (appScript.includes(previousFormHelper)) {
+    appScript = replaceOnce(
+      appScript,
+      previousFormHelper,
+      'const demo=()=>[\'contact\',\'fellowship\',\'agir-ia\',\'partenaires\',\'ressources\']',
+      'active form helper',
+    );
+  } else {
+    appScript = replaceOnce(
+      appScript,
+      'const demo=()=>SITE.settings&&SITE.settings.formEndpoint?',
+      'const demo=()=>[\'contact\',\'fellowship\',\'agir-ia\',\'partenaires\',\'ressources\'].includes(CUR)&&SITE.settings&&SITE.settings.formEndpoint?',
+      'active form helper',
+    );
+  }
 }
 if (!appScript.includes('SITE.settings={formEndpoint:"/api/contact"};')) {
   appScript = replaceOnce(
@@ -445,6 +523,14 @@ if (!appScript.includes('SITE.settings={formEndpoint:"/api/contact"};')) {
     'CUR=null;',
     'CUR=null;SITE.settings={formEndpoint:"/api/contact"};',
     'server-side mail route setting',
+  );
+}
+if (!appScript.includes('SITE.partners=SITE.partners.filter(p=>p.status==="confirmed")')) {
+  appScript = replaceOnce(
+    appScript,
+    'SITE.settings={formEndpoint:"/api/contact"};',
+    'SITE.settings={formEndpoint:"/api/contact"};SITE.partners=SITE.partners.filter(p=>p.status==="confirmed").map(p=>({...p,projects:[]}));',
+    'confirmed partner data',
   );
 }
 let sendFormStart = appScript.indexOf('function sendForm(f,m){');
@@ -461,6 +547,8 @@ appScript = appScript.slice(0, sendFormStart) + `async function sendForm(f,m){
  let d;
  if(CUR==='contact')d={name:raw.name,email:raw.email,organization:raw.organization||'',type:raw.type,message:raw.message,consent:raw.consent==='on',locale};
  else if(CUR==='fellowship'||CUR==='agir-ia')d={name:CUR==='fellowship'?'Intérêt YIDA-Cashew':'Intérêt AGIR-IA',email:raw.email,organization:'',type:'training',message:CUR==='fellowship'?'Demande d’information sur le programme YIDA-Cashew.':'Demande d’information sur le programme AGIR-IA.',consent:raw.consent==='on',locale};
+ else if(CUR==='partenaires')d={name:raw.name,email:raw.email,organization:raw.organization||'',type:'partnership',message:raw.message,consent:raw.consent==='on',locale};
+ else if(CUR==='ressources')d={email:raw.email,type:'resources',consent:raw.consent==='on',locale};
  else{m.textContent=U('demo');m.className='msg';return}
  const ep=SITE.settings&&SITE.settings.formEndpoint;
  if(!ep){m.textContent=U('demo');m.className='msg';return}

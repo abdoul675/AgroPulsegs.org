@@ -2,19 +2,21 @@ const MAX_BODY_BYTES = 16 * 1024;
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT = 5;
 const EMAIL_PATTERN = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/u;
-const REQUEST_TYPES = new Set(['contact', 'partnership', 'training', 'quote']);
+const REQUEST_TYPES = new Set(['contact', 'partnership', 'training', 'quote', 'resources']);
 const TYPE_LABELS = {
   fr: {
     contact: 'Contact général',
     partnership: 'Demande de partenariat',
     training: 'Formation / YIDA-Cashew / AGIR-IA',
     quote: 'Demande de devis',
+    resources: 'Demande d’information sur les ressources',
   },
   en: {
     contact: 'General enquiry',
     partnership: 'Partnership enquiry',
     training: 'Training / YIDA-Cashew / AGIR-IA',
     quote: 'Quote request',
+    resources: 'Resources information request',
   },
 };
 
@@ -80,15 +82,21 @@ function validateSubmission(input) {
   const message = typeof input.message === 'string' ? input.message.trim() : '';
   const type = input.type;
   const locale = input.locale;
+  const resourcesRequest = type === 'resources';
 
   if (input.consent !== true) return null;
-  if (name.length < 1 || name.length > 120 || /[\u0000-\u001f\u007f]/u.test(name)) return null;
+  if ((!resourcesRequest && name.length < 1) || name.length > 120 || /[\u0000-\u001f\u007f]/u.test(name)) return null;
   if (email.length > 254 || !EMAIL_PATTERN.test(email)) return null;
   if (organization.length > 160 || /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(organization)) return null;
-  if (message.length < 1 || message.length > 5000 || /[\u0000\u0008\u000b\u000c\u000e\u007f]/u.test(message)) return null;
+  if ((!resourcesRequest && message.length < 1) || message.length > 5000 || /[\u0000\u0008\u000b\u000c\u000e\u007f]/u.test(message)) return null;
   if (!REQUEST_TYPES.has(type) || !['fr', 'en'].includes(locale)) return null;
 
-  return { name, email, organization, message, type, locale };
+  const requestMessage = resourcesRequest
+    ? locale === 'fr'
+      ? 'Demande à être informé(e) de la publication des ressources AgroPulse.'
+      : 'Request to be notified when AgroPulse resources are published.'
+    : message;
+  return { name, email, organization, message: requestMessage, type, locale };
 }
 
 function escapeHtml(value) {
@@ -137,16 +145,17 @@ function allowSubmission(req, limits, now) {
 
 function buildEmail(submission) {
   const label = TYPE_LABELS[submission.locale][submission.type];
+  const name = submission.name || '—';
   const lines = [
     `Type: ${label}`,
-    `Name: ${submission.name}`,
+    `Name: ${name}`,
     `Email: ${submission.email}`,
     `Organization: ${submission.organization || '—'}`,
     '',
     submission.message,
   ];
   const text = lines.join('\n');
-  const html = `<h2>${escapeHtml(label)}</h2><dl><dt>Name</dt><dd>${escapeHtml(submission.name)}</dd><dt>Email</dt><dd>${escapeHtml(submission.email)}</dd><dt>Organization</dt><dd>${escapeHtml(submission.organization || '—')}</dd></dl><p>${escapeHtml(submission.message).replace(/\n/gu, '<br>')}</p>`;
+  const html = `<h2>${escapeHtml(label)}</h2><dl><dt>Name</dt><dd>${escapeHtml(name)}</dd><dt>Email</dt><dd>${escapeHtml(submission.email)}</dd><dt>Organization</dt><dd>${escapeHtml(submission.organization || '—')}</dd></dl><p>${escapeHtml(submission.message).replace(/\n/gu, '<br>')}</p>`;
   return { label, text, html };
 }
 

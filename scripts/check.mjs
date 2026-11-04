@@ -22,7 +22,7 @@ const maquetteData=html.match(/<script id="pages-data" type="application\/json">
 assert.ok(maquetteData,'Maquette content must be embedded as JSON');
 const maquettePages=JSON.parse(maquetteData[1]);
 const getSection=(page,id)=>maquettePages[page].sections.find(section=>section.id===id);
-for(const name of ['accueil','expertises','a-propos','fellowship','agir-ia','contact'])assert.ok(maquettePages[name],`Missing maquette page ${name}`);
+for(const name of ['accueil','expertises','a-propos','fellowship','agir-ia','contact','partenaires','ressources'])assert.ok(maquettePages[name],`Missing maquette page ${name}`);
 assert.equal(getSection('accueil','poles').groups.length,6,'Homepage must show the six validated expertise areas');
 assert.equal(getSection('expertises','poles').groups.length,6,'Expertise page must show the six validated areas');
 assert.match(JSON.stringify(maquettePages.fellowship), /Candidatures sont fermées|Applications are closed/u);
@@ -31,6 +31,13 @@ assert.doesNotMatch(JSON.stringify(maquettePages.contact), /\[adresse à complé
 const requestFields=getSection('contact','form').fields;
 assert.deepEqual(requestFields.filter(field=>field.name==='type')[0].options.map(option=>option.value),['','contact','partnership','training','quote']);
 assert.ok(requestFields.some(field=>field.name==='consent'&&field.required),'Contact form must require consent');
+const partnerForm=getSection('partenaires','form');
+assert.deepEqual(partnerForm.fields.map(field=>field.name),['name','email','organization','message','consent']);
+assert.equal(maquettePages.partenaires.hero.ctas[0].to,'#sec-form','Partner call to action must target its form');
+assert.match(html,/SITE\.partners=SITE\.partners\.filter\(p=>p\.status==="confirmed"\)/u,'Partner map must hide unconfirmed placeholder entries');
+const resourceForm=getSection('ressources','notif');
+assert.deepEqual(resourceForm.fields.map(field=>field.name),['email','consent']);
+assert.match(JSON.stringify(resourceForm.lead),/not automatically subscribe|ne vous inscrit pas automatiquement/u);
 const imageReferences=new Set([...html.matchAll(/assets\/maquette\/([a-f0-9]{20}\.(?:webp|png))/gu)].map(match=>match[1]));
 for(const image of imageReferences)await access(new URL(`assets/maquette/${image}`,root));
 assert.ok(!app.includes('fetch('),'This preview must not send requests');
