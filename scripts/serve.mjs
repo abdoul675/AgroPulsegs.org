@@ -10,9 +10,20 @@ const handleContact = createContactHandler();
 const maquetteRoutes = new Map([
   ['/apropos.html', 'a-propos'],
   ['/expertises.html', 'expertises'],
+  ['/formation-talents.html', 'pole-1'],
+  ['/systemes-donnees.html', 'pole-2'],
+  ['/ia-analytics.html', 'pole-3'],
+  ['/climat-economie-verte.html', 'pole-4'],
+  ['/incubation-agritech.html', 'pole-5'],
+  ['/conseil-mecanisation.html', 'pole-6'],
+  ['/programmes.html', 'fellowship'],
+  ['/fellowship.html', 'fellowship'],
+  ['/fellowship-concept.html', 'fellowship'],
   ['/yida-cashew.html', 'fellowship'],
   ['/agir-ia.html', 'agir-ia'],
   ['/contact.html', 'contact'],
+  ['/partenaires.html', 'partenaires'],
+  ['/ressources.html', 'ressources'],
 ]);
 const server = http.createServer(async (req, res) => {
   const requestUrl = new URL(req.url, 'http://localhost');

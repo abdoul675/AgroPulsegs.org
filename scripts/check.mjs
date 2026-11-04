@@ -7,6 +7,7 @@ const app=await readFile(new URL('app.js',root),'utf8');
 const homepageScript=await readFile(new URL('homepage.js',root),'utf8');
 const sitePagesScript=await readFile(new URL('site-pages.js',root),'utf8');
 const contactHandler=await readFile(new URL('../scripts/contact-handler.mjs',import.meta.url),'utf8');
+const server=await readFile(new URL('../scripts/serve.mjs',import.meta.url),'utf8');
 const data=app.slice(0,app.indexOf('let language ='));
 const {copy}=vm.runInNewContext(`${data}\n({copy})`);
 for(const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gu)){
@@ -44,6 +45,16 @@ assert.ok(!app.includes('fetch('),'This preview must not send requests');
 assert.ok(!homepageScript.includes('fetch('),'The homepage preview must not send requests');
 assert.ok(sitePagesScript.includes("fetch('/api/contact'"),'Contact form must submit to the server API');
 for(const name of ['AGROPULSE_RECIPIENT_EMAIL','EMAIL_FROM','RESEND_API_KEY'])assert.ok(contactHandler.includes(name),`Email handler must read ${name} from the server environment`);
+for(const [route,slug] of [
+ ['/apropos.html','a-propos'],['/expertises.html','expertises'],
+ ['/formation-talents.html','pole-1'],['/systemes-donnees.html','pole-2'],
+ ['/ia-analytics.html','pole-3'],['/climat-economie-verte.html','pole-4'],
+ ['/incubation-agritech.html','pole-5'],['/conseil-mecanisation.html','pole-6'],
+ ['/programmes.html','fellowship'],['/fellowship.html','fellowship'],
+ ['/fellowship-concept.html','fellowship'],['/yida-cashew.html','fellowship'],
+ ['/agir-ia.html','agir-ia'],['/contact.html','contact'],
+ ['/partenaires.html','partenaires'],['/ressources.html','ressources'],
+])assert.ok(server.includes(`['${route}', '${slug}']`),`Legacy route ${route} must redirect to the current ${slug} section`);
 assert.match(html, /\/api\/contact/u,'Maquette forms must use the email API');
 for(const secret of ['RESEND_API_KEY','AGROPULSE_RECIPIENT_EMAIL'])assert.ok(!html.includes(secret),`No server setting ${secret} may appear in the public page`);
 assert.ok(!sitePagesScript.includes('RESEND_API_KEY'),'No mail service key may appear in public scripts');

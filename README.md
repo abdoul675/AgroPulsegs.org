@@ -13,7 +13,7 @@ npm run dev
 
 Ouvrir `http://127.0.0.1:4173`. Lancer `npm run start` sur un hébergement Node.js. Vérifications : `npm run check`.
 
-`npm run build` met à jour les pages bilingues ainsi que les contenus de la maquette approuvée. La page d’accueil et les pages prioritaires utilisent le fichier de maquette comme interface unique ; les URL historiques redirigent vers les sections correspondantes.
+`npm run build` met à jour les contenus de la maquette approuvée et les pages HTML conservées pour compatibilité. La maquette est l’interface unique ; les anciennes URL de programmes et d’expertises redirigent vers les sections correspondantes. Le serveur requiert Node.js 20 ou supérieur et doit être démarré avec `npm run start`.
 
 ## Périmètre actuel
 
