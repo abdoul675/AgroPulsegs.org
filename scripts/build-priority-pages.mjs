@@ -169,22 +169,23 @@ const pages = [
     descEn: 'Contact AgroPulse Global Solutions about your project.',
     heroFr: 'Parlons de votre projet.',
     heroEn: 'Let’s discuss your project.',
-    introFr: 'Présentez votre besoin et préparez un brouillon de demande. Dans cette version, rien n’est transmis.',
-    introEn: 'Describe your needs and prepare a request draft. Nothing is sent in this version.',
+    introFr: 'Choisissez le type de demande et écrivez-nous. Votre message est transmis à AgroPulse par e-mail.',
+    introEn: 'Choose a request type and write to us. Your message is sent to AgroPulse by email.',
     heroImage: 'pole-05.webp',
     heroAltFr: 'Échange autour d’un projet agricole.',
     heroAltEn: 'A discussion about an agricultural project.',
     sections: `<section class="contact-section content-wrap page-contact">
-      <div><p class="eyebrow" data-fr="VOTRE DEMANDE" data-en="YOUR REQUEST">VOTRE DEMANDE</p><h2 data-fr="Préparer un message pour AgroPulse" data-en="Prepare a message for AgroPulse">Préparer un message pour AgroPulse</h2><p class="contact-note" data-fr="Les coordonnées officielles et le destinataire des demandes restent à confirmer. Ce formulaire prépare un brouillon local et n’envoie aucun message." data-en="Official contact details and request recipients are still to be confirmed. This form prepares a local draft and sends no message.">Les coordonnées officielles et le destinataire des demandes restent à confirmer. Ce formulaire prépare un brouillon local et n’envoie aucun message.</p></div>
+      <div><p class="eyebrow" data-fr="VOTRE DEMANDE" data-en="YOUR REQUEST">VOTRE DEMANDE</p><h2 data-fr="Écrire à AgroPulse" data-en="Write to AgroPulse">Écrire à AgroPulse</h2><p class="contact-note" data-fr="Les demandes sont transmises à AgroPulse par e-mail pour traitement. Les coordonnées destinataires sont configurées hors du site." data-en="Requests are sent to AgroPulse by email for handling. Recipient details are configured outside the website.">Les demandes sont transmises à AgroPulse par e-mail pour traitement. Les coordonnées destinataires sont configurées hors du site.</p></div>
       <form class="request-form" id="request-form">
         <label for="contact-name" data-fr="Nom" data-en="Name">Nom</label><input id="contact-name" name="name" autocomplete="name" required>
         <label for="contact-email" data-fr="Adresse e-mail" data-en="Email address">Adresse e-mail</label><input id="contact-email" name="email" type="email" autocomplete="email" required>
         <label for="contact-organization" data-fr="Organisation (facultatif)" data-en="Organization (optional)">Organisation (facultatif)</label><input id="contact-organization" name="organization" autocomplete="organization">
-        <label for="contact-type" data-fr="Objet de la demande" data-en="Request type">Objet de la demande</label><select id="contact-type" name="type"><option value="contact" data-fr="Prise de contact" data-en="General enquiry">Prise de contact</option><option value="quote" data-fr="Demande de devis" data-en="Quote request">Demande de devis</option></select>
+        <label for="contact-type" data-fr="Objet de la demande" data-en="Request type">Objet de la demande</label><select id="contact-type" name="type"><option value="contact" data-fr="Contact général" data-en="General enquiry">Contact général</option><option value="partnership" data-fr="Demande de partenariat" data-en="Partnership enquiry">Demande de partenariat</option><option value="training" data-fr="Formation / YIDA-Cashew" data-en="Training / YIDA-Cashew">Formation / YIDA-Cashew</option><option value="quote" data-fr="Demande de devis" data-en="Quote request">Demande de devis</option></select>
         <label for="contact-message" data-fr="Votre message" data-en="Your message">Votre message</label><textarea id="contact-message" name="message" rows="5" maxlength="5000" required></textarea>
-        <button class="button button-light" type="submit" data-fr="Préparer le brouillon" data-en="Prepare draft">Préparer le brouillon</button>
+        <div class="honeypot" aria-hidden="true"><label for="contact-website">Website</label><input id="contact-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <label class="consent-label"><input type="checkbox" name="consent" required><span data-fr="J’accepte que ces informations soient transmises à AgroPulse pour le traitement de ma demande." data-en="I agree that this information may be sent to AgroPulse to handle my request.">J’accepte que ces informations soient transmises à AgroPulse pour le traitement de ma demande.</span></label>
+        <button class="button button-light" type="submit" data-fr="Envoyer ma demande" data-en="Send my request">Envoyer ma demande</button>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        <label for="request-draft" data-fr="Brouillon à copier" data-en="Draft to copy" hidden id="draft-label">Brouillon à copier</label><textarea id="request-draft" readonly hidden rows="7"></textarea>
       </form>
     </section>`,
   },

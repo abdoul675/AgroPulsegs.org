@@ -7,12 +7,13 @@ Site institutionnel français–anglais conservant le modèle de la page d’acc
 Node.js 20 ou supérieur, sans installation de dépendances :
 
 ```sh
+npm run build
 npm run dev
 ```
 
-Ouvrir `http://127.0.0.1:4173`. Vérifications : `npm run check`.
+Ouvrir `http://127.0.0.1:4173`. Lancer `npm run start` sur un hébergement Node.js. Vérifications : `npm run check`.
 
-`npm run build` régénère les pages internes statiques depuis `scripts/build-pages.mjs`, le header, le contact et le footer de l’accueil, et les contenus métier bilingues de `public/app.js`. Après modification des éléments partagés, relancer cette commande. Les pages générées sont livrées dans `public/` : aucun build n’est nécessaire sur l’hébergement.
+`npm run build` met à jour les pages bilingues ainsi que les contenus de la maquette approuvée. La page d’accueil et les pages prioritaires utilisent le fichier de maquette comme interface unique ; les URL historiques redirigent vers les sections correspondantes.
 
 ## Périmètre actuel
 
@@ -22,15 +23,15 @@ Le logo v2 reste une proposition à confirmer ; l’original est conservé dans 
 
 Les feuilles d’origine `public/styles.css` et `public/refinements.css` restent inchangées. `public/content-media.css` ajuste uniquement les images de remplacement et les contenus internes aux composants existants. Les nouvelles variantes de mise en page ont été retirées. Les maquettes de travail restent dans `.work/stitch-source/` ; elles ne sont pas déployées et leurs fonctionnalités non raccordées ne sont pas présentées comme actives.
 
-Aucun formulaire n’est transmis. Aucun CMS, collecte de candidature, newsletter, outil de suivi ou téléchargement de brochure n’est actif. Les coordonnées, services d’envoi et ressources doivent être validés avant raccordement. Le site n’est pas encore une version de production.
+Les formulaires de contact, d’intérêt pour YIDA-Cashew/AGIR-IA et de devis transmettent les demandes à l’API du serveur, qui les envoie par Resend. Configurer `AGROPULSE_RECIPIENT_EMAIL`, `EMAIL_FROM` (adresse d’envoi vérifiée par Resend) et `RESEND_API_KEY` dans l’environnement de déploiement ; `.env.example` ne contient que des valeurs vides et le serveur ne charge pas automatiquement les fichiers `.env`. Sans ces réglages, l’API répond que l’envoi n’est pas configuré. L’adresse officielle destinataire reste à confirmer.
 
 ## Organisation
 
-- `public/` : fichiers du site, directement déployables sur un hébergement statique.
-- `scripts/` : serveur de développement et vérifications de cohérence.
+- `public/` : fichiers front-end du site et visuels exportés à l’identique depuis la maquette.
+- `scripts/` : serveur Node.js, API de contact et vérifications.
 - `docs/` : document source, cahier des charges et chronogramme de trois semaines.
 
-Les textes et traductions restent à valider par Mme Hélène Nichy. Ne pas ajouter de secrets ou de données de candidature au dépôt. Le serveur local est réservé au développement.
+Les textes et traductions restent à valider par Mme Hélène Nichy. Ne pas ajouter de secrets ou de données de candidature au dépôt. Le déploiement doit prendre en charge le serveur Node.js, car l’envoi des formulaires ne fonctionne pas sur un hébergement statique seul.
 
 ## Pilote CMS local
 

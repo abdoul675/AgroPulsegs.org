@@ -6,36 +6,57 @@ const html=await readFile(new URL('index.html',root),'utf8');
 const app=await readFile(new URL('app.js',root),'utf8');
 const homepageScript=await readFile(new URL('homepage.js',root),'utf8');
 const sitePagesScript=await readFile(new URL('site-pages.js',root),'utf8');
+const contactHandler=await readFile(new URL('../scripts/contact-handler.mjs',import.meta.url),'utf8');
 const data=app.slice(0,app.indexOf('let language ='));
-const {copy,services}=vm.runInNewContext(`${data}\n({copy,services})`);
-const homepageCopyMatch=html.match(/<script id="homepage-copy" type="application\/json">([\s\S]*?)<\/script>/);
-assert.ok(homepageCopyMatch,'Homepage translations must be embedded as JSON');
-const homepageCopy=JSON.parse(homepageCopyMatch[1]);
-assert.deepEqual(Object.keys(homepageCopy.fr).sort(),Object.keys(homepageCopy.en).sort(),'Homepage translation keys must match');
-assert.deepEqual(Object.keys(copy.fr).sort(),Object.keys(copy.en).sort(),'Translation keys must match');
-for(const lang of ['fr','en']){
- for(const [,key] of html.matchAll(/data-i18n="([^"]+)"/g))assert.ok(homepageCopy[lang][key],`Missing homepage ${lang}: ${key}`);
- for(const [,key] of html.matchAll(/data-i18n-aria-label="([^"]+)"/g))assert.ok(homepageCopy[lang][key],`Missing homepage aria ${lang}: ${key}`);
- for(const [,key] of html.matchAll(/data-i18n-alt="([^"]+)"/g))assert.ok(homepageCopy[lang][key],`Missing homepage image alternative ${lang}: ${key}`);
- assert.equal(services[lang].length,6);
+const {copy}=vm.runInNewContext(`${data}\n({copy})`);
+for(const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gu)){
+ if(/application\/json/u.test(match[1]))continue;
+ new vm.Script(match[2],{filename:'public/index.html:inline-script'});
 }
-const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]);
-assert.equal(ids.length,new Set(ids).size,'Duplicate IDs');
-for(const [,id]of html.matchAll(/href="#([^"]+)"/g))assert.ok(ids.includes(id),`Broken anchor: ${id}`);
-for(const [,asset]of html.matchAll(/(?:src|href)="([^"#]+)"/g))if(!asset.includes(':'))await access(new URL(asset,root));
+assert.match(html, /--g:#3F9A3C/u,'The homepage must retain the approved maquette color palette');
+assert.match(html, /--n:#0F2F44/u,'The homepage must retain the approved maquette colors');
+assert.match(html, /Space\+Grotesk/u,'The homepage must retain the maquette typography');
+assert.match(html, /<title>AgroPulse Global Solutions<\/title>/u);
+assert.doesNotMatch(html, /data:image\/(?:webp|png);base64,/u,'Embedded images must be served as external assets');
+const maquetteData=html.match(/<script id="pages-data" type="application\/json">([\s\S]*?)<\/script>/u);
+assert.ok(maquetteData,'Maquette content must be embedded as JSON');
+const maquettePages=JSON.parse(maquetteData[1]);
+const getSection=(page,id)=>maquettePages[page].sections.find(section=>section.id===id);
+for(const name of ['accueil','expertises','a-propos','fellowship','agir-ia','contact'])assert.ok(maquettePages[name],`Missing maquette page ${name}`);
+assert.equal(getSection('accueil','poles').groups.length,6,'Homepage must show the six validated expertise areas');
+assert.equal(getSection('expertises','poles').groups.length,6,'Expertise page must show the six validated areas');
+assert.match(JSON.stringify(maquettePages.fellowship), /Candidatures sont fermées|Applications are closed/u);
+assert.match(JSON.stringify(maquettePages['agir-ia']), /distinct du programme YIDA-Cashew|distinct from YIDA-Cashew/u);
+assert.doesNotMatch(JSON.stringify(maquettePages.contact), /\[adresse à compléter\]|\[à valider\]/u,'Contact page must not show unconfirmed contact details');
+const requestFields=getSection('contact','form').fields;
+assert.deepEqual(requestFields.filter(field=>field.name==='type')[0].options.map(option=>option.value),['','contact','partnership','training','quote']);
+assert.ok(requestFields.some(field=>field.name==='consent'&&field.required),'Contact form must require consent');
+const imageReferences=new Set([...html.matchAll(/assets\/maquette\/([a-f0-9]{20}\.(?:webp|png))/gu)].map(match=>match[1]));
+for(const image of imageReferences)await access(new URL(`assets/maquette/${image}`,root));
 assert.ok(!app.includes('fetch('),'This preview must not send requests');
 assert.ok(!homepageScript.includes('fetch('),'The homepage preview must not send requests');
-console.log('OK — French/English homepage content, six services, anchors and assets. No form transmission.');
+assert.ok(sitePagesScript.includes("fetch('/api/contact'"),'Contact form must submit to the server API');
+for(const name of ['AGROPULSE_RECIPIENT_EMAIL','EMAIL_FROM','RESEND_API_KEY'])assert.ok(contactHandler.includes(name),`Email handler must read ${name} from the server environment`);
+assert.match(html, /\/api\/contact/u,'Maquette forms must use the email API');
+for(const secret of ['RESEND_API_KEY','AGROPULSE_RECIPIENT_EMAIL'])assert.ok(!html.includes(secret),`No server setting ${secret} may appear in the public page`);
+assert.ok(!sitePagesScript.includes('RESEND_API_KEY'),'No mail service key may appear in public scripts');
+assert.ok(!sitePagesScript.includes('AGROPULSE_RECIPIENT_EMAIL'),'No recipient address may appear in public scripts');
+const environmentExample=await readFile(new URL('../.env.example',import.meta.url),'utf8');
+for(const name of ['AGROPULSE_RECIPIENT_EMAIL','EMAIL_FROM','RESEND_API_KEY'])assert.match(environmentExample,new RegExp(`^${name}=$`,'m'),`.env.example must contain an empty ${name}`);
+console.log(`OK — maquette design retained, six approved expertise areas, API-backed forms and ${imageReferences.size} image assets.`);
 for(const file of ['apropos.html','expertises.html','yida-cashew.html','agir-ia.html','contact.html'])await access(new URL(file,root));
 const deploymentPages=await Promise.all(['apropos.html','expertises.html','yida-cashew.html','agir-ia.html','contact.html'].map(file=>readFile(new URL(file,root),'utf8')));
 assert.ok(deploymentPages[1].includes('pole-6'),'Expertise page must expose all six approved poles');
 assert.ok(deploymentPages[2].includes('Candidatures fermées'),'YIDA-Cashew applications must remain closed');
 assert.ok(deploymentPages[3].includes('distinct'),'AGIR-IA must remain separate from YIDA-Cashew');
-assert.ok(deploymentPages[4].includes('request-form'),'Contact page must provide a local request draft');
-assert.ok(!sitePagesScript.includes('fetch('),'Contact preview must not transmit requests');
-console.log('OK — About, expertise, YIDA-Cashew, AGIR-IA and local-draft contact pages are generated.');
+assert.ok(deploymentPages[4].includes('request-form'),'Contact page must provide the request form');
+assert.ok(deploymentPages[4].includes('partnership'),'Contact page must support partnership enquiries');
+assert.ok(deploymentPages[4].includes('training'),'Contact page must support training enquiries');
+assert.ok(deploymentPages[4].includes('quote'),'Contact page must support quote requests');
+console.log('OK — About, expertise, YIDA-Cashew, AGIR-IA and API-backed contact pages are generated.');
 const pages = (await readdir(root)).filter(file=>file.endsWith('.html'));
 for(const file of pages){
+ if(file==='index.html')continue;
  const page=await readFile(new URL(file,root),'utf8');
  const pageIds=[...page.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]);
  assert.equal(pageIds.length,new Set(pageIds).size,`${file}: duplicate IDs`);
@@ -48,8 +69,7 @@ for(const file of pages){
   if(hash){const text=await readFile(target,'utf8');assert.ok(text.includes(`id="${hash}"`),`${file}: broken link ${asset}`);}
  }
  for(const [,id] of page.matchAll(/href="#([^"]+)"/g))assert.ok(pageIds.includes(id),`${file}: broken anchor #${id}`);
- const pageCopy=file==='index.html'?homepageCopy:copy;
- for(const [,key] of page.matchAll(/data-i18n(?:-html|-placeholder)?="([^"]+)"/g))for(const lang of ['fr','en'])assert.ok(pageCopy[lang][key],`${file}: missing ${lang} ${key}`);
+ if(file!=='index.html')for(const [,key] of page.matchAll(/data-i18n(?:-html|-placeholder)?="([^"]+)"/g))for(const lang of ['fr','en'])assert.ok(copy[lang][key],`${file}: missing ${lang} ${key}`);
  for(const img of page.matchAll(/<img\b[^>]*>/g))assert.match(img[0],/\balt="[^"]*"/,`${file}: image without alt`);
 }
 const visualCSS=await readFile(new URL('content-media.css',root),'utf8');

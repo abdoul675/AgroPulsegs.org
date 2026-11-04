@@ -73,23 +73,65 @@ const contactForm = document.getElementById('request-form');
 if (contactForm) {
   contactForm.addEventListener('submit', event => {
     event.preventDefault();
-    const formData = new FormData(contactForm);
-    const draft = [
-      `Type: ${formData.get('type')}`,
-      `Name: ${formData.get('name')}`,
-      `Email: ${formData.get('email')}`,
-      `Organization: ${formData.get('organization') || '—'}`,
-      '',
-      String(formData.get('message')).trim(),
-    ].join('\n');
-
-    document.getElementById('request-draft').value = draft;
-    document.getElementById('request-draft').hidden = false;
-    document.getElementById('draft-label').hidden = false;
-    document.getElementById('form-status').textContent = language === 'fr'
-      ? 'Brouillon préparé sur cet appareil. Rien n’a été envoyé.'
-      : 'Draft prepared on this device. Nothing was sent.';
+    void submitContactForm(contactForm);
   });
+}
+
+async function submitContactForm(form) {
+  const submitButton = form.querySelector('button[type="submit"]');
+  const status = document.getElementById('form-status');
+  submitButton.disabled = true;
+  status.textContent = language === 'fr' ? 'Envoi en cours…' : 'Sending…';
+
+  const formData = new FormData(form);
+  const payload = {
+    name: formData.get('name'),
+    email: formData.get('email'),
+    organization: formData.get('organization'),
+    type: formData.get('type'),
+    message: formData.get('message'),
+    website: formData.get('website'),
+    consent: formData.get('consent') === 'on',
+    locale: language,
+  };
+
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify(payload),
+    });
+    const result = await response.json();
+
+    if (!response.ok || result.ok !== true) {
+      if (response.status === 429) {
+        status.textContent = language === 'fr'
+          ? 'Trop de tentatives. Veuillez réessayer un peu plus tard.'
+          : 'Too many attempts. Please try again later.';
+      } else if (response.status === 503) {
+        status.textContent = language === 'fr'
+          ? 'Le service de réception des demandes n’est pas encore configuré. Veuillez réessayer plus tard.'
+          : 'The request delivery service is not configured yet. Please try again later.';
+      } else {
+        status.textContent = language === 'fr'
+          ? 'L’envoi a échoué. Vérifiez le formulaire puis réessayez.'
+          : 'The request could not be sent. Check the form and try again.';
+      }
+      return;
+    }
+
+    form.reset();
+    status.textContent = language === 'fr'
+      ? 'Votre demande a bien été envoyée à AgroPulse.'
+      : 'Your request has been sent to AgroPulse.';
+  } catch {
+    status.textContent = language === 'fr'
+      ? 'Impossible de joindre le service. Vérifiez votre connexion puis réessayez.'
+      : 'The delivery service could not be reached. Check your connection and try again.';
+  } finally {
+    submitButton.disabled = false;
+  }
 }
 
 setLanguage(language);
