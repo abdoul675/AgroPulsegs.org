@@ -104,5 +104,16 @@
     "No full WCAG audit",
     "No target-host pg_dump/pg_restore test",
     "CMS dependency alerts remain"
-  ]
+  ],
+  "cleanExport": {
+    "localSecretsScan": "PASS 44 files",
+    "cmsBuildFromExport": "INTERRUPTED_LOCAL_RESOURCE_SLOWDOWN",
+    "idempotence": "PASS",
+    "cmsManifestLock": "MATCH",
+    "cmsDependencies": "Existing locked installation reused by junction; no independent npm ci",
+    "publicBrowserRoutes": "PASS FR/EN desktop/mobile",
+    "commit": "99900954a961b3607e0c33a032fff22b0c80a62b",
+    "websiteTests": 20,
+    "websiteBuild": "PASS"
+  }
 }

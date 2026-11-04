@@ -58,3 +58,11 @@ Les alertes CMS restantes nécessitent traitement ou acceptation explicite avant
 Les modifications documentaires préexistantes restent hors du lot. Le correctif déjà local du test de référencement CMS est repris car il vérifie le comportement actuel de génération des métadonnées. Aucune donnée locale, clé, sauvegarde, source PDF interne ou type généré n’est ajouté au commit.
 
 La liste unique des éléments à fournir pour l’exploitation se trouve dans ../AgroPulse_Exploitation_2026-11-04.md. Le contrôle de la copie propre issue du commit sera consigné après export, avant push.
+
+## Contrôle du commit avant push
+
+Le commit applicatif 99900954a961b3607e0c33a032fff22b0c80a62b a été exporté avec git archive, sans les fichiers non suivis, secrets, sources documentaires internes ou données du pilote. Depuis cet export : génération et check réussis, 20 tests réussis, seconde génération identique et parcours Edge FR/EN à 1440 et 375 px réussis. Aucune erreur JavaScript ni débordement n’a été relevé dans ces parcours. Les 44 fichiers du commit ont été comparés aux secrets locaux : aucune correspondance ni artefact interdit trouvé. Le manifeste du CMS et son verrou npm concordent.
+
+Le build CMS a réussi sur le dépôt avec les dépendances installées et verrouillées. Une compilation supplémentaire depuis l’export, avec réutilisation de ces dépendances par jonction, a été interrompue après de forts ralentissements de la machine, y compris après une reprise avec limite mémoire. Cette compilation de l’export n’est donc pas comptée comme réussie. Il n’y a pas eu de nouvelle installation indépendante des dépendances du CMS. Confirmer npm ci et le build CMS sur la cible de préproduction fait partie des contrôles restant ouverts avant exposition.
+
+Les branches distantes ont été relevées avant push : integration-maquette-finale sur fb7cab5 et main sur 0ab964086925a98bc3ccc9d4dd8f23fdfb1b57ec. Seule la branche d’intégration est destinée au push ; aucun déploiement n’a été effectué.
