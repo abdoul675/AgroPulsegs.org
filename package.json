@@ -7,7 +7,8 @@
     "build": "node scripts/build-priority-pages.mjs && node scripts/build-maquette-site.mjs",
     "dev": "node scripts/serve.mjs",
     "start": "node scripts/serve.mjs",
-    "check": "node --check public/app.js && node --check public/homepage.js && node --check public/site-pages.js && node --check scripts/serve.mjs && node --check scripts/prepare-institutional-env.mjs && node --check pilot/tools/test-visual-editor.mjs && node --check scripts/home-content.mjs && node --check scripts/page-content.mjs && node --check public/editorial-client.js && node --check pilot/tools/test-content-models.mjs && node --check pilot/tools/test-home-connection.mjs && node --check scripts/build-priority-pages.mjs && node --check scripts/build-maquette-site.mjs && node --test scripts/contact-handler.test.mjs scripts/home-content.test.mjs scripts/page-content.test.mjs && node scripts/check.mjs"
+    "check": "node --check public/app.js && node --check public/homepage.js && node --check public/site-pages.js && node --check scripts/serve.mjs && node --check scripts/prepare-institutional-env.mjs && node --check pilot/tools/test-visual-editor.mjs && node --check pilot/tools/test-security-boundaries.mjs && node --check scripts/home-content.mjs && node --check scripts/page-content.mjs && node --check public/editorial-client.js && node --check pilot/tools/test-content-models.mjs && node --check pilot/tools/test-home-connection.mjs && node --check scripts/build-priority-pages.mjs && node --check scripts/build-maquette-site.mjs && node --test scripts/contact-handler.test.mjs scripts/home-content.test.mjs scripts/page-content.test.mjs && node scripts/check.mjs",
+    "check:cms-security": "node --test pilot/tools/test-security-boundaries.mjs"
   },
   "engines": {
     "node": ">=20"

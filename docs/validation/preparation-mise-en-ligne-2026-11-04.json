@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-04",
+  "sourceCommit": "859fa2d1f60f44b9bc2701223e85e6c1744afe91",
+  "source": "git archive; no working-tree environment, local database or fixture files copied",
+  "cms": {
+    "version": "5.61.0",
+    "independentInstall": "PASS npm ci",
+    "installedPackages": 1427,
+    "build": "PASS",
+    "buildSeconds": 76.682,
+    "dependenciesReusedFromWorkingTree": false,
+    "institutionalStart": {
+      "completed": true,
+      "isolated": true,
+      "newDatabase": "agropulse_clean_release_check",
+      "users": 0,
+      "roles": 2,
+      "pages": 0,
+      "localTokensImported": 0,
+      "languages": [
+        "en",
+        "fr"
+      ],
+      "note": "Native institutional setup: no local users, tokens or fixtures imported; original pilot untouched"
+    },
+    "securityBoundaryTest": "PASS on working tree and independent dependencies",
+    "audit": {
+      "info": 0,
+      "low": 2,
+      "moderate": 22,
+      "high": 5,
+      "critical": 0,
+      "total": 29
+    }
+  },
+  "website": {
+    "checks": "PASS",
+    "automatedTests": 20
+  },
+  "remoteDeployment": false,
+  "realEmail": false,
+  "pending": [
+    "Identify hosting offer and domain",
+    "Secure production CMS access",
+    "Configure official mail recipient, verified sender and service credentials",
+    "Validate official legal/contact/privacy information",
+    "Run DNS/HTTPS, real email and backup/restore checks on the target"
+  ]
+}

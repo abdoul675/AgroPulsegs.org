@@ -54,3 +54,7 @@ Le CMS propose maintenant un aperçu avec déplacement des sections et cartes, s
 - [Alertes CMS restantes](docs/AgroPulse_Securite_CMS_2026-11-04.md).
 - [Choix de conception](docs/decisions/ADR-2026-11-04-pilotage-visuel.md).
 - [Vérifications et limites de cette reprise](docs/validation/Reprise-Codex-2026-11-04.md).
+
+La liste à faire compléter avant mise en ligne est disponible dans [les informations à fournir](docs/Mise-en-ligne-elements-a-fournir.md). Le contrôle complémentaire des frontières de sécurité du CMS se lance avec `npm run check:cms-security`, après installation des dépendances CMS.
+
+La [vérification indépendante du CMS](docs/validation/Preparation-mise-en-ligne-2026-11-04.md) confirme désormais installation, compilation et démarrage sans importer les données du pilote. La mise en ligne attend l’identification de l’hébergement et les informations officielles.

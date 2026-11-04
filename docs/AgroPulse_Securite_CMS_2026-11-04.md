@@ -26,3 +26,15 @@ Les totaux incluent des dépendances transitives et ne représentent pas 29 vuln
 - [React Router : redirection](https://github.com/advisories/GHSA-wrjc-x8rr-h8h6) et [SSR](https://github.com/advisories/GHSA-337j-9hxr-rhxg).
 - [deepmerge](https://github.com/advisories/GHSA-gcqx-w48m-w2h4).
 - [Hono](https://github.com/advisories/GHSA-rmxm-3fg6-px4f), [glob](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4), [minimatch](https://github.com/advisories/GHSA-g3hv-75wg-m249), [stream-json](https://github.com/advisories/GHSA-mjw6-4jj6-33hc).
+
+## Analyse complémentaire des cinq alertes élevées
+
+L’audit d’une installation indépendante par npm ci confirme 29 alertes : zéro critique, cinq élevées, vingt-deux modérées et deux faibles. Les cinq élevées proviennent de deux copies de Zod 3 utilisées par koa-body 6.0.1 et koa-session 7.0.2, avec propagation à leurs consommateurs Strapi. Elles ne sont pas cinq défauts indépendants.
+
+Le code installé et les sources officielles des versions concernées montrent que KoaBodyMiddlewareOptionsSchema.parse valide les options au moment de créer le middleware, avant le gestionnaire de requêtes ; SessionOptions.parse valide de même les options de session au démarrage. Le corps JSON est lu par co-body, pas par ces schémas d’options. Aucune entrée du site ne permet au visiteur de modifier ces options serveur.
+
+Le test pilot/tools/test-security-boundaries.mjs instrumente ces deux schémas dans un serveur local isolé : une validation d’options au montage de chaque middleware, aucune validation d’options supplémentaire lors de deux requêtes contenant des tableaux, refus du JSON malformé en 400 et d’un corps dépassant la limite en 413. Le test ne modifie ni les dépendances installées ni les données du CMS.
+
+Conclusion limitée : le chemin d’épuisement de mémoire décrit par l’avis n’a pas été identifié depuis les requêtes publiques vers ces deux usages. Cette observation ne corrige pas Zod 3, ne supprime pas les alertes npm et ne démontre pas l’absence de tout autre risque. Les usages Zod 4 ont déjà reçu le correctif 4.6.6. Une migration forcée de Zod 3 vers 4 n’est pas justifiée par ce résultat ; surveiller les versions amont compatibles et protéger l’accès au CMS sur la cible.
+
+Sources primaires : [koa-body 6.0.1](https://raw.githubusercontent.com/koajs/koa-body/v6.0.1/src/index.ts), [koa-session 7.0.2](https://raw.githubusercontent.com/koajs/session/v7.0.2/src/index.ts), [correctif Zod 4](https://github.com/colinhacks/zod/commit/a0ebf970f2d752e5f58527cd2942ff48be4f46bd).

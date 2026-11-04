@@ -66,3 +66,7 @@ Le commit applicatif 99900954a961b3607e0c33a032fff22b0c80a62b a été exporté a
 Le build CMS a réussi sur le dépôt avec les dépendances installées et verrouillées. Une compilation supplémentaire depuis l’export, avec réutilisation de ces dépendances par jonction, a été interrompue après de forts ralentissements de la machine, y compris après une reprise avec limite mémoire. Cette compilation de l’export n’est donc pas comptée comme réussie. Il n’y a pas eu de nouvelle installation indépendante des dépendances du CMS. Confirmer npm ci et le build CMS sur la cible de préproduction fait partie des contrôles restant ouverts avant exposition.
 
 Les branches distantes ont été relevées avant push : integration-maquette-finale sur fb7cab5 et main sur 0ab964086925a98bc3ccc9d4dd8f23fdfb1b57ec. Seule la branche d’intégration est destinée au push ; aucun déploiement n’a été effectué.
+
+## Mise à jour après installation indépendante
+
+Le point de compilation indépendante précédemment ouvert est levé : npm ci, build du CMS et démarrage institutionnel sur base neuve ont réussi. Voir [la vérification complémentaire](Preparation-mise-en-ligne-2026-11-04.md). Les anciens essais interrompus restent consignés ci-dessus comme historique.
