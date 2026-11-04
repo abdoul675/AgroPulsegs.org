@@ -7,6 +7,35 @@ const publicRoot = fileURLToPath(new URL('../public/', import.meta.url));
 const indexPath = path.join(publicRoot, 'index.html');
 const imageDirectory = path.join(publicRoot, 'assets', 'maquette');
 let html = await readFile(indexPath, 'utf8');
+html = html.replace(
+  '<a class="skip" href="#app">Aller au contenu</a>',
+  '<a class="skip" href="#app" data-en="Skip to content">Aller au contenu</a>',
+);
+if (!html.includes('data-en-aria-label="Main navigation"')) {
+  html = html.replace(
+    'aria-label="Navigation principale"',
+    'aria-label="Navigation principale" data-fr-aria-label="Navigation principale" data-en-aria-label="Main navigation"',
+  );
+}
+const socialLinks = /<a aria-label="(?:LinkedIn|Facebook|YouTube|TikTok)" href="#">([\s\S]*?)<\/a>/gu;
+html = html.replace(socialLinks, '<span class="social-placeholder" aria-hidden="true">$1</span>');
+if (html.includes('.soc a{')) {
+  html = html.replace('.soc a{', '.soc a,.soc .social-placeholder{');
+}
+const oldFooterLocation = '<span data-en="Headquarters: Abidjan, Côte d’Ivoire">Côte d’Ivoire · Sénégal · Guinée-Bissau</span>';
+const validatedFooterLocation = '<span data-fr="Pays d’intervention : Côte d’Ivoire · Sénégal · Guinée-Bissau" data-en="Countries of intervention: Côte d’Ivoire · Senegal · Guinea-Bissau">Pays d’intervention : Côte d’Ivoire · Sénégal · Guinée-Bissau</span>';
+if (html.includes(oldFooterLocation)) {
+  html = html.replace(oldFooterLocation, validatedFooterLocation);
+}
+if (!html.includes('aria-controls="nav"')) {
+  html = html.replace('<button id="bg"', '<button id="bg" aria-controls="nav"');
+}
+if (!html.includes('.toc{position:static;grid-template-columns:minmax(0,1fr)!important}')) {
+  const styleEnd = html.indexOf('</style>');
+  if (styleEnd < 0) throw new Error('The design page is missing its stylesheet.');
+  const legalMobileRules = '@media(max-width:860px){.lg2{grid-template-columns:minmax(0,1fr);gap:24px}.toc{position:static;grid-template-columns:minmax(0,1fr)!important}.toc a{min-width:0;white-space:normal!important}}';
+  html = html.slice(0, styleEnd) + legalMobileRules + html.slice(styleEnd);
+}
 for (const link of [
   '<a data-en="Qualified Digital Human Resources" href="#p-pole-7">Ressources humaines numériques</a>',
   '<a data-en="Agricultural Mechanisation" href="#p-pole-8">Mécanisation agricole</a>',
@@ -36,6 +65,58 @@ const dataPattern = /(<script id="pages-data" type="application\/json">)([\s\S]*
 const dataMatch = html.match(dataPattern);
 if (!dataMatch) throw new Error('The design page is missing its page-content data.');
 const pages = JSON.parse(dataMatch[2]);
+const legalTranslations = {
+  'mentions-legales': {
+    eyebrow: 'Transparency',
+    title: 'Legal notice',
+    aside: ['Draft pending legal review', 'Last updated: [to be completed]'],
+    groups: [
+      { title: 'Publisher identity', text: 'The legal identity of the publisher must be provided and approved.' },
+      { title: 'Publication manager', text: 'The person responsible for publication must be designated.' },
+      { title: 'Hosting provider', text: 'The hosting provider must be identified once the service is confirmed.' },
+    ],
+  },
+  confidentialite: {
+    eyebrow: 'Privacy & personal data',
+    title: 'Privacy policy',
+    aside: ['Draft pending legal review', 'Last updated: [to be completed]'],
+    groups: [
+      {
+        title: 'How you contact us',
+        text: 'Through the contact, partnership, training or quote forms, and resource-notification requests.',
+      },
+      {
+        title: 'How we handle your information',
+        text: 'The purposes and handling of these requests remain to be specified and approved.',
+      },
+      {
+        title: 'Your data-protection rights',
+        text: 'How people may exercise their data-protection rights remains to be specified and approved.',
+      },
+    ],
+  },
+};
+for (const [slug, translation] of Object.entries(legalTranslations)) {
+  const page = pages[slug];
+  const section = page?.sections?.[0];
+  if (!page?.hero || !section?.groups || section.groups.length !== translation.groups.length) {
+    throw new Error(`The legal content structure for "${slug}" has changed.`);
+  }
+  page.title.en = translation.title;
+  page.hero.eyebrow.en = translation.eyebrow;
+  page.hero.title.en = translation.title;
+  page.hero.aside.forEach((item, index) => {
+    item.en = translation.aside[index];
+  });
+  section.groups.forEach((group, index) => {
+    group.title.en = translation.groups[index].title;
+    group.text[0].en = translation.groups[index].text;
+  });
+}
+const privacyGroups = pages.confidentialite.sections[0].groups;
+privacyGroups[0].text[0].fr = 'Via les formulaires de contact, de partenariat, de formation et de devis, et les demandes de notification de ressource.';
+privacyGroups[1].text[0].fr = 'Les finalités et modalités de traitement des demandes restent à préciser et à faire valider.';
+privacyGroups[2].text[0].fr = 'Les modalités d’exercice des droits des personnes concernées restent à préciser et à faire valider.';
 const localized = (fr, en) => ({ fr, en });
 const paragraphs = (fr, en) => [localized(fr, en)];
 const getSection = (page, id) => {
@@ -344,18 +425,22 @@ agirInterest.fields = [
 
 const contact = pages.contact;
 if (!contact) throw new Error('Missing Contact page in the design page.');
+contact.title = localized('Contacts', 'Contact');
 contact.hero.lead = paragraphs(
   'Contact général, partenariat, formation ou demande de devis : transmettez votre demande à AgroPulse via le formulaire.',
   'General enquiries, partnerships, training or quotes: send your request to AgroPulse using the form.',
 );
 const channels = getSection(contact, 'canaux');
-channels.title = localized('Nos pays d’intervention', 'Our countries of operation');
+channels.title = localized('Nos pays d’intervention', 'Countries of intervention');
 channels.lead = [];
 setGroups(channels, [
-  { titleFr: 'Côte d’Ivoire', titleEn: 'Côte d’Ivoire', textFr: 'Pays d’intervention indiqué.', textEn: 'Country of operation listed.' },
-  { titleFr: 'Sénégal', titleEn: 'Senegal', textFr: 'Pays d’intervention indiqué.', textEn: 'Country of operation listed.' },
-  { titleFr: 'Guinée-Bissau', titleEn: 'Guinea-Bissau', textFr: 'Pays d’intervention indiqué.', textEn: 'Country of operation listed.' },
+  { titleFr: 'Côte d’Ivoire', titleEn: 'Côte d’Ivoire', textFr: 'Pays d’intervention indiqué.', textEn: 'Country of intervention listed.' },
+  { titleFr: 'Sénégal', titleEn: 'Senegal', textFr: 'Pays d’intervention indiqué.', textEn: 'Country of intervention listed.' },
+  { titleFr: 'Guinée-Bissau', titleEn: 'Guinea-Bissau', textFr: 'Pays d’intervention indiqué.', textEn: 'Country of intervention listed.' },
 ]);
+for (const location of channels.groups) {
+  if (location.meta?.some(value => value.includes('HQ') || value.includes('Siège'))) location.meta = [];
+}
 const requestForm = getSection(contact, 'form');
 requestForm.title = localized('Envoyer une demande', 'Send a request');
 requestForm.lead = paragraphs(
@@ -457,6 +542,17 @@ resourceNotice.fields = [
   { name: 'email', label: localized('Adresse e-mail *', 'Email address *'), type: 'email', placeholder: localized('votre.email@exemple.org', 'your.email@example.org'), required: true },
   { name: 'consent', label: localized('J’accepte que mon adresse soit transmise à AgroPulse pour traiter cette demande.', 'I agree that my email may be sent to AgroPulse to handle this request.'), type: 'checkbox', required: true },
 ];
+const network = getSection(pages.accueil, 'reseau-international');
+network.lead = paragraphs(
+  'Un réseau ouvert sur le monde. Sélectionnez un partenaire pour découvrir les projets associés, ou faites glisser le globe pour l’explorer.',
+  'A network open to the world. Select a partner to discover associated projects, or drag the globe to explore it.',
+);
+
+for (const page of Object.values(pages)) {
+  if (page.title && !page.title.en && page.hero?.title?.en) {
+    page.title.en = page.hero.title.en.replace(/<[^>]*>/gu, ' ').replace(/\s+/gu, ' ').trim();
+  }
+}
 
 html = html.replace(dataPattern, (_match, openingTag, _contents, closingTag) =>
   `${openingTag}${JSON.stringify(pages)}${closingTag}`);
@@ -476,9 +572,6 @@ for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gu)) {
 }
 if (!appMatch) throw new Error('The design page is missing its page renderer.');
 let appScript = appMatch[2];
-if (!appScript.includes('downloads:s=>')) {
-  appScript = appScript.replace('const BT={', 'const BT={\n' + "downloads:s=>`<div class=\"w\">${sh(s)}<div class=\"fx\">${s.groups.map(g=>`<article class=\"fr\"><div><h3>${E(tr(g.title))}</h3><p>${E(tr(g.description))}</p><p>${E(tr(g.edition))} · PDF · ${E(g.language==='fr'?(EN()?'French':'Français'):g.language==='en'?(EN()?'English':'Anglais'):g.language)} · ${new Intl.NumberFormat(EN()?'en':'fr',{maximumFractionDigits:1}).format(g.bytes/1000000)} ${EN()?'MB':'Mo'}</p><a class=\"btn\" href=\"${E(g.href)}\" download=\"${E(g.filename)}\">${ico('download')}${EN()?'Download':'Télécharger'} — ${E(tr(g.title))}</a></div></article>`).join('')}</div></div>`," + '\n');
-}
 const replaceOnce = (source, before, after, label) => {
   const first = source.indexOf(before);
   if (first < 0 || source.indexOf(before, first + before.length) >= 0) {
@@ -486,6 +579,220 @@ const replaceOnce = (source, before, after, label) => {
   }
   return source.slice(0, first) + after + source.slice(first + before.length);
 };
+const updateSiteData = (source, assignment) => {
+  const assignmentIndex = source.indexOf(assignment);
+  if (assignmentIndex < 0) throw new Error(`The embedded site data assignment "${assignment}" could not be located.`);
+  const jsonStart = assignmentIndex + assignment.length;
+  let jsonEnd = -1;
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  for (let index = jsonStart; index < source.length; index += 1) {
+    const character = source[index];
+    if (inString) {
+      if (escaped) escaped = false;
+      else if (character === '\\') escaped = true;
+      else if (character === '"') inString = false;
+      continue;
+    }
+    if (character === '"') inString = true;
+    else if (character === '{') depth += 1;
+    else if (character === '}') {
+      depth -= 1;
+      if (depth === 0) {
+        jsonEnd = index + 1;
+        break;
+      }
+    }
+  }
+  if (jsonEnd < 0) throw new Error(`The embedded site data object "${assignment}" is incomplete.`);
+  const site = JSON.parse(source.slice(jsonStart, jsonEnd));
+  if (!site.ancrage || !Array.isArray(site.ancrage.details) || !Array.isArray(site.ancrage.countries)) {
+    throw new Error('The country map data structure has changed.');
+  }
+  site.ancrage.lead = localized(
+    'Pays d’intervention : Côte d’Ivoire, Sénégal et Guinée-Bissau.',
+    'Countries of intervention: Côte d’Ivoire, Senegal and Guinea-Bissau.',
+  );
+  for (const detail of site.ancrage.details) {
+    detail.role = localized('Pays d’intervention', 'Country of intervention');
+    detail.text = localized('Pays d’intervention indiqué.', 'Country of intervention listed.');
+    detail.facts = [];
+  }
+  site.hq = null;
+  return source.slice(0, jsonStart) + JSON.stringify(site) + source.slice(jsonEnd);
+};
+appScript = updateSiteData(appScript, 'window.SITE0=');
+appScript = updateSiteData(appScript, 'let PAGES={},SITE=');
+for (const [before, after] of [
+  ['"Our countries of operation"', '"Countries of intervention listed"'],
+  ['"Country of operation listed."', '"Country of intervention listed."'],
+  ['"meta":["Siège ¦ HQ"]', '"meta":[]'],
+]) {
+  appScript = appScript.replaceAll(before, after);
+}
+if (!appScript.includes('const CMS_HOME_TEXT={fr:{},en:{}};')) {
+  appScript = replaceOnce(
+    appScript,
+    'function setLang(l){',
+    'const CMS_HOME_TEXT={fr:{},en:{}};function setLang(l){',
+    'published homepage language state',
+  );
+}
+const routeHelper = "const PH=slug=>slug=='accueil'?CFG.home:CFG.spa?'#p-'+slug:slug+'.html';";
+if (appScript.includes(routeHelper)) {
+  appScript = replaceOnce(
+    appScript,
+    routeHelper,
+    "const PH=slug=>slug.startsWith('#')?slug:slug=='accueil'?CFG.home:CFG.spa?'#p-'+slug:slug+'.html';",
+    'explicit page and section anchors',
+  );
+}
+const mosaicRenderer = 'mosaic:s=>`<div class="w">${sh(s)}<div class="mo${s.variant?\' \'+s.variant:\'\'}">${s.groups.map((g,i)=>`<a class="mt" href="${g.to?PH(g.to):\'#\'}" style="--d:${i*.08}s"><img src="${E(g.image)}" alt="" loading="lazy"><span><b>${E(tr(g.title))}</b></span></a>`).join(\'\')}</div></div>`,';
+if (appScript.includes(mosaicRenderer)) {
+  appScript = replaceOnce(
+    appScript,
+    mosaicRenderer,
+    'mosaic:s=>`<div class="w">${sh(s)}<div class="mo${s.variant?\' \'+s.variant:\'\'}">${s.groups.map((g,i)=>`<${g.to?\'a\':\'div\'} class="mt"${g.to?` href="${E(PH(g.to))}"`:\'\'} style="--d:${i*.08}s"><img src="${E(g.image)}" alt="" loading="lazy"><span><b>${E(tr(g.title))}</b></span></${g.to?\'a\':\'div\'}>`).join(\'\')}</div></div>`,',
+    'non-link informational mosaic cards',
+  );
+}
+const legalAnchor = '<a href="#" data-go="lg${i}">';
+if (appScript.includes(legalAnchor)) {
+  appScript = replaceOnce(
+    appScript,
+    legalAnchor,
+    '<a href="#lg${i}" data-go="lg${i}">',
+    'legal table of contents anchors',
+  );
+}
+const legalNavigationLabel = 'aria-label="Sommaire"';
+if (appScript.includes(legalNavigationLabel)) {
+  appScript = replaceOnce(
+    appScript,
+    legalNavigationLabel,
+    'aria-label="${EN()?\'Table of contents\':\'Sommaire\'}"',
+    'localized legal table of contents label',
+  );
+}
+const originalLanguageSwap = "qa('[data-en]').forEach(el=>el.innerHTML=l=='en'?el.dataset.en:el.dataset.fr);";
+if (appScript.includes(originalLanguageSwap)) {
+  appScript = replaceOnce(
+    appScript,
+    originalLanguageSwap,
+    "qa('[data-en]').forEach(el=>{const key=el.dataset.cms==='hero.title'?'title':el.dataset.cms==='hero.subtitle'?'intro':null,value=key&&CMS_HOME_TEXT[l][key];if(value)el.textContent=value;else el.innerHTML=l=='en'?el.dataset.en:el.dataset.fr});",
+    'safe published homepage language rendering',
+  );
+}
+const renderStart = 'function render(){clearInterval(window.MFT);';
+if (appScript.includes(renderStart) && !appScript.includes("qa('[data-en-aria-label]')")) {
+  appScript = replaceOnce(
+    appScript,
+    renderStart,
+    "function render(){clearInterval(window.MFT);qa('[data-en-aria-label]').forEach(e=>e.setAttribute('aria-label',EN()?e.dataset.enAriaLabel:e.dataset.frAriaLabel));",
+    'localized navigation landmark label',
+  );
+}
+const languageSave = "try{localStorage.setItem('ap-lang',l)}catch(e){}render();";
+if (appScript.includes(languageSave)) {
+  appScript = replaceOnce(
+    appScript,
+    languageSave,
+    "try{localStorage.setItem('ap-lang',l)}catch(e){}const url=new URL(location.href);url.searchParams.set('lang',l);history.replaceState(null,'',url);render();",
+    'shareable language selection',
+  );
+}
+const dataGoBinding = "qa('#app [data-go]').forEach(a=>a.onclick=e=>{e.preventDefault();go(a.dataset.go)});";
+if (appScript.includes(dataGoBinding)) {
+  appScript = replaceOnce(
+    appScript,
+    dataGoBinding,
+    "qa('#app [data-go]').forEach(a=>{const target=document.getElementById(a.dataset.go)?a.dataset.go:'sec-'+a.dataset.go;a.setAttribute('href','#'+target);a.onclick=e=>{e.preventDefault();go(a.dataset.go)}});",
+    'real destinations for section links',
+  );
+}
+const homeContentLoader = `let homeContentRequest=0;
+async function loadPublishedHome(){
+ const hero=q('.home-hero');if(!hero)return;
+ const locale=EN()?'en':'fr',request=++homeContentRequest;
+ try{
+  const response=await fetch('/api/home-content?locale='+locale,{cache:'no-store'});
+  const result=await response.json();
+  if(request!==homeContentRequest||CUR!=='accueil'||locale!==(EN()?'en':'fr'))return;
+  if(!response.ok||!['published','reference'].includes(result.status))throw new Error('Published homepage content is unavailable.');
+  hero.dataset.cmsContentState=result.status;
+  if(result.status==='published'){
+   for(const [key,field] of [['title','hero.title'],['intro','hero.subtitle']]){
+    const value=result.content?.[key],target=hero.querySelector('[data-cms="'+field+'"]');
+    if(typeof value==='string'&&value.trim()&&target){CMS_HOME_TEXT[locale][key]=value;target.textContent=value}
+    else{delete CMS_HOME_TEXT[locale][key];if(target)target.innerHTML=locale==='en'?target.dataset.en:target.dataset.fr}
+   }
+  }else{
+   for(const [key,field] of [['title','hero.title'],['intro','hero.subtitle']]){
+    delete CMS_HOME_TEXT[locale][key];
+    const target=hero.querySelector('[data-cms="'+field+'"]');
+    if(target)target.innerHTML=locale==='en'?target.dataset.en:target.dataset.fr;
+   }
+  }
+ }catch{
+  if(request!==homeContentRequest)return;
+  hero.dataset.cmsContentState='unavailable';
+  console.warn('Published AgroPulse homepage copy is unavailable; the approved reference copy remains visible.');
+ }
+}
+`;
+const startupMarker = '/* --- démarrage --- */';
+const homeContentLoaderStart = appScript.indexOf('let homeContentRequest=0;');
+if (homeContentLoaderStart >= 0) {
+  const homeContentLoaderEnd = appScript.indexOf(startupMarker, homeContentLoaderStart);
+  if (homeContentLoaderEnd < 0) throw new Error('The published homepage loader is not properly terminated.');
+  appScript = appScript.slice(0, homeContentLoaderStart) + homeContentLoader + appScript.slice(homeContentLoaderEnd);
+} else {
+  if (appScript.includes('async function loadPublishedHome()')) {
+    throw new Error('The published homepage loader marker is missing.');
+  }
+  appScript = replaceOnce(
+    appScript,
+    startupMarker,
+    homeContentLoader + startupMarker,
+    'published homepage loader',
+  );
+}
+if (!appScript.includes("if(CFG.spa&&CUR==='accueil')void loadPublishedHome()")) {
+  appScript = replaceOnce(
+    appScript,
+    'render()}\nq(\'#lang\').onclick=',
+    "render();if(CFG.spa&&CUR==='accueil')void loadPublishedHome()}\nq('#lang').onclick=",
+    'reload published homepage after language change',
+  );
+  appScript = replaceOnce(
+    appScript,
+    'else CUR=document.body.dataset.page;render()}',
+    "else CUR=document.body.dataset.page;render();if(CFG.spa&&CUR==='accueil')void loadPublishedHome()}",
+    'load published homepage after navigation',
+  );
+}
+const oldLanguageInitializer = "try{if(localStorage.getItem('ap-lang')=='en'){document.documentElement.lang='en';qa('[data-en]').forEach(el=>el.innerHTML=el.dataset.en);q('#lang').textContent='FR'}}catch(e){}";
+if (appScript.includes(oldLanguageInitializer)) {
+  appScript = replaceOnce(
+    appScript,
+    oldLanguageInitializer,
+    "try{const requestedLanguage=new URLSearchParams(location.search).get('lang'),storedLanguage=localStorage.getItem('ap-lang'),initialLanguage=requestedLanguage==='fr'||requestedLanguage==='en'?requestedLanguage:storedLanguage;if(initialLanguage==='fr'||initialLanguage==='en'){document.documentElement.lang=initialLanguage;qa('[data-en]').forEach(el=>el.innerHTML=initialLanguage==='en'?el.dataset.en:el.dataset.fr);q('#lang').textContent=initialLanguage==='en'?'FR':'EN';if(requestedLanguage==='fr'||requestedLanguage==='en')localStorage.setItem('ap-lang',initialLanguage)}}catch(e){}",
+    'initial language from URL and saved preference',
+  );
+}
+const menuHandler = "const nav=q('#nav'),bg=q('#bg');bg.onclick=()=>{const o=nav.classList.toggle('open');bg.setAttribute('aria-expanded',o)};nav.onclick=e=>{if(e.target.closest('a')){nav.classList.remove('open');bg.setAttribute('aria-expanded',false)}};";
+if (appScript.includes(menuHandler)) {
+  appScript = replaceOnce(
+    appScript,
+    menuHandler,
+    `${menuHandler}document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){nav.classList.remove('open');bg.setAttribute('aria-expanded','false');bg.focus()}});`,
+    'keyboard dismissal of mobile navigation',
+  );
+}
+if (!appScript.includes('downloads:s=>')) {
+  appScript = appScript.replace('const BT={', 'const BT={\n' + "downloads:s=>`<div class=\"w\">${sh(s)}<div class=\"fx\">${s.groups.map(g=>`<article class=\"fr\"><div><h3>${E(tr(g.title))}</h3><p>${E(tr(g.description))}</p><p>${E(tr(g.edition))} · PDF · ${E(g.language==='fr'?(EN()?'French':'Français'):g.language==='en'?(EN()?'English':'Anglais'):g.language)} · ${new Intl.NumberFormat(EN()?'en':'fr',{maximumFractionDigits:1}).format(g.bytes/1000000)} ${EN()?'MB':'Mo'}</p><a class=\"btn\" href=\"${E(g.href)}\" download=\"${E(g.filename)}\">${ico('download')}${EN()?'Download':'Télécharger'} — ${E(tr(g.title))}</a></div></article>`).join('')}</div></div>`," + '\n');
+}
 appScript = appScript.replaceAll(
   'name="${E(tr(f.label))}"',
   'name="${E(f.name||tr(f.label))}"',
