@@ -47,7 +47,8 @@ try{
     const pageRead=await call(`/api/pages/${page}?locale=${locale}&populate=*`,{token:read});
     check(`Lecture des blocs publiés ${locale}`,pageRead.status,200);
     check(`Quatre blocs publiés ${locale}`,pageRead.data.data.sections.length,4);
-    check(`SEO localisé ${locale}`,pageRead.data.data.seo.title,seo(locale).title);
+    check(`Titre SEO dérivé ${locale}`,pageRead.data.data.seo.title,pageData.title);
+    check(`Description SEO dérivée ${locale}`,pageRead.data.data.seo.description,pageRead.data.data.summary||'Fictional text / Texte fictif');
     const programmeData={locale,title:locale==='fr'?'Fellowship — exemple fictif':'Fellowship — fictional example',slug:`pilot-fellowship-${locale}`,objective:'Objectif fictif / Fictional objective',audience:'Public fictif / Fictional audience',body:blocks('Programme fictif sans campagne réelle / Fictional programme without a real campaign'),seo:seo(locale)};
     check(`Sauvegarde du programme ${locale}`,(await call(cm('programme',programme),{method:'PUT',token:editor,body:programmeData})).status,200);
     if(locale==='fr'){

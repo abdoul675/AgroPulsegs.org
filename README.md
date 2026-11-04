@@ -44,3 +44,13 @@ Le pilote local vérifie également les rôles, les brouillons, la publication e
 La page YIDA-Cashew présente le programme, sa genèse, ses objectifs, ses publics et le parcours prévu. Les candidatures restent fermées ; le formulaire sert uniquement à demander des renseignements. La revue source reste interne et son ancienne URL de téléchargement répond 404. Le catalogue public est vide.
 
 Les huit pôles et leurs intitulés sont définis dans `scripts/editorial-content.mjs`, partagé par les générateurs. Le menu regroupe les programmes sous « Initiatives ». Le design et les URL de navigation sont conservés.
+
+## Pilotage visuel et livraison du 4 novembre 2026
+
+Le CMS propose maintenant un aperçu avec déplacement des sections et cartes, saisie des textes FR/EN et enregistrement privé en brouillon. La publication reste native et réservée au rôle autorisé. Activer AGROPULSE_CMS_ENABLE_PAGES=true, configurer AGROPULSE_CMS_URL et le jeton serveur AGROPULSE_CMS_READ_TOKEN ; le nouvel accès trouve chaque page par identité métier, sans identifiant local. Configurer aussi AGROPULSE_CMS_ADMIN_ORIGIN côté site et VITE_AGROPULSE_SITE_URL à la construction du CMS. Le raccordement historique limité au hero reste compatible.
+
+- [Guide du pilotage](docs/AgroPulse_Guide_pilotage_visuel.md).
+- [Configuration, lancement, sauvegarde et restauration](docs/AgroPulse_Exploitation_2026-11-04.md).
+- [Alertes CMS restantes](docs/AgroPulse_Securite_CMS_2026-11-04.md).
+- [Choix de conception](docs/decisions/ADR-2026-11-04-pilotage-visuel.md).
+- [Vérifications et limites de cette reprise](docs/validation/Reprise-Codex-2026-11-04.md).

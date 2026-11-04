@@ -1,3 +1,4 @@
+import { readPublishedPage } from './page-content.mjs';
 const environmentKeys = [
   'AGROPULSE_CMS_URL',
   'AGROPULSE_CMS_HOME_DOCUMENT_ID',
@@ -52,6 +53,14 @@ function text(value, maximumLength) {
 
 export async function readPublishedHome({ locale, env = process.env, fetchImpl = fetch }) {
   if (!['fr', 'en'].includes(locale)) throw new HomeContentError('unsupported_locale', 400);
+  if(env.AGROPULSE_CMS_ENABLE_PAGES==='true'&&!env.AGROPULSE_CMS_HOME_DOCUMENT_ID?.trim()){
+    const result=await readPublishedPage({page:'accueil',locale,env,fetchImpl});
+    if(result.http!==200)throw new HomeContentError('cms_upstream_error');
+    if(result.body.status==='reference')return {status:'reference'};
+    const title=result.body.copy?.hero?.title;
+    if(!title)throw new HomeContentError('cms_home_title_missing');
+    return {status:'published',content:{title,intro:result.body.copy.hero.intro||null}};
+  }
   const config = configuration(env);
   if (!config) return { status: 'reference' };
 

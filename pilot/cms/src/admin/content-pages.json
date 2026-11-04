@@ -1,0 +1,164 @@
+[
+  {
+    "uid": "api::page.page",
+    "slug": "accueil",
+    "title": {
+      "fr": "Accueil",
+      "en": "Home"
+    },
+    "key": "home"
+  },
+  {
+    "uid": "api::page.page",
+    "slug": "a-propos",
+    "title": {
+      "fr": "À propos",
+      "en": "About"
+    },
+    "key": "about"
+  },
+  {
+    "uid": "api::page.page",
+    "slug": "expertises",
+    "title": {
+      "fr": "Nos expertises",
+      "en": "Our expertise"
+    },
+    "key": "expertises"
+  },
+  {
+    "uid": "api::page.page",
+    "slug": "contact",
+    "title": {
+      "fr": "Contacts",
+      "en": "Contact"
+    },
+    "key": "contact"
+  },
+  {
+    "uid": "api::page.page",
+    "slug": "partenaires",
+    "title": {
+      "fr": "Partenaires",
+      "en": "Partners"
+    },
+    "key": "partners"
+  },
+  {
+    "uid": "api::page.page",
+    "slug": "ressources",
+    "title": {
+      "fr": "Ressources",
+      "en": "Resources"
+    },
+    "key": "resources"
+  },
+  {
+    "uid": "api::page.page",
+    "slug": "mentions-legales",
+    "title": {
+      "fr": "Mentions légales",
+      "en": "Legal notice"
+    },
+    "key": "legal"
+  },
+  {
+    "uid": "api::page.page",
+    "slug": "confidentialite",
+    "title": {
+      "fr": "Politique de confidentialité",
+      "en": "Privacy policy"
+    },
+    "key": "privacy"
+  },
+  {
+    "uid": "api::expertise.expertise",
+    "slug": "pole-1",
+    "title": {
+      "fr": "Formation et certification",
+      "en": "Training and certification"
+    },
+    "code": "01"
+  },
+  {
+    "uid": "api::expertise.expertise",
+    "slug": "pole-2",
+    "title": {
+      "fr": "Systèmes d’information et gouvernance des données",
+      "en": "Information systems and data governance"
+    },
+    "code": "02"
+  },
+  {
+    "uid": "api::expertise.expertise",
+    "slug": "pole-3",
+    "title": {
+      "fr": "Intelligence artificielle et analyse de données",
+      "en": "Artificial intelligence and data analytics"
+    },
+    "code": "03"
+  },
+  {
+    "uid": "api::expertise.expertise",
+    "slug": "pole-4",
+    "title": {
+      "fr": "Climat, durabilité et finance verte",
+      "en": "Climate, sustainability and green finance"
+    },
+    "code": "04"
+  },
+  {
+    "uid": "api::expertise.expertise",
+    "slug": "pole-5",
+    "title": {
+      "fr": "Incubation et entrepreneuriat agri-tech",
+      "en": "Agri-tech incubation and entrepreneurship"
+    },
+    "code": "05"
+  },
+  {
+    "uid": "api::expertise.expertise",
+    "slug": "pole-6",
+    "title": {
+      "fr": "Conseil stratégique et études",
+      "en": "Strategic consulting and studies"
+    },
+    "code": "06"
+  },
+  {
+    "uid": "api::expertise.expertise",
+    "slug": "pole-7",
+    "title": {
+      "fr": "Mobilisation d’experts et services externalisés",
+      "en": "Expert mobilisation and outsourced services"
+    },
+    "code": "07"
+  },
+  {
+    "uid": "api::expertise.expertise",
+    "slug": "pole-8",
+    "title": {
+      "fr": "Mécanisation agricole",
+      "en": "Agricultural mechanisation"
+    },
+    "code": "08"
+  },
+  {
+    "uid": "api::programme.programme",
+    "slug": "fellowship",
+    "title": {
+      "fr": "YIDA-Cashew",
+      "en": "YIDA-Cashew"
+    },
+    "key": "fellowship"
+  },
+  {
+    "uid": "api::programme.programme",
+    "slug": "agir-ia",
+    "title": {
+      "fr": "AGIR-IA",
+      "en": "AGIR-IA"
+    },
+    "key": "agir-ia"
+  }
+]

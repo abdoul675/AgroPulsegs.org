@@ -1,0 +1,108 @@
+{
+  "date": "2026-11-04",
+  "scope": "Local only; no deployment or real email",
+  "website": {
+    "build": "PASS",
+    "tests": 20
+  },
+  "cms": {
+    "version": "5.61.0",
+    "build": "PASS",
+    "models": 77,
+    "simpleEntry": 13,
+    "homeConnection": 20,
+    "visualEditor": {
+      "completed": true,
+      "checks": [
+        "Connexion locale admin",
+        "Connexion locale editor",
+        "Connexion locale publisher",
+        "Liste des pages accessible à l’Éditeur",
+        "Un brouillon seul ne fournit pas de contenu public",
+        "L’aperçu privé communique avec le CMS",
+        "Les textes se modifient immédiatement dans l’aperçu",
+        "Déplacement horizontal des cartes au clavier",
+        "Déplacement des cartes par glisser-déposer",
+        "Ordre des cartes conservé dans le brouillon",
+        "Ordre des sections conservé dans le brouillon",
+        "Le brouillon n’a pas modifié le site public",
+        "L’Éditeur ne peut pas publier",
+        "Les dispositions non autorisées sont refusées",
+        "Le Publieur peut publier le brouillon",
+        "Le site lit la version publiée",
+        "La disposition publiée arrive au site",
+        "Le site affiche le titre publié",
+        "Le site affiche le nouvel ordre des cartes",
+        "Le site affiche le nouvel ordre des sections",
+        "Les commandes d’édition ne sont pas publiques",
+        "La disposition publiée reste adaptée au mobile",
+        "Aucune erreur JavaScript pendant le pilotage",
+        "Brouillon du pôle 7 enregistré fr",
+        "Langue du brouillon fr",
+        "Aucune publication automatique fr",
+        "Le nouveau brouillon reste privé fr",
+        "Brouillon du pôle 7 enregistré en",
+        "Langue du brouillon en",
+        "Aucune publication automatique en",
+        "FR/EN utilisent le même document",
+        "Le nouveau brouillon reste privé en",
+        "La fiche de test est retirée de la lecture publique"
+      ],
+      "notes": [
+        "Isolated test entry only; no customer data or real mail",
+        "Public content and layout tested after a Publisher action",
+        "The test entry is unpublished after verification"
+      ]
+    }
+  },
+  "security": {
+    "critical": 0,
+    "high": 5,
+    "moderate": 22,
+    "low": 2,
+    "total": 29
+  },
+  "coldRestore": {
+    "completed": true,
+    "mode": "cold backup restored into separate directory and port 55438; original database untouched",
+    "roles": 2,
+    "users": 3,
+    "pages": 4,
+    "programmes": 4,
+    "languages": [
+      "en",
+      "fr"
+    ]
+  },
+  "institutionalBootstrap": {
+    "completed": true,
+    "usersImported": 0,
+    "localTokensImported": 0,
+    "pagesImported": 0,
+    "roles": 2,
+    "languages": [
+      "en",
+      "fr"
+    ],
+    "nativeDefaultTokens": 2
+  },
+  "publicRoutes": {
+    "completed": true,
+    "results": [
+      "HTTP: retired PDF and internal source inaccessible; aliases 7/8 correct; CMS reference and unconfigured mail states correct",
+      "fr 1440px: 8 distinct areas reached by keyboard, footer/nav, informative YIDA-Cashew, resources link, no overflow",
+      "en 1440px: 8 distinct areas reached by keyboard, footer/nav, informative YIDA-Cashew, resources link, no overflow",
+      "fr 375px: 8 distinct areas reached by keyboard, footer/nav, informative YIDA-Cashew, resources link, no overflow",
+      "en 375px: 8 distinct areas reached by keyboard, footer/nav, informative YIDA-Cashew, resources link, no overflow"
+    ],
+    "browserErrors": [],
+    "note": "External font requests blocked; local reference CMS mode; no real email sent."
+  },
+  "limitations": [
+    "No real email",
+    "No remote deployment",
+    "No full WCAG audit",
+    "No target-host pg_dump/pg_restore test",
+    "CMS dependency alerts remain"
+  ]
+}

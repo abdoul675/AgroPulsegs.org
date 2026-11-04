@@ -120,3 +120,16 @@ test('reports CMS outages without returning configuration or credentials', async
 
   assert.deepEqual(errors, ['AgroPulse published homepage content unavailable (cms_unreachable).']);
 });
+
+test('finds the published homepage by identity without a local document identifier', async () => {
+  const env = {AGROPULSE_CMS_ENABLE_PAGES:'true',AGROPULSE_CMS_URL:config.AGROPULSE_CMS_URL,AGROPULSE_CMS_READ_TOKEN:config.AGROPULSE_CMS_READ_TOKEN};
+  let requested;
+  const result=await readPublishedHome({locale:'fr',env,fetchImpl:async url=>{
+    requested=new URL(url);
+    return Response.json({data:[{key:'home',locale:'fr',heroTitle:'Accueil publié',summary:'Introduction publiée'}]});
+  }});
+  assert.equal(requested.pathname,'/api/pages');
+  assert.equal(requested.searchParams.get('status'),'published');
+  assert.equal(requested.searchParams.get('filters[key][$eq]'),'home');
+  assert.deepEqual(result,{status:'published',content:{title:'Accueil publié',intro:'Introduction publiée'}});
+});

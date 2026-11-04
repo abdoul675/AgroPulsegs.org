@@ -5,7 +5,8 @@ import { localRoot, pilotRoot, runtime } from './runtime.mjs';
 
 const runtimeData = await runtime();
 const cmsBase = `http://127.0.0.1:${runtimeData.cmsPort}`;
-const siteBase = 'http://127.0.0.1:4175';
+const siteBase = process.env.AGROPULSE_TEST_SITE_URL || 'http://127.0.0.1:4175';
+if(!/^http:\/\/127\.0\.0\.1:\d+$/u.test(siteBase))throw new Error('CMS integration checks require a loopback test site.');
 const fixtures = JSON.parse(await fs.readFile(path.join(localRoot, 'content-fixtures.json'), 'utf8'));
 const pageId = fixtures.page;
 if (!pageId) throw new Error('Run test-content-models.mjs first to create the isolated home-page fixture.');

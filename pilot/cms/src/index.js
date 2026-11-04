@@ -3,7 +3,7 @@ const fs=require('node:fs/promises');
 const path=require('node:path');
 const {errors:{ValidationError}}=require('@strapi/utils');
 const uid='api::expertise.expertise';
-const fields=['code','title','slug','summary','body'];
+const fields=['code','title','slug','summary','body','siteText','siteLayout'];
 const local=path.resolve(__dirname,'../../.local');
 const contentPolicy=require('./domain/content-policy');
 module.exports={
@@ -23,8 +23,8 @@ module.exports={
     });
   },
   async bootstrap({strapi}){
-    if(process.env.HOST!=='127.0.0.1'||process.env.DATABASE_NAME!=='agropulse_pilot')throw new Error('This fixture is restricted to the isolated local pilot.');
-    const runtime=JSON.parse(await fs.readFile(path.join(local,'runtime.json'),'utf8'));
+    const isolatedPilot=process.env.HOST==='127.0.0.1'&&process.env.DATABASE_NAME==='agropulse_pilot'&&process.env.AGROPULSE_PILOT_MODE!=='false';
+    if(process.env.AGROPULSE_PILOT_MODE==='true'&&!isolatedPilot)throw new Error('Local test fixtures require the isolated loopback pilot database.');
     const locales=strapi.plugin('i18n').service('locales');
     for(const [code,name] of [['fr','French (fr)'],['en','English (en)']])if(!await locales.findByCode(code))await locales.create({code,name});
     await locales.setDefaultLocale({code:'fr'});
@@ -40,7 +40,7 @@ module.exports={
     const roles=strapi.admin.services.role;
     for(const [code,name,publish] of [['agropulse-editor','AgroPulse Éditeur',false],['agropulse-publisher','AgroPulse Publieur',true]]){
       let role=await roles.findOne({code});
-      if(!role)role=await roles.create({code,name,description:'Rôle du pilote fictif local'});
+      if(!role)role=await roles.create({code,name,description:'Gestion des contenus AgroPulse avec publication séparée'});
       const permissions=['read','create','update',...(publish?['publish']:[])].map(action=>({action:`plugin::content-manager.explorer.${action}`,subject:uid,properties:{fields,locales:['fr','en']},conditions:[]}));
       for(const name of contentPolicy.names){
         const subject=contentPolicy.uidFor(name),spec=contentPolicy.definitions[name];
@@ -52,6 +52,8 @@ module.exports={
       }
       await roles.assignPermissions(role.id,permissions);
     }
+    if(!isolatedPilot){strapi.log.info('AgroPulse editorial roles ready; create the first institutional administrator through the native setup. No local credentials or fixtures were imported.');return;}
+    const runtime=JSON.parse(await fs.readFile(path.join(local,'runtime.json'),'utf8'));
     for(const [name,roleCode,password] of [['admin','strapi-super-admin',runtime.adminPassword],['editor','agropulse-editor',runtime.editorPassword],['publisher','agropulse-publisher',runtime.publisherPassword]]){
       const email=`${name}@agropulse.test`;
       if(!await strapi.db.query('admin::user').findOne({where:{email}})){
@@ -76,6 +78,10 @@ module.exports={
       const created=await strapi.admin.services['api-token'].create({name:'AgroPulse content models local read',description:'Local content model tests; server only',kind:'content-api',type:'custom',lifespan:null,permissions});
       await fs.writeFile(contentTokenPath,JSON.stringify({accessKey:created.accessKey}));
     }
+    // Keep the existing local read token restricted to published content reads, including all eight areas.
+    const visualReadPermissions=[...contentPolicy.names.flatMap(name=>[contentPolicy.uidFor(name)+'.find',...(name==='site-setting'?[]:[contentPolicy.uidFor(name)+'.findOne'])]),uid+'.find',uid+'.findOne'];
+    const localContentToken=await strapi.db.query('admin::api-token').findOne({where:{name:'AgroPulse content models local read'},populate:['permissions']});
+    if(localContentToken&&visualReadPermissions.some(action=>!localContentToken.permissions?.some(permission=>permission.action===action)))await strapi.admin.services['api-token'].update(localContentToken.id,{type:'custom',permissions:visualReadPermissions});
     const tokenPath=path.join(local,'read-token.json');let token;
     try{token=JSON.parse(await fs.readFile(tokenPath,'utf8'));}catch(e){if(e.code!=='ENOENT')throw e;}
     if(!token){

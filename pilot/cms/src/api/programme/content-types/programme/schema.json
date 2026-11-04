@@ -4,7 +4,7 @@
   "info": {
     "singularName": "programme",
     "pluralName": "programmes",
-    "displayName": "Programme"
+    "displayName": "Initiatives"
   },
   "options": {
     "draftAndPublish": true
@@ -113,6 +113,22 @@
       "relation": "manyToMany",
       "target": "api::partner.partner",
       "inversedBy": "programmes"
+    },
+    "siteText": {
+      "type": "json",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "siteLayout": {
+      "type": "json",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }

@@ -4,11 +4,13 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { createContactHandler } from './contact-handler.mjs';
 import { createHomeContentHandler } from './home-content.mjs';
+import { createPageContentHandler } from './page-content.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../public/', import.meta.url)));
 const types = { '.pdf': 'application/pdf', '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
 const handleContact = createContactHandler();
 const handleHomeContent = createHomeContentHandler();
+const handlePageContent = createPageContentHandler();
 const maquetteRoutes = new Map([
   ['/apropos.html', 'a-propos'],
   ['/expertises.html', 'expertises'],
@@ -31,6 +33,11 @@ const maquetteRoutes = new Map([
 ]);
 const server = http.createServer(async (req, res) => {
   const requestUrl = new URL(req.url, 'http://localhost');
+  if (requestUrl.pathname === '/healthz') {
+    if (!['GET','HEAD'].includes(req.method)) { res.writeHead(405, {Allow:'GET, HEAD'}).end(); return; }
+    res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}).end(req.method==='HEAD'?undefined:JSON.stringify({status:'ok'}));
+    return;
+  }
   if (requestUrl.pathname.toLowerCase() === '/documents/revue-yida-cashew-n01.pdf') {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' }).end('404 — Document indisponible');
     return;
@@ -54,6 +61,10 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (requestUrl.pathname === '/api/page-content') {
+    await handlePageContent(req, res);
+    return;
+  }
   if (requestUrl.pathname === '/api/home-content') {
     await handleHomeContent(req, res);
     return;
@@ -79,7 +90,16 @@ const server = http.createServer(async (req, res) => {
     const pathname = decodeURIComponent(requestUrl.pathname);
     const target = path.resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));
     if (!target.startsWith(root + path.sep)) { res.writeHead(403).end(); return; }
-    const body = await readFile(target);
+    let body = await readFile(target);
+    if (target === path.join(root, 'index.html')) {
+      let editorOrigin = '';
+      try {
+        const source = new URL(process.env.AGROPULSE_CMS_ADMIN_ORIGIN || process.env.AGROPULSE_CMS_URL || 'http://127.0.0.1:1338');
+        if (!source.username && !source.password && (source.protocol === 'https:' || (source.protocol === 'http:' && ['127.0.0.1','localhost','[::1]'].includes(source.hostname)))) editorOrigin = source.origin;
+      } catch {}
+      body = Buffer.from(body.toString('utf8').replace('</head>', '<meta name="agropulse-cms-admin-origin" content="' + editorOrigin.replace(/[&<>"']/gu, '') + '"></head>'));
+      if (requestUrl.searchParams.get('editor') === '1') res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    }
     const download = pathname.startsWith('/documents/') && path.extname(target) === '.pdf';
     res.writeHead(200, {
       'Content-Type': types[path.extname(target)] || 'application/octet-stream',

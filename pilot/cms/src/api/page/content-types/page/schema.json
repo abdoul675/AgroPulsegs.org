@@ -4,7 +4,7 @@
   "info": {
     "singularName": "page",
     "pluralName": "pages",
-    "displayName": "Page institutionnelle"
+    "displayName": "Pages du site"
   },
   "options": {
     "draftAndPublish": true
@@ -22,7 +22,10 @@
         "about",
         "contact",
         "legal",
-        "privacy"
+        "privacy",
+        "resources",
+        "partners",
+        "expertises"
       ],
       "pluginOptions": {
         "i18n": {
@@ -89,6 +92,22 @@
     },
     "mainContent": {
       "type": "blocks",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "siteText": {
+      "type": "json",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "siteLayout": {
+      "type": "json",
       "pluginOptions": {
         "i18n": {
           "localized": true

@@ -658,6 +658,7 @@ if (appScript.includes(dataGoBinding)) {
 }
 const homeContentLoader = `let homeContentRequest=0;
 async function loadPublishedHome(){
+ if(window.AGROPULSE_PAGE_CONTENT_READY)return;
  const hero=q('.home-hero');if(!hero)return;
  const locale=EN()?'en':'fr',request=++homeContentRequest;
  try{
@@ -861,5 +862,6 @@ if (!html.includes('[data-brand="yida-cashew"]{text-transform:none!important}'))
   html = html.replace('</style>', '[data-brand="yida-cashew"]{text-transform:none!important}</style>');
 }
 
+if (!html.includes('src="editorial-client.js"')) html = html.replace('</body>', '<script src="editorial-client.js" defer></script></body>');
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);

@@ -1,3 +1,4 @@
+import { completeProgrammeHistory } from './programme-history.mjs';
 // Current editorial decisions from the project owner, 4 November 2026.
 const l = (fr, en) => ({ fr, en });
 const service = (titleFr, titleEn, textFr, textEn) => ({ titleFr, titleEn, textFr, textEn });
@@ -127,6 +128,8 @@ export function applyProgrammeContent(pages) {
   sections.notif.title = l('Se renseigner sur YIDA-Cashew', 'Ask about YIDA-Cashew');
   sections.notif.lead = [l('Ce formulaire permet de demander des renseignements. Il ne constitue pas une candidature : les candidatures sont actuellement fermées.', 'Use this form to request information. It is not an application: applications are currently closed.')];
   page.sections = [sections.genese, objectives, audiences, sections.parcours, sections.appris, sections.anacarde, sections.notif];
+
+  completeProgrammeHistory(pages);
 
   const resources = pages.ressources;
   resources.title = l('Ressources', 'Resources');

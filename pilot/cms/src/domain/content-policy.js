@@ -1,10 +1,11 @@
 'use strict';
 const {errors:{ValidationError,ForbiddenError}}=require('@strapi/utils');
 const simpleEntry=require('./simple-entry');
+const sitePresentation=require('./site-presentation-policy');
 const definitions={
   'site-setting':{required:['brandName','tagline','logo','navigation'],fields:['brandName','tagline','locale'],populate:{navigation:true,publicContact:true,socialLinks:true}},
-  page:{required:['key','slug','title','sections','seo'],identity:'key',fields:['key','slug','title','summary','locale'],populate:{seo:true,sections:{on:{'content.hero':{fields:['title','intro']},'content.rich-text':{fields:['heading','body']},'content.card-grid':{populate:{items:true}},'content.cta':{fields:['title','description','label','path']}}}}},
-  programme:{required:['key','slug','title','objective','audience','body','seo'],identity:'key',fields:['key','slug','title','objective','audience','durationDescription','body','locale'],populate:{seo:true}},
+  page:{required:['key','slug','title','sections','seo'],identity:'key',fields:['key','slug','title','heroTitle','summary','mainContent','locale','siteText','siteLayout'],populate:{seo:true,sections:{on:{'content.hero':{fields:['title','intro']},'content.rich-text':{fields:['heading','body']},'content.card-grid':{populate:{items:true}},'content.cta':{fields:['title','description','label','path']}}}}},
+  programme:{required:['key','slug','title','objective','audience','body','seo'],identity:'key',fields:['key','slug','title','objective','audience','durationDescription','body','locale','siteText','siteLayout'],populate:{seo:true}},
   campaign:{required:['key','state','notice','programme'],identity:'key',restricted:['state','opensAt','closesAt','applicationRoute'],fields:['key','state','opensAt','closesAt'],populate:{notice:true,criteria:true}},
   resource:{required:['key','language','title','file'],identity:'key',fields:['key','language','title','description','format','sizeBytes','releaseVersion'],populate:{}},
   partner:{required:['key','name','confirmationStatus'],identity:'key',restricted:['confirmationStatus'],fields:['key','name','description','website','confirmationStatus','locale'],populate:{}}
@@ -47,6 +48,7 @@ async function assertPublishedRelation(strapi,target,value,locale){
 }
 function install(strapi){
   strapi.documents.use(async(context,next)=>{
+    if(['api::page.page','api::expertise.expertise','api::programme.programme'].includes(context.uid)&&['create','update'].includes(context.action))sitePresentation.validate(context.params?.data||{});
     const spec=specification(context.uid);if(!spec)return next();
     const params=context.params||{};const ctx=strapi.requestContext.get();
     await simpleEntry.prepare(strapi,context);
@@ -78,6 +80,7 @@ function install(strapi){
       if(!doc)fail('Brouillon absent.');
       if(spec.required.some(field=>!filled(doc[field])))fail(`Publication incomplète : ${spec.required.join(', ')}.`);
       await assertIdentity(strapi,context.uid,params.documentId,doc,spec.identity);
+      sitePresentation.validate(doc);
       validateStructured(doc);
       if(doc.seo&&(!filled(doc.seo.title)||!filled(doc.seo.description)))fail('Titre et description SEO requis.');
       if(context.uid===uidFor('page')){

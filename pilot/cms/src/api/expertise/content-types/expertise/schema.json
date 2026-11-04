@@ -4,7 +4,7 @@
   "info": {
     "singularName": "expertise",
     "pluralName": "expertises",
-    "displayName": "Expertise pilote AgroPulse"
+    "displayName": "Pôles d’expertise"
   },
   "options": {
     "draftAndPublish": true
@@ -17,7 +17,7 @@
   "attributes": {
     "code": {
       "type": "string",
-      "regex": "^0[1-6]$",
+      "regex": "^0[1-8]$",
       "pluginOptions": {
         "i18n": {
           "localized": false
@@ -62,6 +62,22 @@
       "relation": "oneToMany",
       "target": "api::programme.programme",
       "mappedBy": "expertise"
+    },
+    "siteText": {
+      "type": "json",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "siteLayout": {
+      "type": "json",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }
