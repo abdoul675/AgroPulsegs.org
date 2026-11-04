@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
+import { access, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -420,17 +420,31 @@ partnerForm.fields = [
 
 const resources = pages.ressources;
 if (!resources) throw new Error('Missing Resources page in the design page.');
-resources.hero.eyebrow = localized('En préparation', 'In preparation');
+// Public files are explicitly listed; internal project documents are never enumerated.
+const catalog = JSON.parse(await readFile(path.join(publicRoot, 'documents', 'catalog.json'), 'utf8'));
+const documents = [];
+for (const document of catalog) {
+  if (!/^[a-z0-9][a-z0-9-]*\.pdf$/u.test(document.filename)) throw new Error('Invalid public PDF filename');
+  const pdfPath = path.join(publicRoot, 'documents', document.filename);
+  const contents = await readFile(pdfPath);
+  if (contents.subarray(0, 5).toString() !== '%PDF-') throw new Error('Invalid PDF document');
+  const info = await stat(pdfPath);
+  documents.push({ ...document, href: '/documents/' + document.filename, bytes: info.size });
+}
+const downloadSection = (id) => ({
+  id, type: 'downloads', title: localized('Documents à télécharger', 'Download documents'),
+  lead: paragraphs('Consultez les publications AgroPulse.', 'Explore AgroPulse publications.'),
+  groups: documents,
+});
+resources.hero.eyebrow = localized('Publications', 'Publications');
 resources.hero.lead = paragraphs(
-  'Les premières ressources AgroPulse sont en préparation. Elles seront publiées ici lorsqu’elles seront disponibles.',
-  'The first AgroPulse resources are being prepared. They will be published here when available.',
+  'Retrouvez les publications AgroPulse et téléchargez les documents disponibles.',
+  'Browse AgroPulse publications and download available documents.',
 );
 const resourceExamples = getSection(resources, 'exemples');
-resourceExamples.title = localized('Ressources à venir', 'Upcoming resources');
-resourceExamples.lead = paragraphs(
-  'Aucun document n’est encore disponible au téléchargement.',
-  'No documents are available for download yet.',
-);
+Object.assign(resourceExamples, downloadSection('exemples'));
+yida.sections = yida.sections.filter(section => section.id !== 'documents');
+yida.sections.splice(1, 0, downloadSection('documents'));
 const resourceNotice = getSection(resources, 'notif');
 resourceNotice.title = localized('Demander à être informé(e)', 'Request an update');
 resourceNotice.lead = paragraphs(
@@ -462,6 +476,9 @@ for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gu)) {
 }
 if (!appMatch) throw new Error('The design page is missing its page renderer.');
 let appScript = appMatch[2];
+if (!appScript.includes('downloads:s=>')) {
+  appScript = appScript.replace('const BT={', 'const BT={\n' + "downloads:s=>`<div class=\"w\">${sh(s)}<div class=\"fx\">${s.groups.map(g=>`<article class=\"fr\"><div><h3>${E(tr(g.title))}</h3><p>${E(tr(g.description))}</p><p>${E(tr(g.edition))} · PDF · ${E(g.language==='fr'?(EN()?'French':'Français'):g.language==='en'?(EN()?'English':'Anglais'):g.language)} · ${new Intl.NumberFormat(EN()?'en':'fr',{maximumFractionDigits:1}).format(g.bytes/1000000)} ${EN()?'MB':'Mo'}</p><a class=\"btn\" href=\"${E(g.href)}\" download=\"${E(g.filename)}\">${ico('download')}${EN()?'Download':'Télécharger'} — ${E(tr(g.title))}</a></div></article>`).join('')}</div></div>`," + '\n');
+}
 const replaceOnce = (source, before, after, label) => {
   const first = source.indexOf(before);
   if (first < 0 || source.indexOf(before, first + before.length) >= 0) {

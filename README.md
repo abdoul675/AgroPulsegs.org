@@ -34,3 +34,9 @@ Les textes et traductions restent à valider par Mme Hélène Nichy. Ne pas ajou
 Un essai isolé dans [`pilot/`](pilot/README.md) vérifie une expertise fictive FR/EN, les trois rôles administratifs, les brouillons, la publication et la prévisualisation. Il ne remplace pas le site statique décrit ci-dessus. Consulter le [compte rendu du pilote](docs/AgroPulse_Pilote_technique_v1.0.md) pour les 77 assertions techniques réussies et les scénarios restant à couvrir. Aucun formulaire ni déploiement de production n’est activé par cet essai.
 
 Le [lot d’administration des contenus](docs/AgroPulse_Administration_contenus_v1.0.md) décrit un pilote distinct ; il ne remplace pas le site déployable décrit ci-dessus.
+
+## Documents téléchargeables
+
+La revue YIDA-Cashew n° 01 (octobre 2026, PDF en français) est téléchargeable depuis Ressources et YIDA-Cashew. Le serveur renvoie le type PDF et un en-tête de téléchargement. Les boutons indiquent le format, la langue et la taille réelle du fichier.
+
+Pour ajouter une publication autorisée, déposer son PDF dans `public/documents/`, ajouter ses métadonnées FR/EN dans `public/documents/catalog.json`, puis lancer `npm run build`. Le catalogue est explicite : les documents internes de `docs/` ne sont pas rendus publics automatiquement. Un document disponible uniquement en français reste identifié comme tel dans la version anglaise.

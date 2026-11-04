@@ -5,7 +5,7 @@ import path from 'node:path';
 import { createContactHandler } from './contact-handler.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../public/', import.meta.url)));
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
+const types = { '.pdf': 'application/pdf', '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
 const handleContact = createContactHandler();
 const maquetteRoutes = new Map([
   ['/apropos.html', 'a-propos'],
@@ -67,7 +67,13 @@ const server = http.createServer(async (req, res) => {
     const target = path.resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));
     if (!target.startsWith(root + path.sep)) { res.writeHead(403).end(); return; }
     const body = await readFile(target);
-    res.writeHead(200, { 'Content-Type': types[path.extname(target)] || 'application/octet-stream', 'X-Content-Type-Options': 'nosniff' });
+    const download = pathname.startsWith('/documents/') && path.extname(target) === '.pdf';
+    res.writeHead(200, {
+      'Content-Type': types[path.extname(target)] || 'application/octet-stream',
+      'X-Content-Type-Options': 'nosniff',
+      'Content-Length': body.length,
+      ...(download ? { 'Content-Disposition': 'attachment; filename="' + path.basename(target).replace(/[^a-zA-Z0-9._-]/gu, '_') + '"' } : {}),
+    });
     res.end(req.method === 'HEAD' ? undefined : body);
   } catch { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('404 — Page introuvable'); }
 });
