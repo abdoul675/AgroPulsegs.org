@@ -727,11 +727,12 @@ if (appScript.includes(oldLanguageInitializer)) {
   );
 }
 const menuHandler = "const nav=q('#nav'),bg=q('#bg');bg.onclick=()=>{const o=nav.classList.toggle('open');bg.setAttribute('aria-expanded',o)};nav.onclick=e=>{if(e.target.closest('a')){nav.classList.remove('open');bg.setAttribute('aria-expanded',false)}};";
-if (appScript.includes(menuHandler)) {
+const keyboardDismissHandler = "document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){nav.classList.remove('open');bg.setAttribute('aria-expanded','false');bg.focus()}});";
+if (appScript.includes(menuHandler) && !appScript.includes(keyboardDismissHandler)) {
   appScript = replaceOnce(
     appScript,
     menuHandler,
-    `${menuHandler}document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){nav.classList.remove('open');bg.setAttribute('aria-expanded','false');bg.focus()}});`,
+    `${menuHandler}${keyboardDismissHandler}`,
     'keyboard dismissal of mobile navigation',
   );
 }

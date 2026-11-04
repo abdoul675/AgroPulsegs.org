@@ -9,6 +9,7 @@ const sitePagesScript=await readFile(new URL('site-pages.js',root),'utf8');
 const contactHandler=await readFile(new URL('../scripts/contact-handler.mjs',import.meta.url),'utf8');
 const homeContentHandler=await readFile(new URL('../scripts/home-content.mjs',import.meta.url),'utf8');
 const server=await readFile(new URL('../scripts/serve.mjs',import.meta.url),'utf8');
+const siteBuilder=await readFile(new URL('../scripts/build-maquette-site.mjs',import.meta.url),'utf8');
 const data=app.slice(0,app.indexOf('let language ='));
 const {copy}=vm.runInNewContext(`${data}\n({copy})`);
 for(const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gu)){
@@ -28,6 +29,7 @@ const maquetteData=html.match(/<script id="pages-data" type="application\/json">
 assert.ok(maquetteData,'Maquette content must be embedded as JSON');
 const maquettePages=JSON.parse(maquetteData[1]);
 assert.match(html,/const PH=slug=>slug\.startsWith\('#'\)\?slug:/u,'Explicit route and section hashes must not be prefixed twice');
+assert.match(siteBuilder,/appScript\.includes\(menuHandler\)\s*&&\s*!appScript\.includes\(keyboardDismissHandler\)/u,'Repeated builds must not duplicate the keyboard dismissal handler');
 assert.match(html,/requestedLanguage=new URLSearchParams\(location\.search\)\.get\('lang'\)/u,'Direct links must restore the requested language');
 assert.match(html,/url\.searchParams\.set\('lang',l\)/u,'The language switch must produce a shareable URL');
 assert.match(html,/aria-controls="nav"/u,'The mobile navigation control must identify its controlled menu');
@@ -67,6 +69,7 @@ assert.equal(getSection('contact','canaux').title.en,'Countries of intervention'
 assert.ok(getSection('contact','canaux').groups.every(group=>group.text.every(text=>text.en==='Country of intervention listed.')&&!group.meta?.some(value=>value.includes('HQ')||value.includes('Siège'))),'Contact locations must describe intervention only, without an unconfirmed office badge');
 const yidaMosaic=maquettePages.fellowship.sections.find(section=>section.type==='mosaic');
 assert.ok(yidaMosaic?.groups?.length&&yidaMosaic.groups.every(group=>!group.to),'YIDA information cards must remain non-interactive when they have no destination');
+assert.notEqual(maquettePages.ressources.hero.variant,'docs','Resources must not suggest unavailable publications');
 assert.doesNotMatch(JSON.stringify(getSection('accueil','reseau-international').lead),/Abidjan/u,'The homepage network copy must not imply an unconfirmed headquarters');
 const requestFields=getSection('contact','form').fields;
 assert.deepEqual(requestFields.filter(field=>field.name==='type')[0].options.map(option=>option.value),['','contact','partnership','training','quote']);

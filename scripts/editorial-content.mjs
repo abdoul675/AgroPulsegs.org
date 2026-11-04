@@ -133,6 +133,7 @@ export function applyProgrammeContent(pages) {
   resources.hero.title = l('Ressources et informations', 'Resources and information');
   resources.hero.eyebrow = l('En savoir plus', 'Learn more');
   resources.hero.lead = [l('Les informations sur nos initiatives sont disponibles directement sur leurs pages de présentation.', 'Information about our initiatives is available directly on their presentation pages.')];
+  resources.hero.variant = '';
   const examples = resources.sections.find(section => section.id === 'exemples');
   Object.assign(examples, {
     type: 'links', kicker: l('Nos initiatives', 'Our initiatives'), title: l('Découvrir nos programmes', 'Explore our programmes'),
