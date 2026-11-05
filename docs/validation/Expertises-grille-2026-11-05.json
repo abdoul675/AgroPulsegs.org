@@ -1,0 +1,198 @@
+{
+  "completed": true,
+  "checks": [
+    {
+      "slug": "accueil",
+      "lang": "fr",
+      "width": 375,
+      "columns": 1,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "fr",
+      "width": 375,
+      "columns": 1,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "fr",
+      "width": 768,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "fr",
+      "width": 768,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "fr",
+      "width": 1024,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "fr",
+      "width": 1024,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "fr",
+      "width": 1199,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "fr",
+      "width": 1199,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "fr",
+      "width": 1200,
+      "columns": 4,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "fr",
+      "width": 1200,
+      "columns": 4,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "fr",
+      "width": 1440,
+      "columns": 4,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "fr",
+      "width": 1440,
+      "columns": 4,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "en",
+      "width": 375,
+      "columns": 1,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "en",
+      "width": 375,
+      "columns": 1,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "en",
+      "width": 768,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "en",
+      "width": 768,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "en",
+      "width": 1024,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "en",
+      "width": 1024,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "en",
+      "width": 1199,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "en",
+      "width": 1199,
+      "columns": 2,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "en",
+      "width": 1200,
+      "columns": 4,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "en",
+      "width": 1200,
+      "columns": 4,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "accueil",
+      "lang": "en",
+      "width": 1440,
+      "columns": 4,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    },
+    {
+      "slug": "expertises",
+      "lang": "en",
+      "width": 1440,
+      "columns": 4,
+      "completeRows": true,
+      "keyboardCopyFits": true
+    }
+  ],
+  "errors": []
+}

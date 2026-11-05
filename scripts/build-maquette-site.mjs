@@ -998,5 +998,6 @@ html = html.replaceAll('Space Grotesk', 'Sora');
 html = html.replace(/<link\b[^>]*href=["']https:\/\/fonts\.(?:googleapis|gstatic)\.com[^>]*>/gu, '');
 if(!html.includes('href="typography.css"'))html=html.replace('</head>','<link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin/><link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin/><link rel="stylesheet" href="typography.css"/></head>');
 if(!html.includes('href="programmes.css"'))html=html.replace('</head>','<link rel="stylesheet" href="programmes.css"/></head>');
+if(!html.includes('href="expertise-grid.css"'))html=html.replace('</head>','<link rel="stylesheet" href="expertise-grid.css"/></head>');
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);
