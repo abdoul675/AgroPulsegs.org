@@ -513,16 +513,16 @@ applyProgrammeContent(pages);
 applyVisualAssets(pages);
 const countryMapSection = compact => ({
   id: 'pays-intervention', type: 'countrymap', compact,
-  kicker: localized('Afrique de l’Ouest', 'West Africa'),
-  title: localized(compact ? 'Un ancrage régional, des liens de proximité' : 'Retrouvez nos pays d’intervention', compact ? 'Regional roots, local connections' : 'Find our countries of intervention'),
+  kicker: localized('Notre ancrage', 'Our regional roots'),
+  title: localized('AgroPulse en Afrique de l’Ouest', 'AgroPulse in West Africa'),
   lead: paragraphs(
-    compact ? 'Nos expertises accompagnent les acteurs agricoles en Côte d’Ivoire, au Sénégal et en Guinée-Bissau.' : 'Vous avez une demande dans l’un de ces pays ? Sélectionnez-le sur la carte, puis présentez-nous vos besoins.',
-    compact ? 'Our expertise supports agricultural stakeholders in Côte d’Ivoire, Senegal and Guinea-Bissau.' : 'Have an enquiry concerning one of these countries? Select it on the map, then tell us what you need.',
+    'Relier les compétences, les données et les besoins du terrain pour accompagner les filières agricoles en Côte d’Ivoire, au Sénégal et en Guinée-Bissau.',
+    'Connecting skills, data and field needs to support agricultural value chains in Côte d’Ivoire, Senegal and Guinea-Bissau.',
   ),
   groups: [
-    {code:'CI',title:localized('Côte d’Ivoire','Côte d’Ivoire'),text:paragraphs('Contactez notre équipe pour un besoin concernant la Côte d’Ivoire.','Contact our team about a need in Côte d’Ivoire.')},
-    {code:'SN',title:localized('Sénégal','Senegal'),text:paragraphs('Vous portez une initiative au Sénégal ? Présentez-nous vos besoins.','Working on an initiative in Senegal? Tell us what you need.')},
-    {code:'GW',title:localized('Guinée-Bissau','Guinea-Bissau'),text:paragraphs('Échangeons sur l’accompagnement recherché en Guinée-Bissau.','Let’s discuss the support you are looking for in Guinea-Bissau.')},
+    {code:'CI',title:localized('Côte d’Ivoire','Côte d’Ivoire'),text:paragraphs('Des compétences numériques pour les acteurs agricoles, avec AGIR-IA et la Fondation AWI auprès des femmes agripreneuses.','Digital skills for agricultural stakeholders, with AGIR-IA and the AWI Foundation supporting women agripreneurs.')},
+    {code:'SN',title:localized('Sénégal','Senegal'),text:paragraphs('Des expertises en formation, données et conseil à mobiliser selon les besoins des initiatives agricoles locales.','Training, data and consulting expertise available to meet the needs of local agricultural initiatives.')},
+    {code:'GW',title:localized('Guinée-Bissau','Guinea-Bissau'),text:paragraphs('Des perspectives autour de la filière cajou : formation des jeunes, compétences numériques et valorisation des données agricoles.','Opportunities centred on the cashew value chain: youth training, digital skills and better use of agricultural data.')},
   ],
 });
 for(const slug of ['contact','accueil']){
