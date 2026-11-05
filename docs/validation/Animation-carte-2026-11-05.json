@@ -1,0 +1,73 @@
+{
+  "completed": true,
+  "checks": [
+    {
+      "port": 4191,
+      "lang": "fr",
+      "width": 1440,
+      "motion": "no-preference",
+      "slug": "accueil",
+      "passed": true
+    },
+    {
+      "port": 4191,
+      "lang": "fr",
+      "width": 1440,
+      "motion": "no-preference",
+      "slug": "contact",
+      "passed": true
+    },
+    {
+      "port": 4188,
+      "lang": "en",
+      "width": 375,
+      "motion": "no-preference",
+      "slug": "accueil",
+      "passed": true
+    },
+    {
+      "port": 4188,
+      "lang": "en",
+      "width": 375,
+      "motion": "no-preference",
+      "slug": "contact",
+      "passed": true
+    },
+    {
+      "port": 4191,
+      "lang": "fr",
+      "width": 375,
+      "motion": "reduce",
+      "slug": "accueil",
+      "passed": true
+    },
+    {
+      "port": 4191,
+      "lang": "fr",
+      "width": 375,
+      "motion": "reduce",
+      "slug": "contact",
+      "passed": true
+    },
+    {
+      "port": 4188,
+      "lang": "fr",
+      "width": 1440,
+      "motion": "reduce",
+      "slug": "accueil",
+      "passed": true
+    },
+    {
+      "port": 4188,
+      "lang": "fr",
+      "width": 1440,
+      "motion": "reduce",
+      "slug": "contact",
+      "passed": true
+    }
+  ],
+  "notes": [
+    "Native animation observed through changing dash offset; global pause/resume tested",
+    "Reduced motion and keyboard selection tested; fonts blocked; no content changes"
+  ]
+}
