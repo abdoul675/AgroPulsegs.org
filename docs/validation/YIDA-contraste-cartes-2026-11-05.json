@@ -1,0 +1,159 @@
+{
+  "completed": true,
+  "checks": [
+    {
+      "lang": "fr",
+      "width": 375,
+      "cards": [
+        {
+          "title": "2 à 3 mois",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "50 Fellows",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "500+ Fellows",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "Candidatures fermées",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        }
+      ]
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "cards": [
+        {
+          "title": "2 à 3 mois",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "50 Fellows",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "500+ Fellows",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "Candidatures fermées",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        }
+      ]
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "cards": [
+        {
+          "title": "2–3 months",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "50 Fellows",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "500+ Fellows",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "Applications closed",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        }
+      ]
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "cards": [
+        {
+          "title": "2–3 months",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "50 Fellows",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "500+ Fellows",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        },
+        {
+          "title": "Applications closed",
+          "background": "rgb(255, 255, 255)",
+          "heading": "rgb(23, 63, 43)",
+          "body": "rgb(38, 61, 48)",
+          "headingContrast": 11.782409125528654,
+          "bodyContrast": 11.714884724254555
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "scope": "Four fact cards on white, inside the dark YIDA section; computed text/background contrast >=4.5:1. No full accessibility audit claimed."
+}

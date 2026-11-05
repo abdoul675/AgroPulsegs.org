@@ -7,6 +7,9 @@
 .programme-fact{padding:1.5rem;border:1px solid #dce4dc;border-radius:1.25rem;background:#fff;color:#263d30;min-width:0;border-top:4px solid #b18b35}
 .programme-fact h3{font-size:clamp(1.2rem,1.9vw,1.75rem);color:#173f2b;margin:0 0 .8rem;overflow-wrap:anywhere}
 .programme-fact p{margin:0;font-size:1rem;line-height:1.7}
+/* Card text stays dark inside sections that otherwise use light text. */
+section .programme-fact h3{color:#173f2b}
+section .programme-fact p{color:#263d30}
 .programme-questions{max-width:900px;display:grid;gap:.75rem;margin-top:2rem}
 .programme-question{border:1px solid #dce4dc;border-radius:1rem;background:#fff;color:#263d30;overflow:hidden}
 .programme-question summary{cursor:pointer;padding:1.25rem 1.5rem;font-weight:700;font-size:1.05rem;line-height:1.6;min-height:44px}
