@@ -1,0 +1,9 @@
+# Version simplifiée d’après les vidéos — 5 novembre 2026
+
+Le porteur fournit deux captures vidéo et demande de reprendre leur présentation dans une version plus simple. Les clips 20261105-1130-38.1769261.mp4 (3,9 secondes) et 20261105-1133-44.9407113.mp4 (8,13 secondes) sont lus localement et examinés à six instants chacun. Ils servent de références visuelles ; leurs anciens contenus de siège, antennes et partenaires en attente ne sont pas repris comme informations validées.
+
+La carte d’Afrique retrouve une présentation ouverte : suppression des encadrés, de la trame, du compteur et du bandeau de sélection ; trois descriptions sobres sur un filet vert ; repères reliés en pointillés. Un signal et une petite pulsation, plus lents, accompagnent seulement le pays choisi. Les textes validés et leur édition CMS restent conservés.
+
+Le globe reprend un seul point orbital pour la Fondation AWI, avec une liaison légère vers son repère géographique d’Abidjan. La sélection recentre toujours le globe sur cette localité. Aucun partenaire fictif, numéro de remplacement ou siège d’AgroPulse n’est ajouté. Le nom du partenaire est porté par son point orbital et la ville par le repère à la surface.
+
+Trois parcours de comparaison réussissent sur l’aperçu CMS : FR ordinateur avec mouvement, EN mobile avec mouvement et FR mobile sans mouvement. Ils vérifient l’absence des éléments décoratifs retirés, les trois pays, la sélection au clavier, le seul partenaire AWI, sa localité, le mouvement orbital réel puis son arrêt par la pause, l’absence de mouvement avec la préférence réduite, l’absence de débordement et d’erreur JavaScript. Huit parcours complémentaires Accueil/Contact réussissent pour l’animation de carte, la pause/reprise, les deux aperçus, le maintien du pays lors d’un réaffichage CMS et le mouvement réduit. Les polices externes sont bloquées. Les captures sont examinées ; les médias sources restent inchangés et hors du dépôt.

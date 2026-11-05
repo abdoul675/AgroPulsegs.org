@@ -567,6 +567,23 @@ const updatePartnerGlobe = source => {
   return source.slice(0,start)+globe+source.slice(end);
 };
 
+const simplifyPartnerOrbit = source => {
+  if(source.includes('/* one confirmed orbit */'))return source;
+  const start=source.indexOf('function initGlobe('),end=source.indexOf('function initLab(',start);
+  if(start<0||end<0)throw new Error('Missing globe for simplified reference');
+  let globe=source.slice(start,end);
+  const patch=(before,after)=>{if(!globe.includes(before))throw new Error('Missing simplified orbit anchor: '+before.slice(0,60));globe=globe.replace(before,after)};
+  patch('/* partner geographic markers */','/* partner geographic markers *//* one confirmed orbit */');
+  patch('sats=[];', 'sats=PD.map((d,k)=>{const p=op(gt*.9+k*6.2832/N);return{k,x:p.x,y:p.y,z:p.z,d}});');
+  patch('const hit=hits.filter', "const hit=[...hits,...sats.filter(s=>s.z>=0)].filter");
+  patch("g2.fillText(ok?s.d.n[e].split(' ').pop().slice(0,8):'#'+(s.k+1),s.x,s.y-16)", "g2.fillText(s.d.n[e],clamp(s.x,60,W-60),s.y-16,110)");
+  patch("g2.fillText(d.n[e],labelX,y-43,W-32)", "/* Partner name is carried by its single orbital point. */");
+  const pulse="g2.strokeStyle='rgba('+col+','+(1-ph)+')';g2.lineWidth=2;g2.stroke();}";
+  const link="g2.strokeStyle='rgba('+col+','+(1-ph)+')';g2.lineWidth=2;g2.stroke();const satellite=sats[m.k];if(satellite){g2.beginPath();g2.moveTo(satellite.x,satellite.y);g2.quadraticCurveTo((satellite.x+x)/2,Math.min(satellite.y,y)-24,x,y);g2.setLineDash([5,6]);g2.lineDashOffset=-gt*180;g2.strokeStyle='rgba(143,227,138,.7)';g2.lineWidth=1.5;g2.stroke();g2.setLineDash([])}}";
+  patch(pulse,link);
+  return source.slice(0,start)+globe+source.slice(end);
+};
+
 let appMatch;
 for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gu)) {
   if (match[2].includes('function secHTML')) {
@@ -884,6 +901,7 @@ if(appScript.includes(countryStart)){
 if(!appScript.includes('countrymap:s=>countryMapHTML(s),'))appScript=appScript.replace('const BT={','const BT={\ncountrymap:s=>countryMapHTML(s),');
 // Keep partner locations on the Earth's surface rather than in a decorative orbit.
 appScript = updatePartnerGlobe(appScript);
+appScript = simplifyPartnerOrbit(appScript);
 let sendFormStart = appScript.indexOf('function sendForm(f,m){');
 while (sendFormStart >= 6 && appScript.slice(0, sendFormStart).endsWith('async ')) {
   sendFormStart -= 6;
