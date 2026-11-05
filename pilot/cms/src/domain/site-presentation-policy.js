@@ -5,9 +5,11 @@ const id=v=>typeof v==='string'&&/^[a-z][a-z0-9-]{0,79}$/.test(v);
 const fail=()=>{throw new ValidationError('La présentation contient des valeurs non autorisées.');};
 const keys=(v,allowed)=>{if(!record(v)||Object.keys(v).some(k=>!allowed.includes(k)))fail();};
 const text=(v,max)=>{if(v!==undefined&&(typeof v!=='string'||v.length>max||/[\u0000\u0008\u000b\u000c\u007f]/.test(v)))fail();};
-function validate(data){
+async function validate(data){
+ const {normalizeStyles}=await import('./style-policy.mjs');
  if(Object.hasOwn(data,'siteLayout')&&data.siteLayout!==null){
-  const v=data.siteLayout;keys(v,['sections','cards']);
+  const v=data.siteLayout;keys(v,['sections','cards','styles']);
+  if(v.styles!==undefined){try{normalizeStyles(v.styles);}catch(error){throw new ValidationError(error.message);}}
   if(v.sections!==undefined&&(!Array.isArray(v.sections)||v.sections.length>60||v.sections.some(x=>!id(x))||new Set(v.sections).size!==v.sections.length))fail();
   if(v.cards!==undefined){if(!record(v.cards)||Object.keys(v.cards).length>60)fail();for(const[k,a]of Object.entries(v.cards))if(!id(k)||!Array.isArray(a)||a.length>100||a.some(n=>!Number.isInteger(n)||n<0||n>=100)||new Set(a).size!==a.length)fail();}
  }

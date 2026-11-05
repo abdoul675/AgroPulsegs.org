@@ -48,7 +48,7 @@ async function assertPublishedRelation(strapi,target,value,locale){
 }
 function install(strapi){
   strapi.documents.use(async(context,next)=>{
-    if(['api::page.page','api::expertise.expertise','api::programme.programme'].includes(context.uid)&&['create','update'].includes(context.action))sitePresentation.validate(context.params?.data||{});
+    if(['api::page.page','api::expertise.expertise','api::programme.programme'].includes(context.uid)&&['create','update'].includes(context.action))await sitePresentation.validate(context.params?.data||{});
     const spec=specification(context.uid);if(!spec)return next();
     const params=context.params||{};const ctx=strapi.requestContext.get();
     await simpleEntry.prepare(strapi,context);
@@ -80,7 +80,7 @@ function install(strapi){
       if(!doc)fail('Brouillon absent.');
       if(spec.required.some(field=>!filled(doc[field])))fail(`Publication incomplète : ${spec.required.join(', ')}.`);
       await assertIdentity(strapi,context.uid,params.documentId,doc,spec.identity);
-      sitePresentation.validate(doc);
+      await sitePresentation.validate(doc);
       validateStructured(doc);
       if(doc.seo&&(!filled(doc.seo.title)||!filled(doc.seo.description)))fail('Titre et description SEO requis.');
       if(context.uid===uidFor('page')){

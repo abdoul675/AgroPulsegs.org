@@ -11,7 +11,7 @@ Le menu **Pilotage visuel** est l’entrée recommandée. Le CMS conserve ses fo
 
 **Rétablir la disposition** remet l’ordre original sans effacer les textes. Un avertissement protège les modifications non enregistrées lors d’un changement de page ou de langue.
 
-Le design de référence, les images, les liens, les formulaires et le comportement mobile sont conservés. L’éditeur ne permet pas d’ajouter du HTML, du CSS ou des scripts. Les sections et cartes obligatoires ne peuvent pas être supprimées par leur réorganisation. Les entrées du catalogue couvrent l’accueil, À propos, Contact, Expertises, les huit pôles, YIDA-Cashew, AGIR-IA, Partenaires, Ressources et les pages légales.
+Le design de référence, les images, les liens, les formulaires et le comportement mobile sont conservés. L’éditeur propose maintenant des réglages d’apparence et un champ CSS avancé limité aux composants de la page. Le HTML, les scripts et les imports externes restent exclus. Les sections et cartes obligatoires ne peuvent pas être supprimées par leur réorganisation. Les entrées du catalogue couvrent l’accueil, À propos, Contact, Expertises, les huit pôles, YIDA-Cashew, AGIR-IA, Partenaires, Ressources et les pages légales.
 
 Les textes des sections et cartes sont administrables. Les médias, coordonnées globales du pied de page, options de formulaire et intitulés de navigation restent dans le code de la maquette ; ils ne sont pas tous configurables dans cet éditeur. Le nombre de cartes d’une grille reste défini par la maquette.
 
@@ -27,3 +27,19 @@ Les textes des sections et cartes sont administrables. Les médias, coordonnées
 ## Si l’aperçu ne s’affiche pas
 
 Faire vérifier l’adresse publique du site configurée à la construction du CMS et l’origine du CMS configurée côté serveur du site. L’aperçu n’accepte les messages que de ces origines autorisées. Aucun jeton de lecture n’est transmis dans l’aperçu. Le serveur du site doit fonctionner, même si le catalogue de pages existe déjà dans le CMS.
+
+## Apparence et CSS avancé
+
+Dans la colonne de gauche, ouvrir **Apparence de la page**, juste sous le titre du panneau. Les menus permettent de choisir l’arrondi, l’espacement et l’ombre des cartes. Les sélecteurs de couleur règlent les titres, le fond et la bordure. Une valeur d’origine conserve le design approuvé. Ces choix concernent la page et la langue sélectionnées.
+
+Ouvrir **CSS avancé** pour écrire des règles ciblant .agp-card, .agp-card-grid, .agp-section, .agp-page-title, .agp-section-title ou .agp-intro. Exemple :
+
+.agp-card { border-radius: 24px; border: 1px solid #28752c; }
+
+Les descendants h2, h3, p, img et a sont possibles, ainsi qu’un préfixe de section tel que #sec-faire .agp-card. Les règles @media (max-width: 768px) et min-width sont acceptées entre 320 et 1920 px. Le champ est limité à 10 000 caractères. Il accepte notamment les couleurs, bordures, espacements et propriétés typographiques ; ce n’est pas une feuille CSS générale sans restrictions.
+
+Les imports, URL, HTML, sélecteurs globaux, attributs, !important, positionnement et propriétés non autorisées sont refusés. Un message indique l’erreur et l’enregistrement est désactivé jusqu’à sa correction. La même validation est appliquée côté serveur, y compris lors d’un appel direct à l’API.
+
+Le résultat apparaît dans l’aperçu après une courte actualisation différée. Vérifier la vue mobile et les contrastes, puis **Enregistrer le brouillon** ; le site conserve son apparence publiée tant que le Publieur n’a pas publié. **Rétablir l’apparence d’origine** efface les styles du brouillon sans toucher aux textes ni à l’ordre des cartes. Enregistrer, puis publier cette restauration pour l’appliquer aux visiteurs.
+
+Cliquer sur une section dans la liste de gauche fait maintenant défiler l’aperçu vers cette section, pour retrouver les cartes sans chercher sous le haut de page.

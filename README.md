@@ -58,3 +58,7 @@ Le CMS propose maintenant un aperçu avec déplacement des sections et cartes, s
 La liste à faire compléter avant mise en ligne est disponible dans [les informations à fournir](docs/Mise-en-ligne-elements-a-fournir.md). Le contrôle complémentaire des frontières de sécurité du CMS se lance avec `npm run check:cms-security`, après installation des dépendances CMS.
 
 La [vérification indépendante du CMS](docs/validation/Preparation-mise-en-ligne-2026-11-04.md) confirme désormais installation, compilation et démarrage sans importer les données du pilote. La mise en ligne attend l’identification de l’hébergement et les informations officielles.
+
+## Compléments du 5 novembre 2026
+
+Le pilotage comporte des réglages d’apparence et un CSS avancé limité aux composants de chaque page, avec brouillon/publication et restauration du design initial. Voir le [guide](docs/AgroPulse_Guide_pilotage_visuel.md), le [rapport de sécurité local](security_best_practices_report.md) et la [proposition d’hébergement](docs/Proposition-hebergement-AgroPulse-2026-11-04.md). La cible de déploiement reste vendredi 6 novembre, sous réserve de validation de l’offre, du domaine et des accès.

@@ -863,5 +863,6 @@ if (!html.includes('[data-brand="yida-cashew"]{text-transform:none!important}'))
 }
 
 if (!html.includes('src="editorial-client.js"')) html = html.replace('</body>', '<script src="editorial-client.js" defer></script></body>');
+await writeFile(path.join(publicRoot,'style-policy.mjs'),await readFile(new URL('../pilot/cms/src/domain/style-policy.mjs',import.meta.url),'utf8'));
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);

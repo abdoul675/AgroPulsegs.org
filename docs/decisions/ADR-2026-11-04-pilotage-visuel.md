@@ -15,3 +15,11 @@ Le site lit uniquement les documents publiés, par identité métier et langue. 
 L’enregistrement ne publie pas. Le rôle Éditeur conserve ses droits de création/modification ; le Publieur conserve la publication native. Le déplacement réordonne une grille ou les sections de la page ; les images, le nombre de cartes et les composants restent définis dans la maquette. Les liens de navigation et le pied de page ne sont pas un constructeur libre. Ce choix protège le design et le responsive sans introduire de fournisseur ou de bibliothèque de constructeur supplémentaire.
 
 Le bootstrap institutionnel prépare les langues et rôles sans créer de comptes fictifs ni importer les données locales du pilote. Les fixtures restent limitées à HOST=127.0.0.1 et à la base agropulse_pilot ; AGROPULSE_PILOT_MODE=false désactive ce mode explicitement.
+
+## Extension acceptée le 4 novembre, vérifiée le 5 novembre
+
+Le porteur a demandé à la fois des réglages d’apparence simples et la possibilité de saisir du CSS. Cela remplace l’exclusion générale du CSS mentionnée plus haut, sans autoriser du HTML ou du JavaScript.
+
+Les réglages sont stockés dans siteLayout.styles, déjà localisé et protégé par les droits natifs. Il n’y a pas de nouvelle table ni de migration de données. Une politique ESM sans dépendance est partagée par le CMS et son interface ; le générateur en copie une version publique utilisée par l’aperçu et l’adaptateur du site. Cette politique compile une grammaire CSS réduite et préfixe chaque règle par #app. Seuls les composants identifiés, des propriétés d’apparence autorisées et des règles de largeur responsive bornées sont acceptés. Les imports et ressources distantes sont interdits.
+
+Le choix d’une grammaire réduite garde un contrôle vérifiable sur les règles sans ajouter un constructeur ou une dépendance de parsing. Il implique une compatibilité partielle avec le langage CSS général, documentée dans le guide. Les styles par défaut sont vides, donc le design approuvé reste la référence. L’aperçu est actualisé après une temporisation de 120 ms pour regrouper les saisies ; les styles d’une page sont retirés avant la navigation suivante. Les styles restent privés jusqu’à publication, et les contrôles serveur rejettent les règles interdites même si l’interface est contournée.

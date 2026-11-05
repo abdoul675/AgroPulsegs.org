@@ -1,3 +1,4 @@
+import {normalizeStyles} from '../public/style-policy.mjs';
 const pages = {
   accueil: ['pages', 'key', 'home'], expertises: ['pages', 'key', 'expertises'], 'a-propos': ['pages', 'key', 'about'], contact: ['pages', 'key', 'contact'],
   'mentions-legales': ['pages', 'key', 'legal'], confidentialite: ['pages', 'key', 'privacy'],
@@ -29,6 +30,7 @@ export function presentation(value) {
   copy.hero = {...copy.hero,title:plain(value.heroTitle || value.title,500) || copy.hero?.title,intro:plain(value.summary || value.objective,5000) || copy.hero?.intro};
   const layout = {};
   if (record(value.siteLayout)) {
+    if(record(value.siteLayout.styles)){try{layout.styles=normalizeStyles(value.siteLayout.styles);}catch{ /* Invalid legacy presentation is never sent to the browser. */ }}
     if (Array.isArray(value.siteLayout.sections)) layout.sections = [...new Set(value.siteLayout.sections.filter(identifier))].slice(0,60);
     if (record(value.siteLayout.cards)) {
       layout.cards = {};

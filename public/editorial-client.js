@@ -1,5 +1,6 @@
 /* Published copy and layout bridge. No CMS credential is sent to this script. */
-(()=>{
+(async()=>{
+ const {compileStyles}=await import('./style-policy.mjs');
  if(typeof PAGES==='undefined'||typeof render!=='function')return;
  const originals=structuredClone(PAGES),nativeRender=render;
  const locale=()=>document.documentElement.lang==='en'?'en':'fr';
@@ -13,6 +14,23 @@
  let adminOrigin;
  try{adminOrigin=new URL(document.querySelector('meta[name="agropulse-cms-admin-origin"]')?.content).origin;}catch{}
  const send=data=>{if(preview&&adminOrigin)window.parent.postMessage({channel:'agropulse-editor',...data},adminOrigin);};
+
+
+ const cardSelectors='.pole-grid > .pole-card, .fx > .fr, .tl4 > .tc, .pl > a, .steps > li, .jn > .js, .lk > a, .mo > .mt';
+ function markComponents(){
+  const title=document.querySelector('#app h1');if(title){title.classList.add('agp-page-title');title.parentElement.querySelectorAll('p').forEach(element=>element.classList.add('agp-intro'));}
+  for(const section of PAGES[CUR]?.sections||[]){const element=document.getElementById('sec-'+section.id);if(!element)continue;element.classList.add('agp-section');element.querySelector('h2')?.classList.add('agp-section-title');const cards=[...element.querySelectorAll(cardSelectors)];if(cards.length===(section.groups||[]).length)for(const card of cards){card.classList.add('agp-card');card.parentElement.classList.add('agp-card-grid');}}
+ }
+ function pageStyles(value={}){
+  const previous=document.getElementById('agropulse-page-style');let css='';try{css=compileStyles(value);}catch(error){send({type:'style-error',message:error.message});previous?.remove();return;}
+  send({type:'style-error',message:''});if(!css){previous?.remove();return;}const element=previous||document.createElement('style');element.id='agropulse-page-style';element.textContent=css;if(!previous)document.head.append(element);
+ }
+ function focusPreview(section,card){
+  if(section==='hero'){document.querySelector('#app h1')?.scrollIntoView({block:'center'});return;}
+  if(!(originals[CUR]?.sections||[]).some(item=>item.id===section))return;
+  let target=document.getElementById('sec-'+section);if(Number.isInteger(card))target=[...document.querySelectorAll('.ap-editor-target[data-editor-kind=card]')].find(item=>item.dataset.editorSection===section&&item.dataset.editorToken===String(card))||target;
+  target?.scrollIntoView({block:'start'});
+ }
 
  function reference(){
   const page=originals[CUR],language=locale();if(!page)return null;
@@ -40,6 +58,7 @@
    for(const[key,selector]of [['title','[data-cms="hero.title"]'],['intro','[data-cms="hero.subtitle"]']]){const element=document.querySelector('.home-hero '+selector);if(element&&typeof copy.hero?.[key]==='string')element.textContent=copy.hero[key];}
    window.AGROPULSE_PAGE_CONTENT_READY=true;
   }
+  markComponents();pageStyles(layout.styles||{});
   if(preview){installHandles();send({type:'selection',reference:referenceCache});}
  }
  async function refresh(){
@@ -84,7 +103,7 @@
    const element=document.getElementById('sec-'+section.id);if(!element)continue;
    handle(element,'section',section.id,section.id,local(section.title,locale())||section.id);
    const groups=base.sections.find(item=>item.id===section.id)?.groups||[];
-   const candidates=[...element.querySelectorAll('.pole-grid > .pole-card, .fx > .fr, .tl4 > .tc, .pl > a, .steps > li, .jn > .js, .lk > a, .mo > .mt')];
+   const candidates=[...element.querySelectorAll(cardSelectors)];
    if(candidates.length!==groups.length||!groups.length)continue;
    const order=ordered(groups,layout.cards?.[section.id],(_item,index)=>index).map(group=>groups.indexOf(group));
    candidates.forEach((card,index)=>handle(card,'card',section.id,order[index],local(groups[order[index]].title,locale())||String(index+1)));
@@ -92,13 +111,14 @@
  }
  window.addEventListener('message',event=>{
   if(!preview||event.source!==window.parent||event.origin!==adminOrigin||event.data?.channel!=='agropulse-editor')return;
+  if(event.data.type==='focus'){focusPreview(event.data.section,event.data.card);return;}
   if(event.data.type==='hello'){send({type:'reference',reference:reference()});return;}
   if(event.data.type==='draft'&&event.data.page===CUR&&event.data.locale===locale()){
    try{if(JSON.stringify(event.data).length>200000)return;}catch{return;}
    const next={page:CUR,locale:locale(),copy:event.data.copy||{},layout:event.data.layout||{}};if(draft&&JSON.stringify(draft)===JSON.stringify(next))return;draft=next;apply(draft.copy,draft.layout);
   }
  });
- window.render=function(){nativeRender();refresh();};
+ window.render=function(){document.getElementById('agropulse-page-style')?.remove();nativeRender();markComponents();refresh();};
  if(preview){const style=document.createElement('style');style.textContent='#ap-editor-note{position:sticky;top:0;z-index:100000;background:#0f2f44;color:white;padding:10px 18px;font:600 14px Arial}.ap-editor-target{position:relative!important;outline:1px dashed #3f9a3c;outline-offset:-2px}.ap-editor-target[data-editor-kind=card]{padding-top:104px!important;box-sizing:border-box!important}.ap-editor-target>.ap-editor-tools{all:initial!important;position:absolute!important;top:6px!important;left:6px!important;right:6px!important;z-index:100!important;display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:4px!important;padding:5px!important;background:#edf7ed!important;color:#0f2f44!important;font:14px Arial!important;box-sizing:border-box!important;width:auto!important;height:auto!important;min-height:0!important;max-height:none!important;border-radius:6px!important}.ap-editor-target>.ap-editor-tools>button{all:initial!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:44px!important;min-width:38px!important;box-sizing:border-box!important;border:1px solid #b4d3b3!important;border-radius:5px!important;background:white!important;color:#163b29!important;padding:6px 8px!important;font:600 12px Arial!important;cursor:pointer!important;flex:0 1 auto!important;max-width:100%!important}.ap-editor-target>.ap-editor-tools>button:focus-visible{outline:3px solid #157bb8!important;outline-offset:1px!important}.ap-editor-target>.ap-editor-tools>button[draggable]{cursor:grab!important;max-width:180px!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;display:block!important}';document.head.append(style);}
- refresh();
+ markComponents();refresh();
 })();
