@@ -226,10 +226,15 @@ team.lead = paragraphs(
   'AgroPulse brings together agricultural, data and digital service expertise according to project needs.',
 );
 setGroups(team, [{
-  titleFr: 'AgroPulse Global Solutions',
-  titleEn: 'AgroPulse Global Solutions',
-  textFr: 'Conseil et solutions numériques pour les acteurs des filières agricoles.',
-  textEn: 'Consulting and digital solutions for agricultural value-chain stakeholders.',
+  titleFr: 'TRAORE Armelle',
+  titleEn: 'TRAORE Armelle',
+  textFr: 'Gérante',
+  textEn: 'Managing Director',
+}, {
+  titleFr: 'NICHI Helene',
+  titleEn: 'NICHI Helene',
+  textFr: 'Project Manager',
+  textEn: 'Project Manager',
 }]);
 const aboutFacts = getSection(about, 'impact');
 aboutFacts.title = localized('Repères AgroPulse', 'AgroPulse at a glance');
