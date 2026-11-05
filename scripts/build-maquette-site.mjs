@@ -186,10 +186,16 @@ homeYida.button = localized('En savoir plus sur YIDA-Cashew', 'Learn more about 
 
 const expertisePage = pages.expertises;
 if (!expertisePage) throw new Error('Missing Expertise page in the design page.');
-expertisePage.hero.title = localized('Huit pôles d’expertise', 'Eight areas of expertise');
+expertisePage.hero.title = localized('Des savoir-faire au service de l’agriculture', 'Expertise serving agriculture');
 expertisePage.hero.lead = paragraphs(
-  'Huit domaines complémentaires au service des filières agricoles.',
-  'Eight complementary areas supporting agricultural value chains.',
+  'Huit pôles réunissent nos compétences pour accompagner les acteurs agricoles, du développement des talents aux solutions de terrain.',
+  'Eight areas bring together our skills to support agricultural stakeholders, from talent development to practical solutions.',
+);
+const expertiseOverview = getSection(expertisePage, 'poles');
+expertiseOverview.title = localized('Nos domaines d’intervention', 'Our fields of action');
+expertiseOverview.lead = paragraphs(
+  'Explorez nos spécialités pour trouver l’accompagnement adapté à vos besoins.',
+  'Explore our specialisms to find the support that fits your needs.',
 );
 
 const about = pages['a-propos'];
