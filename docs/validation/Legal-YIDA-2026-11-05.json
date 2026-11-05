@@ -1,0 +1,83 @@
+{
+  "completed": true,
+  "checks": [
+    {
+      "slug": "mentions-legales",
+      "lang": "fr",
+      "width": 375,
+      "passed": true
+    },
+    {
+      "slug": "confidentialite",
+      "lang": "fr",
+      "width": 375,
+      "passed": true
+    },
+    {
+      "slug": "fellowship",
+      "lang": "fr",
+      "width": 375,
+      "passed": true
+    },
+    {
+      "slug": "mentions-legales",
+      "lang": "fr",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "slug": "confidentialite",
+      "lang": "fr",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "slug": "fellowship",
+      "lang": "fr",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "slug": "mentions-legales",
+      "lang": "en",
+      "width": 375,
+      "passed": true
+    },
+    {
+      "slug": "confidentialite",
+      "lang": "en",
+      "width": 375,
+      "passed": true
+    },
+    {
+      "slug": "fellowship",
+      "lang": "en",
+      "width": 375,
+      "passed": true
+    },
+    {
+      "slug": "mentions-legales",
+      "lang": "en",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "slug": "confidentialite",
+      "lang": "en",
+      "width": 1440,
+      "passed": true
+    },
+    {
+      "slug": "fellowship",
+      "lang": "en",
+      "width": 1440,
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "limits": [
+    "No legal approval claimed",
+    "No CMS write or real email",
+    "Official identity, hosting, retention and data-rights contact remain pending"
+  ]
+}

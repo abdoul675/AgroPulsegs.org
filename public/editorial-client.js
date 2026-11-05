@@ -16,7 +16,7 @@
  const send=data=>{if(preview&&adminOrigin)window.parent.postMessage({channel:'agropulse-editor',...data},adminOrigin);};
 
 
- const cardSelectors='.pole-grid > .pole-card, .fx > .fr, .tl4 > .tc, .pl > a, .steps > li, .jn > .js, .lk > a, .mo > .mt, .country-list > .country-card, .programme-facts > .programme-fact, .programme-questions > .programme-question';
+ const cardSelectors='.pole-grid > .pole-card, .fx > .fr, .tl4 > .tc, .pl > a, .steps > li, .jn > .js, .lk > a, .mo > .mt, .country-list > .country-card, .programme-facts > .programme-fact, .programme-questions > .programme-question, .lg2 > div > article';
  function markComponents(){
   const title=document.querySelector('#app h1');if(title){title.classList.add('agp-page-title');title.parentElement.querySelectorAll('p').forEach(element=>element.classList.add('agp-intro'));}
   for(const section of PAGES[CUR]?.sections||[]){const element=document.getElementById('sec-'+section.id);if(!element)continue;element.classList.add('agp-section');element.querySelector('h2')?.classList.add('agp-section-title');const cards=[...element.querySelectorAll(cardSelectors)];if(cards.length===(section.groups||[]).length)for(const card of cards){card.classList.add('agp-card');card.parentElement.classList.add('agp-card-grid');}}

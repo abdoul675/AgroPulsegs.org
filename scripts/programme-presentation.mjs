@@ -18,7 +18,7 @@ export function improveProgrammePresentation(pages) {
     groups:[
       card('2 à 3 mois','2–3 months','Durée de formation annoncée dans le dossier de présentation.','Training duration stated in the presentation dossier.'),
       card('50 Fellows','50 Fellows','Cohorte pilote envisagée. Le nombre de places et le calendrier restent à confirmer.','Planned pilot cohort. Available places and dates remain to be confirmed.'),
-      card('500+ Fellows','500+ Fellows','Objectif de formation et de déploiement à l’horizon 2030.','Training and deployment target for 2030.'),
+      card('1 000 personnes','1,000 people','Objectif actualisé : former 1 000 personnes dans les filières agricoles d’ici 2030.','Updated target: train 1,000 people in agricultural value chains by 2030.'),
       card('Candidatures fermées','Applications closed','Aucune inscription n’est ouverte. Le formulaire permet de demander des renseignements.','Applications are not open. The form is for information requests.'),
     ],
   });
@@ -28,9 +28,11 @@ export function improveProgrammePresentation(pages) {
     groups:[
       card('Comment candidater ?','How do I apply?','Les candidatures sont fermées. Les critères, les dates et les modalités d’une prochaine cohorte seront communiqués après validation. Vous pouvez demander des renseignements avec le formulaire ci-dessous.','Applications are closed. Eligibility, dates and application procedures for a future cohort will be shared once approved. You can request information using the form below.'),
       card('Dans quels pays ?','In which countries?','AgroPulse indique la Côte d’Ivoire, le Sénégal et la Guinée-Bissau comme pays d’intervention. Cela ne signifie pas qu’une cohorte YIDA-Cashew est ouverte dans chacun de ces pays.','AgroPulse lists Côte d’Ivoire, Senegal and Guinea-Bissau as countries of intervention. This does not mean a YIDA-Cashew cohort is open in each country.'),
-      card('Les effectifs annoncés sont-ils déjà atteints ?','Have the announced figures already been achieved?','Non. Les 50 Fellows correspondent à une cohorte pilote envisagée, et les 500+ Fellows à l’objectif pour 2030. Ces chiffres ne constituent pas un bilan de personnes déjà formées.','No. The 50 Fellows refer to a planned pilot cohort, and 500+ Fellows to the target for 2030. These figures are not a count of people already trained.'),
+      card('Les effectifs annoncés sont-ils déjà atteints ?','Have the announced figures already been achieved?','Non. Les 50 Fellows correspondent à une cohorte pilote envisagée, et les 1 000 personnes à l’objectif de formation actualisé pour 2030. Ces chiffres ne constituent pas un bilan de personnes déjà formées.','No. The 50 Fellows refer to a planned pilot cohort, and 1,000 people to the updated training target for 2030. These figures are not a count of people already trained.'),
     ],
   });
+  sections.anacarde.title=l('Objectif : 1 000 personnes formées d’ici 2030','Target: 1,000 people trained by 2030');
+  sections.anacarde.lead[0]=l('AgroPulse actualise son ambition : former 1 000 personnes dans les filières agricoles d’ici 2030, avec la filière cajou comme point d’ancrage. Cet objectif remplace la projection initiale de 500+ Fellows présentée dans la revue d’octobre 2026 ; il ne s’agit pas d’un résultat déjà obtenu.','AgroPulse has updated its ambition: train 1,000 people in agricultural value chains by 2030, with cashew as its starting point. This target replaces the initial projection of 500+ Fellows in the October 2026 review; it is not a result already achieved.');
   yida.sections = ['appris','objectifs','publics','parcours','anacarde','genese','construction','contexte','sources','notif'].map(id=>sections[id]);
 
   const agir = pages['agir-ia'];

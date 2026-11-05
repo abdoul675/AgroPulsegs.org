@@ -1,3 +1,4 @@
+import { improveLegalPages } from './legal-content.mjs';
 import { improveProgrammePresentation } from './programme-presentation.mjs';
 import { applyVisualAssets, visualFallbacks } from './visual-assets.mjs';
 import { expertiseAreas, applyProgrammeContent } from './editorial-content.mjs';
@@ -68,58 +69,7 @@ const dataPattern = /(<script id="pages-data" type="application\/json">)([\s\S]*
 const dataMatch = html.match(dataPattern);
 if (!dataMatch) throw new Error('The design page is missing its page-content data.');
 const pages = JSON.parse(dataMatch[2]);
-const legalTranslations = {
-  'mentions-legales': {
-    eyebrow: 'Transparency',
-    title: 'Legal notice',
-    aside: ['Draft pending legal review', 'Last updated: [to be completed]'],
-    groups: [
-      { title: 'Publisher identity', text: 'The legal identity of the publisher must be provided and approved.' },
-      { title: 'Publication manager', text: 'The person responsible for publication must be designated.' },
-      { title: 'Hosting provider', text: 'The hosting provider must be identified once the service is confirmed.' },
-    ],
-  },
-  confidentialite: {
-    eyebrow: 'Privacy & personal data',
-    title: 'Privacy policy',
-    aside: ['Draft pending legal review', 'Last updated: [to be completed]'],
-    groups: [
-      {
-        title: 'How you contact us',
-        text: 'Through the contact, partnership, training or quote forms, and resource-notification requests.',
-      },
-      {
-        title: 'How we handle your information',
-        text: 'The purposes and handling of these requests remain to be specified and approved.',
-      },
-      {
-        title: 'Your data-protection rights',
-        text: 'How people may exercise their data-protection rights remains to be specified and approved.',
-      },
-    ],
-  },
-};
-for (const [slug, translation] of Object.entries(legalTranslations)) {
-  const page = pages[slug];
-  const section = page?.sections?.[0];
-  if (!page?.hero || !section?.groups || section.groups.length !== translation.groups.length) {
-    throw new Error(`The legal content structure for "${slug}" has changed.`);
-  }
-  page.title.en = translation.title;
-  page.hero.eyebrow.en = translation.eyebrow;
-  page.hero.title.en = translation.title;
-  page.hero.aside.forEach((item, index) => {
-    item.en = translation.aside[index];
-  });
-  section.groups.forEach((group, index) => {
-    group.title.en = translation.groups[index].title;
-    group.text[0].en = translation.groups[index].text;
-  });
-}
-const privacyGroups = pages.confidentialite.sections[0].groups;
-privacyGroups[0].text[0].fr = 'Via les formulaires de contact, de partenariat, de formation et de devis, et les demandes de notification de ressource.';
-privacyGroups[1].text[0].fr = 'Les finalités et modalités de traitement des demandes restent à préciser et à faire valider.';
-privacyGroups[2].text[0].fr = 'Les modalités d’exercice des droits des personnes concernées restent à préciser et à faire valider.';
+improveLegalPages(pages);
 const localized = (fr, en) => ({ fr, en });
 const paragraphs = (fr, en) => [localized(fr, en)];
 const getSection = (page, id) => {
@@ -999,5 +949,6 @@ html = html.replace(/<link\b[^>]*href=["']https:\/\/fonts\.(?:googleapis|gstatic
 if(!html.includes('href="typography.css"'))html=html.replace('</head>','<link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin/><link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin/><link rel="stylesheet" href="typography.css"/></head>');
 if(!html.includes('href="programmes.css"'))html=html.replace('</head>','<link rel="stylesheet" href="programmes.css"/></head>');
 if(!html.includes('href="expertise-grid.css"'))html=html.replace('</head>','<link rel="stylesheet" href="expertise-grid.css"/></head>');
+if(!html.includes('href="legal-pages.css"'))html=html.replace('</head>','<link rel="stylesheet" href="legal-pages.css"/></head>');
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);

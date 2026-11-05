@@ -178,3 +178,10 @@ for (const locale of ['fr','en']) {
  assert.doesNotMatch(content,/micro-crédit|micro-loan|Record your fields with GPS/u,'Unconfirmed training modules must not survive from the mockup');
 }
 console.log('OK — AGIR-IA completed session and closed YIDA applications remain distinct from future targets.');
+
+const currentYida=maquettePages.fellowship.sections.find(section=>section.id==='anacarde');
+assert.match(currentYida.title.fr,/1 000 personnes/u,'The owner-updated YIDA training target must be visible');
+assert.match(currentYida.title.en,/1,000 people/u);
+assert.match(currentYida.title.fr,/2030/u);
+assert.match(currentYida.lead[0].fr,/projection initiale de 500\+/u,'The review must not be falsely attributed the updated figure');
+console.log('OK — updated YIDA target: 1,000 people by 2030, distinct from the historical projection.');
