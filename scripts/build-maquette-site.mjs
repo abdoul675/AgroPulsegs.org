@@ -978,5 +978,9 @@ if (heroStart < 0 || heroEnd < 0) throw new Error('Missing home hero image.');
 const heroChunk = html.slice(heroStart,heroEnd).replace(/--hero:url\('[^']+'\)/u, "--hero:url('assets/maquette/e5ef43c2399f6772da7b.webp')");
 html = html.slice(0,heroStart) + heroChunk + html.slice(heroEnd);
 if(!html.includes('href="country-map.css"'))html=html.replace('</head>','<link rel="stylesheet" href="country-map.css"/></head>');
+// Local typefaces keep the same typography without third-party font requests.
+html = html.replaceAll('Space Grotesk', 'Sora');
+html = html.replace(/<link\b[^>]*href=["']https:\/\/fonts\.(?:googleapis|gstatic)\.com[^>]*>/gu, '');
+if(!html.includes('href="typography.css"'))html=html.replace('</head>','<link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin/><link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin/><link rel="stylesheet" href="typography.css"/></head>');
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);

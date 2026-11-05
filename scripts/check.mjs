@@ -18,7 +18,16 @@ for(const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gu)){
 }
 assert.match(html, /--g:#3F9A3C/u,'The homepage must retain the approved maquette color palette');
 assert.match(html, /--n:#0F2F44/u,'The homepage must retain the approved maquette colors');
-assert.match(html, /Space\+Grotesk/u,'The homepage must retain the maquette typography');
+assert.match(html, /href="typography.css"/u,'The site must load the newly approved local typography');
+assert.doesNotMatch(html, /href=["']https:\/\/fonts\.(?:googleapis|gstatic)\.com/u,'Typography must not depend on external font requests');
+const typography=await readFile(new URL('typography.css',root),'utf8');
+for(const family of ['Sora','Manrope']){
+ assert.ok(typography.includes("font-family: '"+family+"'"),'Missing local font family: '+family);
+ await access(new URL('assets/fonts/'+family+'-OFL.txt',root));
+}
+const fontFiles=new Set([...typography.matchAll(/url\((assets\/fonts\/[a-z-]+\.woff2)\)/gu)].map(match=>match[1]));
+assert.equal(fontFiles.size,4,'Both typefaces must include their Latin and Latin Extended subsets');
+for(const file of fontFiles){const bytes=await readFile(new URL(file,root));assert.equal(bytes.subarray(0,4).toString(),'wOF2','Invalid local webfont: '+file);}
 assert.match(html, /<title>AgroPulse Global Solutions<\/title>/u);
 assert.match(html, /home-hero/u,'The CMS connection must retain the approved homepage hero');
 assert.match(html, /async function loadPublishedHome\(\)/u,'The homepage must load published copy through its server endpoint');

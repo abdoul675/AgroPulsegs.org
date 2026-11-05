@@ -13,7 +13,7 @@
 .country-map-signal{fill:none;stroke:#3f9a3c;stroke-width:3;stroke-linecap:round;stroke-dasharray:.1 .9;opacity:0;pointer-events:none}
 .country-map-copy{min-width:0}.country-list{display:grid;gap:23px;margin-bottom:25px}
 .country-card{padding:3px 0 3px 19px;border:0;border-left:3px solid #b7d1ba;background:transparent;transition:border-color .25s ease}
-.country-card button{display:block;min-height:44px;width:100%;padding:0;border:0;background:transparent;text-align:left;color:#173e2b;cursor:pointer;font:800 1.18rem/1.4 'Space Grotesk',sans-serif}
+.country-card button{display:block;min-height:44px;width:100%;padding:0;border:0;background:transparent;text-align:left;color:#173e2b;cursor:pointer;font:800 1.18rem/1.4 'Sora',sans-serif}
 .country-card button:focus-visible{outline:3px solid #177eaa;outline-offset:5px;border-radius:4px}
 .country-card p{margin:6px 0 0;color:#3b5568;font:400 .94rem/1.65 Manrope,sans-serif}
 .country-card:has(button[aria-pressed="true"]){border-left-color:#28752c}

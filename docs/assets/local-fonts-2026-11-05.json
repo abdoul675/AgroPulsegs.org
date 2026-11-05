@@ -1,0 +1,47 @@
+{
+  "families": [
+    "Sora",
+    "Manrope"
+  ],
+  "weights": "400–800 variable",
+  "license": "SIL Open Font License 1.1",
+  "licenseSources": [
+    "https://github.com/google/fonts/tree/main/ofl/sora",
+    "https://github.com/google/fonts/tree/main/ofl/manrope"
+  ],
+  "fontSources": [
+    {
+      "family": "Manrope",
+      "subset": "latin-ext",
+      "file": "manrope-latin-ext.woff2",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggmxSuXd.woff2",
+      "bytes": 15160,
+      "sha256": "2f7335119075b2079f1d882530bbc18728461612bf90743203d73a74a48f4d9b"
+    },
+    {
+      "family": "Manrope",
+      "subset": "latin",
+      "file": "manrope-latin.woff2",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggexSg.woff2",
+      "bytes": 24532,
+      "sha256": "8c2def024c1bf31aacf3624ae3c4d701269b4ec3dc765c04830839f0d36b2d9e"
+    },
+    {
+      "family": "Sora",
+      "subset": "latin-ext",
+      "file": "sora-latin-ext.woff2",
+      "url": "https://fonts.gstatic.com/s/sora/v17/xMQ9uFFYT72X5wkB_18qmnndmSdSnh2BAfO5mnuyOo1lfiQwWa-xsaQ.woff2",
+      "bytes": 12156,
+      "sha256": "08e1ba85bcb55277782f56766af09467dfe18cbeea49704203100c5797ac4cc5"
+    },
+    {
+      "family": "Sora",
+      "subset": "latin",
+      "file": "sora-latin.woff2",
+      "url": "https://fonts.gstatic.com/s/sora/v17/xMQ9uFFYT72X5wkB_18qmnndmSdSnh2BAfO5mnuyOo1lfiQwV6-x.woff2",
+      "bytes": 25284,
+      "sha256": "811e11966d29f3a01fcb19b087b61ac067d380665a55aebb7fcdf2cda95e4a93"
+    }
+  ],
+  "selection": "Editorial choice based on general readability guidance; no exact verified pairing in local typography catalogue"
+}

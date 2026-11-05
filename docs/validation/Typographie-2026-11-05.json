@@ -1,0 +1,251 @@
+{
+  "completed": true,
+  "checks": [
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "accueil",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "a-propos",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "expertises",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "pole-1",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "pole-2",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "pole-3",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "pole-4",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "pole-5",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "pole-6",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "pole-7",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "pole-8",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "fellowship",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "agir-ia",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "partenaires",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "ressources",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "contact",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "mentions-legales",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "confidentialite",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 768,
+      "slug": "accueil",
+      "passed": true
+    },
+    {
+      "lang": "fr",
+      "width": 1024,
+      "slug": "accueil",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "accueil",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "a-propos",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "expertises",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "pole-1",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "pole-2",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "pole-3",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "pole-4",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "pole-5",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "pole-6",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "pole-7",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "pole-8",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "fellowship",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "agir-ia",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "partenaires",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "ressources",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "contact",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "mentions-legales",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "confidentialite",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 768,
+      "slug": "accueil",
+      "passed": true
+    },
+    {
+      "lang": "en",
+      "width": 1024,
+      "slug": "accueil",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "externalFonts": [],
+  "notes": [
+    "All fonts loaded from local assets, including French accented characters",
+    "No external Google Fonts requests; reduced motion; reference preview"
+  ]
+}

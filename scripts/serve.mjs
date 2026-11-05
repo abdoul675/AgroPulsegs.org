@@ -7,7 +7,7 @@ import { createHomeContentHandler } from './home-content.mjs';
 import { createPageContentHandler } from './page-content.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../public/', import.meta.url)));
-const types = { '.mjs': 'application/javascript; charset=utf-8', '.pdf': 'application/pdf', '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
+const types = { '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.mjs': 'application/javascript; charset=utf-8', '.pdf': 'application/pdf', '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
 const handleContact = createContactHandler();
 const handleHomeContent = createHomeContentHandler();
 const handlePageContent = createPageContentHandler();

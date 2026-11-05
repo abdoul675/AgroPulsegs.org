@@ -1,0 +1,11 @@
+# Typographie locale AgroPulse — 5 novembre 2026
+
+Le porteur demande une nouvelle typographie pour le site. Le choix proposé et implémenté est Sora pour les titres et Manrope pour les textes, menus et formulaires. Les graisses, l’espacement des lettres et les interlignes sont harmonisés ; les titres mobiles sont ajustés pour rester lisibles. Les contenus, les images, la photo rétablie du hero d’accueil et les règles de publication restent conservés.
+
+Les quatre fichiers WOFF2 variables couvrent les graisses 400 à 800, en latin et latin étendu. Leur total est de 77 132 octets. Ils sont servis localement avec font-display: swap ; les deux sous-ensembles latins principaux sont préchargés. Les appels Google Fonts et leurs préconnexions sont retirés du HTML. Les licences SIL Open Font License sont conservées avec les fichiers. La provenance, les empreintes et les licences sources figurent dans [le manifeste](../assets/local-fonts-2026-11-05.json).
+
+Le catalogue de paires consulté n’offrait pas de correspondance exacte vérifiée pour Sora/Manrope ; cette paire constitue un choix éditorial fondé sur les principes généraux de lisibilité, puis vérifié dans le navigateur.
+
+40 parcours de page et format réussissent : 18 pages FR à 1440 px, les mêmes pages EN à 375 px et l’accueil dans les deux langues à 768 et 1024 px. Le navigateur confirme les familles chargées, les caractères français accentués, les retours à la ligne des titres, l’absence de débordement et d’erreur JavaScript. Aucun appel vers Google Fonts n’est observé. Des captures d’Accueil, YIDA-Cashew et du pôle Systèmes d’information sont examinées. La preuve synthétique est [Typographie-2026-11-05.json](Typographie-2026-11-05.json).
+
+Les 30 tests du site et les contrôles des pages réussissent sur la copie de développement. Le contrôle imposant l’ancienne police est remplacé par la vérification de la nouvelle feuille de styles, des familles locales, des licences et des signatures WOFF2. Les autres contrôles sont conservés. Les essais navigateur utilisent le mouvement réduit ; ils ne constituent pas un audit exhaustif de performance ou d’accessibilité.
