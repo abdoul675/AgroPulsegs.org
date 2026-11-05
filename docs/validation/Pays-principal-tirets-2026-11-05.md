@@ -1,0 +1,7 @@
+# Côte d’Ivoire principale et explications en tirets — 5 novembre 2026
+
+Le porteur confirme que la Côte d’Ivoire est le pays principal et demande des explications sous forme de tirets. Sur Accueil et Contact, la Côte d’Ivoire reçoit une couleur dorée persistante, un repère plus grand, la mention « Pays principal » sur la carte et une étiquette auprès de son nom. Cette distinction subsiste lorsqu’un autre pays est sélectionné. Le Sénégal et la Guinée-Bissau gardent leurs couleurs vertes. Aucun siège ou statut d’antenne n’en est déduit.
+
+Les explications sont rendues dans des listes HTML avec trois tirets par pays. Le rendu accepte aussi les retours à la ligne des textes du CMS, avec ou sans tiret déjà saisi. Les contenus CMS existants ne sont pas écrasés. Les textes FR/EN reprennent les compétences et initiatives validées ; les perspectives restent distinguées des résultats.
+
+Quatre parcours navigateur réussis : Accueil et Contact, français à 1440 px sur l’aperçu de référence et anglais à 375 px sur l’aperçu relié au CMS. Contrôles : une seule mention de pays principal, trois éléments de liste pour chacun des trois pays, tirets visibles, distinction dorée de la Côte d’Ivoire maintenue après sélection du Sénégal, absence de débordement et d’erreur JavaScript. Les lectures attendent la stabilisation du rendu CMS ; les polices externes sont bloquées et le mouvement réduit activé. Les contrôles des pages réussissent.

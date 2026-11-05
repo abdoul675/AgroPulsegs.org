@@ -27,3 +27,17 @@
 @media(prefers-reduced-motion:reduce){.country-map-signal,.country-map-pulse{animation:none!important;opacity:0!important}.country-map-land path,.country-card{transition:none!important}}
 .country-map-compact .country-map-figure svg{max-height:410px}
 @media(max-width:760px){.country-map-container{grid-template-columns:minmax(0,1fr);gap:28px}.country-map-figure svg,.country-map-compact .country-map-figure svg{max-height:380px}.country-list{gap:20px}.country-card{padding-left:15px}.country-map-copy>.btn{width:100%;justify-content:center;text-align:center}}
+
+/* Côte d’Ivoire remains the principal country even when another is selected. */
+.country-map-container path[data-c="CI"]{fill:#e8a33d;stroke:#fff;stroke-width:2;filter:drop-shadow(0 0 5px #d6a43d66)}
+.country-map-container[data-map-selected="CI"] path[data-c="CI"]{fill:#d2922b;filter:drop-shadow(0 0 6px #d6a43d88)}
+.country-map-container [data-map-mark="CI"] .country-map-dot,.country-map-container[data-map-selected="CI"] [data-map-mark="CI"] .country-map-dot{fill:#fff0c5;stroke:#9a6419;stroke-width:3.5}
+.country-map-container [data-map-mark="CI"] .country-map-signal,.country-map-container [data-map-mark="CI"] .country-map-pulse{stroke:#bb7b20}
+.country-map-labels .country-map-primary-label{font:600 18px Manrope,sans-serif;fill:#7b5012;stroke-width:3px}
+.country-map-container .country-card[data-map-primary]{border-left-color:#d2922b}
+.country-card button{display:flex;flex-wrap:wrap;align-items:center;column-gap:10px;row-gap:4px}
+.country-primary-badge{display:inline-block;padding:4px 9px;border:1px solid #e3c17e;border-radius:14px;color:#75470b;background:#fff0cc;font:700 .7rem/1.4 Manrope,sans-serif;white-space:nowrap}
+.country-points{list-style:none;padding:0;margin:9px 0 0;display:grid;gap:6px;color:#3b5568;font:400 .93rem/1.6 Manrope,sans-serif}
+.country-points li{position:relative;padding-left:16px}
+.country-points li:before{content:'–';position:absolute;left:0;color:#28752c;font-weight:700}
+.country-card[data-map-primary] .country-points li:before{color:#9a6419}

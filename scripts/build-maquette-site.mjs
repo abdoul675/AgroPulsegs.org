@@ -516,13 +516,13 @@ const countryMapSection = compact => ({
   kicker: localized('Notre ancrage', 'Our regional roots'),
   title: localized('AgroPulse en Afrique de l’Ouest', 'AgroPulse in West Africa'),
   lead: paragraphs(
-    'Relier les compétences, les données et les besoins du terrain pour accompagner les filières agricoles en Côte d’Ivoire, au Sénégal et en Guinée-Bissau.',
-    'Connecting skills, data and field needs to support agricultural value chains in Côte d’Ivoire, Senegal and Guinea-Bissau.',
+    'La Côte d’Ivoire est notre principal pays d’intervention. Notre ancrage régional s’étend aussi au Sénégal et à la Guinée-Bissau.',
+    'Côte d’Ivoire is our main country of intervention. Our regional scope also includes Senegal and Guinea-Bissau.',
   ),
   groups: [
-    {code:'CI',title:localized('Côte d’Ivoire','Côte d’Ivoire'),text:paragraphs('Des compétences numériques pour les acteurs agricoles, avec AGIR-IA et la Fondation AWI auprès des femmes agripreneuses.','Digital skills for agricultural stakeholders, with AGIR-IA and the AWI Foundation supporting women agripreneurs.')},
-    {code:'SN',title:localized('Sénégal','Senegal'),text:paragraphs('Des expertises en formation, données et conseil à mobiliser selon les besoins des initiatives agricoles locales.','Training, data and consulting expertise available to meet the needs of local agricultural initiatives.')},
-    {code:'GW',title:localized('Guinée-Bissau','Guinea-Bissau'),text:paragraphs('Des perspectives autour de la filière cajou : formation des jeunes, compétences numériques et valorisation des données agricoles.','Opportunities centred on the cashew value chain: youth training, digital skills and better use of agricultural data.')},
+    {code:'CI',title:localized('Côte d’Ivoire','Côte d’Ivoire'),text:[localized('Compétences numériques appliquées à l’agriculture.','Digital skills applied to agriculture.'),localized('AGIR-IA auprès des femmes agripreneuses.','AGIR-IA supporting women agripreneurs.'),localized('Collaboration avec la Fondation AWI.','Collaboration with the AWI Foundation.')]},
+    {code:'SN',title:localized('Sénégal','Senegal'),text:[localized('Formation et renforcement des compétences.','Training and skills development.'),localized('Expertises en données et conseil.','Data and consulting expertise.'),localized('Accompagnement à définir selon les besoins locaux.','Support to be defined according to local needs.')]},
+    {code:'GW',title:localized('Guinée-Bissau','Guinea-Bissau'),text:[localized('Perspectives autour de la filière cajou.','Opportunities around the cashew value chain.'),localized('Formation des jeunes aux compétences numériques.','Digital skills training for young people.'),localized('Valorisation des données agricoles.','Better use of agricultural data.')]},
   ],
 });
 for(const slug of ['contact','accueil']){
