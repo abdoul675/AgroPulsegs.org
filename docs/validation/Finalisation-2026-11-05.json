@@ -1,0 +1,402 @@
+{
+  "executedAt": "2026-11-05T07:07:45.345Z",
+  "sourceCommit": "595c6d01f2a0156566308b76a8f7fe2491dff859",
+  "environment": "Isolated local pilot and clean Git archive; fictional entries; no real mail",
+  "cleanCopy": {
+    "siteBuild": true,
+    "siteTests": 30,
+    "cmsBuild": true,
+    "cmsDependencies": "Reused node_modules from the previous independent npm ci installation; dependency lock unchanged; no local application source or runtime data copied",
+    "securityBoundaryTests": 1,
+    "publicBrowserChecks": [
+      "HTTP: retired PDF and internal source inaccessible; aliases 7/8 correct; CMS reference and unconfigured mail states correct",
+      "fr 1440px: 8 distinct areas reached by keyboard, footer/nav, informative YIDA-Cashew, resources link, no overflow",
+      "en 1440px: 8 distinct areas reached by keyboard, footer/nav, informative YIDA-Cashew, resources link, no overflow",
+      "fr 375px: 8 distinct areas reached by keyboard, footer/nav, informative YIDA-Cashew, resources link, no overflow",
+      "en 375px: 8 distinct areas reached by keyboard, footer/nav, informative YIDA-Cashew, resources link, no overflow"
+    ],
+    "fonts": "External Google fonts blocked"
+  },
+  "localCms": {
+    "visualChecks": [
+      "Connexion locale admin",
+      "Connexion locale publisher",
+      "Liste des pages disponible pour préparer l’essai",
+      "Un brouillon seul ne fournit pas de contenu public",
+      "Connexion locale editor",
+      "L’aperçu privé communique avec le CMS",
+      "Les textes se modifient immédiatement dans l’aperçu",
+      "Un CSS externe désactive l’enregistrement",
+      "Arrondis visibles dans l’aperçu privé",
+      "CSS manuel visible dans l’aperçu privé",
+      "Déplacement horizontal des cartes au clavier",
+      "Déplacement des cartes par glisser-déposer",
+      "Réglages d’apparence conservés dans le brouillon",
+      "Les styles globaux sont refusés côté serveur",
+      "Ordre des cartes conservé dans le brouillon",
+      "Ordre des sections conservé dans le brouillon",
+      "Le brouillon n’a pas modifié le site public",
+      "L’Éditeur ne peut pas publier",
+      "Les dispositions non autorisées sont refusées",
+      "Le Publieur peut publier le brouillon",
+      "Le site lit la version publiée",
+      "La disposition publiée arrive au site",
+      "Le site affiche le titre publié",
+      "Le site affiche le nouvel ordre des cartes",
+      "Le site affiche le nouvel ordre des sections",
+      "Le site affiche les arrondis publiés",
+      "Le site affiche le CSS manuel publié",
+      "Le style ne se propage pas à une autre page",
+      "Les commandes d’édition ne sont pas publiques",
+      "La disposition publiée reste adaptée au mobile",
+      "Aucune erreur JavaScript pendant le pilotage",
+      "Le retour à l’apparence initiale conserve les textes",
+      "Le retour au design d’origine reste privé",
+      "Brouillon du pôle 7 enregistré fr",
+      "Langue du brouillon fr",
+      "Aucune publication automatique fr",
+      "Le nouveau brouillon reste privé fr",
+      "Brouillon du pôle 7 enregistré en",
+      "Langue du brouillon en",
+      "Aucune publication automatique en",
+      "FR/EN utilisent le même document",
+      "Le nouveau brouillon reste privé en",
+      "La fiche de test est retirée de la lecture publique"
+    ],
+    "contentModelChecks": [
+      {
+        "name": "Connexion admin",
+        "result": "PASS"
+      },
+      {
+        "name": "Connexion editor",
+        "result": "PASS"
+      },
+      {
+        "name": "Connexion publisher",
+        "result": "PASS"
+      },
+      {
+        "name": "Éditeur : publication interdite page",
+        "result": "PASS"
+      },
+      {
+        "name": "Éditeur : publication interdite programme",
+        "result": "PASS"
+      },
+      {
+        "name": "Éditeur : publication interdite partner",
+        "result": "PASS"
+      },
+      {
+        "name": "Éditeur : publication interdite resource",
+        "result": "PASS"
+      },
+      {
+        "name": "Éditeur : publication interdite campaign",
+        "result": "PASS"
+      },
+      {
+        "name": "Éditeur : modification des dates interdite",
+        "result": "PASS"
+      },
+      {
+        "name": "Éditeur : ouverture interdite",
+        "result": "PASS"
+      },
+      {
+        "name": "Éditeur : confirmation partenaire interdite",
+        "result": "PASS"
+      },
+      {
+        "name": "Préparation du brouillon de page incomplet",
+        "result": "PASS"
+      },
+      {
+        "name": "Publieur : page incomplète refusée",
+        "result": "PASS"
+      },
+      {
+        "name": "Partenaire non confirmé refusé",
+        "result": "PASS"
+      },
+      {
+        "name": "Ressource sans fichier refusée",
+        "result": "PASS"
+      },
+      {
+        "name": "Aucun faux téléchargement publié",
+        "result": "PASS"
+      },
+      {
+        "name": "Sauvegarde des blocs de page fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Publication de page fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Lecture des blocs publiés fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Quatre blocs publiés fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Titre SEO dérivé fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Description SEO dérivée fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Sauvegarde du programme fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Ajout d’un partenaire non confirmé au brouillon",
+        "result": "PASS"
+      },
+      {
+        "name": "Programme lié à un partenaire non confirmé refusé",
+        "result": "PASS"
+      },
+      {
+        "name": "Confirmation du partenaire fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Publication du partenaire confirmé fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Relation au partenaire confirmé fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Publication du programme fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Lecture du programme fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Identité du programme fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Relations arbitraires non exposées fr",
+        "result": "PASS"
+      },
+      {
+        "name": "Sauvegarde des blocs de page en",
+        "result": "PASS"
+      },
+      {
+        "name": "Publication de page en",
+        "result": "PASS"
+      },
+      {
+        "name": "Lecture des blocs publiés en",
+        "result": "PASS"
+      },
+      {
+        "name": "Quatre blocs publiés en",
+        "result": "PASS"
+      },
+      {
+        "name": "Titre SEO dérivé en",
+        "result": "PASS"
+      },
+      {
+        "name": "Description SEO dérivée en",
+        "result": "PASS"
+      },
+      {
+        "name": "Sauvegarde du programme en",
+        "result": "PASS"
+      },
+      {
+        "name": "Confirmation du partenaire en",
+        "result": "PASS"
+      },
+      {
+        "name": "Publication du partenaire confirmé en",
+        "result": "PASS"
+      },
+      {
+        "name": "Relation au partenaire confirmé en",
+        "result": "PASS"
+      },
+      {
+        "name": "Publication du programme en",
+        "result": "PASS"
+      },
+      {
+        "name": "Lecture du programme en",
+        "result": "PASS"
+      },
+      {
+        "name": "Identité du programme en",
+        "result": "PASS"
+      },
+      {
+        "name": "Relations arbitraires non exposées en",
+        "result": "PASS"
+      },
+      {
+        "name": "Création d’une identité programme en doublon refusée",
+        "result": "PASS"
+      },
+      {
+        "name": "Identité métier du programme immuable",
+        "result": "PASS"
+      },
+      {
+        "name": "Deux créations concurrentes : une seule identité créée",
+        "result": "PASS"
+      },
+      {
+        "name": "Suppression du partenaire temporaire de concurrence",
+        "result": "PASS"
+      },
+      {
+        "name": "Campagne fermée : relation au programme",
+        "result": "PASS"
+      },
+      {
+        "name": "Publication de campagne fermée",
+        "result": "PASS"
+      },
+      {
+        "name": "Brouillon de campagne ouverte incomplet conservé",
+        "result": "PASS"
+      },
+      {
+        "name": "Ouverture sans circuit de candidature refusée",
+        "result": "PASS"
+      },
+      {
+        "name": "La campagne publique reste fermée",
+        "result": "PASS"
+      },
+      {
+        "name": "Aucune route de dépôt active",
+        "result": "PASS"
+      },
+      {
+        "name": "Dates inversées : brouillon conservé",
+        "result": "PASS"
+      },
+      {
+        "name": "Dates inversées : publication refusée",
+        "result": "PASS"
+      },
+      {
+        "name": "Retour du brouillon de campagne à fermé",
+        "result": "PASS"
+      },
+      {
+        "name": "Paramètres : brouillon FR incomplet possible",
+        "result": "PASS"
+      },
+      {
+        "name": "Paramètres : publication sans logo refusée",
+        "result": "PASS"
+      },
+      {
+        "name": "Import public de média désactivé même pour admin",
+        "result": "PASS"
+      },
+      {
+        "name": "Import API de média désactivé",
+        "result": "PASS"
+      },
+      {
+        "name": "API anonyme refusée pages",
+        "result": "PASS"
+      },
+      {
+        "name": "Brouillons refusés au jeton de lecture pages",
+        "result": "PASS"
+      },
+      {
+        "name": "API anonyme refusée programmes",
+        "result": "PASS"
+      },
+      {
+        "name": "Brouillons refusés au jeton de lecture programmes",
+        "result": "PASS"
+      },
+      {
+        "name": "API anonyme refusée campaigns",
+        "result": "PASS"
+      },
+      {
+        "name": "Brouillons refusés au jeton de lecture campaigns",
+        "result": "PASS"
+      },
+      {
+        "name": "API anonyme refusée resources",
+        "result": "PASS"
+      },
+      {
+        "name": "Brouillons refusés au jeton de lecture resources",
+        "result": "PASS"
+      },
+      {
+        "name": "API anonyme refusée partners",
+        "result": "PASS"
+      },
+      {
+        "name": "Brouillons refusés au jeton de lecture partners",
+        "result": "PASS"
+      },
+      {
+        "name": "Page : remplacement par lien exécutable sauvegardé comme brouillon",
+        "result": "PASS"
+      },
+      {
+        "name": "Page : lien exécutable interdit à la publication",
+        "result": "PASS"
+      },
+      {
+        "name": "L’échec ne remplace pas la page publique",
+        "result": "PASS"
+      },
+      {
+        "name": "Restauration du brouillon de page depuis la version publiée",
+        "result": "PASS"
+      }
+    ],
+    "contentModelExecutedAt": "2026-11-05T06:21:27.577Z"
+  },
+  "security": {
+    "malformedRequestRegressionTests": 3,
+    "unknownOriginAllowed": false,
+    "configuredPreviewOriginAllowed": true,
+    "dependencyAudit": {
+      "critical": 0,
+      "high": 5,
+      "moderate": 22,
+      "low": 2,
+      "total": 29
+    }
+  },
+  "notExecuted": [
+    "Remote deployment, HTTPS/DNS and real hosting controls",
+    "Real email delivery",
+    "Backup restoration on the future host",
+    "Massive load testing or external infrastructure attacks"
+  ],
+  "notes": [
+    "The first clean CMS build was blocked by workstation permissions; the same build passed with access to the native libraries and user configuration",
+    "The visual test initially used the default preview address; rebuilt with the configured local address and all 43 checks passed",
+    "The visual test entry was unpublished after verification",
+    "Preexisting documentary work and local types are excluded from these commits"
+  ]
+}
