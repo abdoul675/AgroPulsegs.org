@@ -862,6 +862,10 @@ if (!html.includes('[data-brand="yida-cashew"]{text-transform:none!important}'))
   html = html.replace('</style>', '[data-brand="yida-cashew"]{text-transform:none!important}</style>');
 }
 
+// The team photo has a dark overlay; keep its copy readable in both languages.
+const teamTextColors = '#sec-equipe.t-team.hasbg h2{color:#ffffff}#sec-equipe.t-team.hasbg .lead,#sec-equipe.t-team.hasbg .tr2 div>span{color:#e3efea}#sec-equipe.t-team.hasbg .tr2 b{color:#b7e6a5}';
+if (!html.includes(teamTextColors)) html = html.replace('</style>', teamTextColors + '</style>');
+
 if (!html.includes('src="editorial-client.js"')) html = html.replace('</body>', '<script src="editorial-client.js" defer></script></body>');
 await writeFile(path.join(publicRoot,'style-policy.mjs'),await readFile(new URL('../pilot/cms/src/domain/style-policy.mjs',import.meta.url),'utf8'));
 await writeFile(indexPath, html);
