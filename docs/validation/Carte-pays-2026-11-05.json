@@ -1,0 +1,72 @@
+{
+  "completed": true,
+  "checks": [
+    {
+      "port": 4191,
+      "lang": "fr",
+      "width": 1440,
+      "slug": "accueil",
+      "passed": true,
+      "checks": "Three geographic highlights, three labels, mouse/keyboard selection, globe independence, no overflow, contact destination"
+    },
+    {
+      "port": 4191,
+      "lang": "fr",
+      "width": 1440,
+      "slug": "contact",
+      "passed": true,
+      "checks": "Three geographic highlights, three labels, mouse/keyboard selection, globe independence, no overflow, contact destination"
+    },
+    {
+      "port": 4191,
+      "lang": "en",
+      "width": 375,
+      "slug": "accueil",
+      "passed": true,
+      "checks": "Three geographic highlights, three labels, mouse/keyboard selection, globe independence, no overflow, contact destination"
+    },
+    {
+      "port": 4191,
+      "lang": "en",
+      "width": 375,
+      "slug": "contact",
+      "passed": true,
+      "checks": "Three geographic highlights, three labels, mouse/keyboard selection, globe independence, no overflow, contact destination"
+    },
+    {
+      "port": 4188,
+      "lang": "fr",
+      "width": 1440,
+      "slug": "accueil",
+      "passed": true,
+      "checks": "Three geographic highlights, three labels, mouse/keyboard selection, globe independence, no overflow, contact destination"
+    },
+    {
+      "port": 4188,
+      "lang": "fr",
+      "width": 1440,
+      "slug": "contact",
+      "passed": true,
+      "checks": "Three geographic highlights, three labels, mouse/keyboard selection, globe independence, no overflow, contact destination"
+    },
+    {
+      "port": 4188,
+      "lang": "en",
+      "width": 375,
+      "slug": "accueil",
+      "passed": true,
+      "checks": "Three geographic highlights, three labels, mouse/keyboard selection, globe independence, no overflow, contact destination"
+    },
+    {
+      "port": 4188,
+      "lang": "en",
+      "width": 375,
+      "slug": "contact",
+      "passed": true,
+      "checks": "Three geographic highlights, three labels, mouse/keyboard selection, globe independence, no overflow, contact destination"
+    }
+  ],
+  "notes": [
+    "Local reference and CMS-connected previews; no content writes; external fonts blocked; reduced motion"
+  ]
+}

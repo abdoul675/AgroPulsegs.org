@@ -511,6 +511,28 @@ for (const page of Object.values(pages)) {
 
 applyProgrammeContent(pages);
 applyVisualAssets(pages);
+const countryMapSection = compact => ({
+  id: 'pays-intervention', type: 'countrymap', compact,
+  kicker: localized('Afrique de l’Ouest', 'West Africa'),
+  title: localized(compact ? 'Un ancrage régional, des liens de proximité' : 'Retrouvez nos pays d’intervention', compact ? 'Regional roots, local connections' : 'Find our countries of intervention'),
+  lead: paragraphs(
+    compact ? 'Nos expertises accompagnent les acteurs agricoles en Côte d’Ivoire, au Sénégal et en Guinée-Bissau.' : 'Vous avez une demande dans l’un de ces pays ? Sélectionnez-le sur la carte, puis présentez-nous vos besoins.',
+    compact ? 'Our expertise supports agricultural stakeholders in Côte d’Ivoire, Senegal and Guinea-Bissau.' : 'Have an enquiry concerning one of these countries? Select it on the map, then tell us what you need.',
+  ),
+  groups: [
+    {code:'CI',title:localized('Côte d’Ivoire','Côte d’Ivoire'),text:paragraphs('Contactez notre équipe pour un besoin concernant la Côte d’Ivoire.','Contact our team about a need in Côte d’Ivoire.')},
+    {code:'SN',title:localized('Sénégal','Senegal'),text:paragraphs('Vous portez une initiative au Sénégal ? Présentez-nous vos besoins.','Working on an initiative in Senegal? Tell us what you need.')},
+    {code:'GW',title:localized('Guinée-Bissau','Guinea-Bissau'),text:paragraphs('Échangeons sur l’accompagnement recherché en Guinée-Bissau.','Let’s discuss the support you are looking for in Guinea-Bissau.')},
+  ],
+});
+for(const slug of ['contact','accueil']){
+  const page=pages[slug];page.sections=page.sections.filter(section=>section.id!=='pays-intervention');
+  const beforeId=slug==='contact'?'form':'reseau-international';
+  const index=page.sections.findIndex(section=>section.id===beforeId);
+  if(index<0)throw new Error('Missing insertion point for country map: '+slug);
+  page.sections.splice(index,0,countryMapSection(slug==='accueil'));
+}
+
 
 html = html.replace(dataPattern, (_match, openingTag, _contents, closingTag) =>
   `${openingTag}${JSON.stringify(pages)}${closingTag}`);
@@ -848,6 +870,18 @@ if (!appScript.includes('SITE.partners=SITE.partners.filter(p=>p.status==="confi
     'confirmed partner data',
   );
 }
+const countryRenderer = await readFile(new URL('./country-map-renderer.js', import.meta.url), 'utf8');
+const countryStart = '/* AgroPulse country map renderer:start */', countryEnd = '/* AgroPulse country map renderer:end */';
+const countryBlock = countryStart + '\n' + countryRenderer + '\n' + countryEnd + '\n';
+if(appScript.includes(countryStart)){
+  const start=appScript.indexOf(countryStart),end=appScript.indexOf(countryEnd,start);
+  if(end<0)throw new Error('Incomplete country map renderer');
+  appScript=appScript.slice(0,start)+countryBlock+appScript.slice(end+countryEnd.length).replace(/^[\r\n]+/u,'');
+}else{
+  if(!appScript.includes('const BT={'))throw new Error('Missing section renderers');
+  appScript=appScript.replace('const BT={',countryBlock+'const BT={');
+}
+if(!appScript.includes('countrymap:s=>countryMapHTML(s),'))appScript=appScript.replace('const BT={','const BT={\ncountrymap:s=>countryMapHTML(s),');
 // Keep partner locations on the Earth's surface rather than in a decorative orbit.
 appScript = updatePartnerGlobe(appScript);
 let sendFormStart = appScript.indexOf('function sendForm(f,m){');
@@ -925,5 +959,6 @@ const heroEnd = html.indexOf('function heroHTML(', heroStart);
 if (heroStart < 0 || heroEnd < 0) throw new Error('Missing home hero image.');
 const heroChunk = html.slice(heroStart,heroEnd).replace(/--hero:url\('[^']+'\)/u, "--hero:url('" + visualPath(1) + "')");
 html = html.slice(0,heroStart) + heroChunk + html.slice(heroEnd);
+if(!html.includes('href="country-map.css"'))html=html.replace('</head>','<link rel="stylesheet" href="country-map.css"/></head>');
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);

@@ -1,0 +1,24 @@
+.t-countrymap{background:#f3f8f2}
+.country-map-container{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:36px;align-items:center;margin-top:28px}
+.country-map-figure{min-width:0;margin:0;padding:20px;background:#fff;border:1px solid #dbe8db;border-radius:22px}
+.country-map-figure svg{display:block;width:100%;height:auto;max-height:460px}
+.country-map-figure figcaption{color:#3b5568;text-align:center;font:500 .85rem/1.5 Manrope,sans-serif;margin-top:8px}
+.country-map-land path{fill:#dfebe1;stroke:#fff;stroke-width:1.2}
+.country-map-land path[data-c="CI"],.country-map-land path[data-c="SN"],.country-map-land path[data-c="GW"]{fill:#3f9a3c;stroke:#173e2b;stroke-width:1.4;cursor:pointer}
+.country-map-labels text{font:700 22px Manrope,sans-serif;fill:#173e2b;paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.country-map-leader{fill:none;stroke:#4b7954;stroke-width:1.6}.country-map-dot{fill:#fff;stroke:#28752c;stroke-width:3}
+.country-map-copy{min-width:0}.country-list{display:grid;gap:14px;margin-bottom:22px}
+.country-card{padding:16px 18px;border:1px solid #d9e6db;border-radius:16px;background:#fff}
+.country-card button{display:flex;align-items:center;gap:12px;min-height:44px;width:100%;padding:0;text-align:left;border:0;background:transparent;color:#173e2b;cursor:pointer;font:800 1.08rem/1.4 'Space Grotesk',sans-serif}
+.country-card button:focus-visible{outline:3px solid #177eaa;outline-offset:5px;border-radius:6px}
+.country-code{display:grid;place-items:center;flex:none;width:38px;height:38px;background:#e9f3e6;border-radius:50%;font:800 .75rem Manrope,sans-serif;color:#28752c}
+.country-name{min-width:0;overflow-wrap:break-word}.country-arrow{margin-left:auto;color:#28752c}
+.country-card p{color:#3b5568;font:400 .94rem/1.6 Manrope,sans-serif;margin:9px 0 0}
+.country-card:has(button[aria-pressed="true"]){border-color:#28752c;box-shadow:0 0 0 1px #28752c}
+.country-map-container[data-map-selected="CI"] path[data-c="CI"],.country-map-container[data-map-selected="SN"] path[data-c="SN"],.country-map-container[data-map-selected="GW"] path[data-c="GW"]{fill:#18562a;stroke:#0e3520;stroke-width:3}
+.country-map-container[data-map-selected="CI"] [data-map-mark="CI"] .country-map-dot,.country-map-container[data-map-selected="SN"] [data-map-mark="SN"] .country-map-dot,.country-map-container[data-map-selected="GW"] [data-map-mark="GW"] .country-map-dot{fill:#ffd98a;stroke:#173e2b}
+.country-map-compact{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}
+.country-map-compact .country-map-figure svg{max-height:340px}
+.country-map-compact .country-card{padding:12px 16px}
+.country-map-compact .country-card p{margin-top:5px;font-size:.9rem}
+@media(max-width:760px){.country-map-container,.country-map-compact{grid-template-columns:minmax(0,1fr);gap:24px}.country-map-figure{padding:12px}.country-map-figure svg,.country-map-compact .country-map-figure svg{max-height:360px}.country-card{padding:14px}.country-map-copy>.btn{width:100%;justify-content:center;text-align:center}}
