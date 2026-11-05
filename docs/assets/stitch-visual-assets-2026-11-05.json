@@ -1,0 +1,559 @@
+{
+  "sourceArchive": "stitch_agropulse_visual_assets_collection.zip",
+  "sourceArchiveSha256": "99185a84dced9205848158ff1e83c47c2055a9785db52808993e53694eb861c7",
+  "providedBy": "Project owner",
+  "purpose": "Illustrations, not evidence of real staff, offices or programme achievements",
+  "conversion": "WebP quality 80, maximum 1280px, preserved aspect ratio; source archive unchanged",
+  "images": [
+    {
+      "id": 1,
+      "source": "stitch_agropulse_visual_assets_collection/high_quality_realistic_professional_photography_of_a_modern_west_african/screen.png",
+      "sourceSha256": "aac7e11033ea72ff49981c9af1f96bb127ce4f0636c59e79de5ef319b4ed73c8",
+      "publicPath": "assets/stitch/agriculture-connectee.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 188622,
+      "sha256": "f4b3216224d511afc6fb992a539a9e7e946895e1dd77ee1f5261e51d17618148"
+    },
+    {
+      "id": 2,
+      "source": "stitch_agropulse_visual_assets_collection/high_quality_realistic_photography_of_young_diverse_west_african_male_and/screen.png",
+      "sourceSha256": "e2ab90cc11a801b41351106f0da128c9f1a7121d58cf8165e0b13f3f6a9ead7f",
+      "publicPath": "assets/stitch/talents-terrain.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 90548,
+      "sha256": "fa21aac97eb004c86f62670eb5c6e1cb3bc40f7774a50704d9e435dcd88189c3"
+    },
+    {
+      "id": 3,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_close_up_documentary_photography_of_an_african_farmer_in_a_field/screen.png",
+      "sourceSha256": "67f9befd1aa27a0dfb89b65172bf2987b5ea7fbfaf42ae57f3da3104cfbc8aa2",
+      "publicPath": "assets/stitch/agriculteur-donnees.webp",
+      "width": 1200,
+      "height": 896,
+      "bytes": 94502,
+      "sha256": "77166daa72a49f15309be61fa05a228033c2362fadefee696f1b29a4771cb156"
+    },
+    {
+      "id": 4,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_photo_of_an_african_female_agripreneur_and_agronomist_in/screen.png",
+      "sourceSha256": "dcddadb0337aa0a89ad2611144e593daed1bc0edaae4fcdd9b9508bc3c7b0f88",
+      "publicPath": "assets/stitch/agripreneuse-tablette.webp",
+      "width": 1200,
+      "height": 896,
+      "bytes": 141156,
+      "sha256": "de4bb81fee68b71927282a370694223046904f5184057806bc02e10ce85a327e"
+    },
+    {
+      "id": 5,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_modern_agricultural_mechanization_in_west_africa_modern/screen.png",
+      "sourceSha256": "8de7d33e57c82c58a8dd45baa1fb53bf7b0ea094797a384c0c1b49df49d5d20b",
+      "publicPath": "assets/stitch/tracteur-champ.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 104348,
+      "sha256": "332055ba653b6ada66ce049880b7ef697c7c64b116611dc938bb64f10c9e2145"
+    },
+    {
+      "id": 6,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photography_of_sustainable_green_agriculture_in_west_africa_drone/screen.png",
+      "sourceSha256": "7e178cbd8b184948b3dda49b0b5f6f04f425a6b9ecc6a7230fc118581ed0f1fa",
+      "publicPath": "assets/stitch/agroforesterie.webp",
+      "width": 1200,
+      "height": 896,
+      "bytes": 332130,
+      "sha256": "29dd4e9437ed1c0bb384d36b33c1ddaf2fc61b466898427b25be73bb41f3e529"
+    },
+    {
+      "id": 7,
+      "source": "stitch_agropulse_visual_assets_collection/professional_realistic_photo_of_an_indoor_modern_agritech_innovation_office_in/screen.png",
+      "sourceSha256": "3e491786cd20dbab302290af96ae56fb5c9b30eb15cd2924344be23e2a99b026",
+      "publicPath": "assets/stitch/equipe-innovation.webp",
+      "width": 1200,
+      "height": 896,
+      "bytes": 113016,
+      "sha256": "6fa7eec53f9fb3fde82e22b08303ce36ac091673764923cabb7a74c609b97dc2"
+    },
+    {
+      "id": 8,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_macro_and_field_view_of_smart_agricultural_data_collection_in_west/screen.png",
+      "sourceSha256": "e716bdc427ee3632694047f059d745fe015f3f632bb6da8405733a6935d49391",
+      "publicPath": "assets/stitch/capteurs-agricoles.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 115590,
+      "sha256": "e46ffbdc892e2f0e41226bc34bba0cccae34a83ca897dbd57039ec4bfdfdee97"
+    },
+    {
+      "id": 10,
+      "source": "stitch_agropulse_visual_assets_collection/professional_realistic_photo_of_a_collaborative_strategic_workshop_in_a_bright/screen.png",
+      "sourceSha256": "b21ce0a47fa4ac0d851c13b4dd1de9bcd550a92200d00e01aa77af199aebfa72",
+      "publicPath": "assets/stitch/atelier-strategie.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 87760,
+      "sha256": "e6fb16cac10811e191f5f62199efc132994bfbb7a6dd98563c6681e734fb8c20"
+    },
+    {
+      "id": 11,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_cinematic_photo_showing_the_future_vision_of_african_agriculture_a/screen.png",
+      "sourceSha256": "90c485a2d5d8e55cc5a4e466b81ae2c085ed0ce2de4d9a975faa2e5c37e6e746",
+      "publicPath": "assets/stitch/vision-agriculture.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 107452,
+      "sha256": "fd91f7765626a0b299b0736f40a0d1224f08a0cbe6dbb2a709fcc70501bd5415"
+    },
+    {
+      "id": 12,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_hands_on_field_mentorship_and_technical_advisory_in_west/screen.png",
+      "sourceSha256": "a6703665c68aacb09122c7234e7cff8cd4f82689dabcbcaddbb2e270576dc7b1",
+      "publicPath": "assets/stitch/conseil-terrain.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 169242,
+      "sha256": "3d0738adb7cce9d847b368c633a6abc38149bedddba5a81e9698dff5d719b9a8"
+    },
+    {
+      "id": 13,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_high_quality_photo_of_young_dynamic_african_agronomists_and_software/screen.png",
+      "sourceSha256": "218fcbcc6aa4ed7cf95d159407b527c6a417937a161709bee9b3af336c62c803",
+      "publicPath": "assets/stitch/talents-agritech.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 159100,
+      "sha256": "3742ed6d392908aa7276c211f14c1d8fed74a37f3049c3057bf774de10c8318f"
+    },
+    {
+      "id": 14,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_photo_of_an_executive_board_and_investor_pitch_meeting/screen.png",
+      "sourceSha256": "991573ce499482da18150023514480b9611753660d7315f5c99ae0b4e97c3056",
+      "publicPath": "assets/stitch/financement-entreprises.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 77554,
+      "sha256": "39feff3cbbcf3a7d4ae7cb764780dc547a6172136e81a868170be69228301f2e"
+    },
+    {
+      "id": 15,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_photo_of_agricultural_information_systems_and_data/screen.png",
+      "sourceSha256": "438e4f0f4c00d51297d93f51aad5e21b96b900b4964505fd119ed9930ee31e5b",
+      "publicPath": "assets/stitch/systemes-information.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 66370,
+      "sha256": "e867ef19f121e7f8b5a14beded0d650b008bd4097ef994e4b89c8c08620bc5a7"
+    },
+    {
+      "id": 16,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_documentary_photo_of_a_modern_digital_training_center_in_west_africa/screen.png",
+      "sourceSha256": "8af2f37b3bddf502aeed02f9cb2809cd1b6cee457dca2e8a2b85122e35b2c770",
+      "publicPath": "assets/stitch/formation-numerique.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 89104,
+      "sha256": "489f28d86989385ac55b7580fd5bd6906d67d06fb8ba433653ef0c9f488d2829"
+    },
+    {
+      "id": 17,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_high_quality_photo_of_ai_and_agricultural_data_analytics_in_west/screen.png",
+      "sourceSha256": "3a99dc5ae2104b1dfa8e8f357ffc41bdf99807843c3f17ec4d0f28e68d3928bd",
+      "publicPath": "assets/stitch/analyse-ia.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 94598,
+      "sha256": "58d339d98d8e3fe98c27c5c545af2d8095d136b8f9123411f803691ee5ccec69"
+    },
+    {
+      "id": 18,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_representing_climate_resilience_green_economy_and_climate/screen.png",
+      "sourceSha256": "b08d20c21a4722ba6fa072db85589d3bf1ddf5953cb3f0e29a7bc10de68d8f0a",
+      "publicPath": "assets/stitch/climat-durable.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 270980,
+      "sha256": "9335c07ece5600c2f548157e4ac2f1fda108863a247ed915275d7b88926784fb"
+    },
+    {
+      "id": 19,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_an_agritech_startup_incubator_in_west_africa_dynamic_young/screen.png",
+      "sourceSha256": "785c214cc27908469e44d3a2aabb0afc48b72c8ff630010962d51cc731a14f99",
+      "publicPath": "assets/stitch/incubation-agritech.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 123982,
+      "sha256": "6c1eb59f246c73dde34169365dbad5e7279a9780542aa37f61d5e2fb5b97f271"
+    },
+    {
+      "id": 20,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_qualified_digital_human_resources_and_tech_talent_in_west/screen.png",
+      "sourceSha256": "56f86f3647e53a544be4847473d917cccde9c1afeb385e230f384700e4d1826a",
+      "publicPath": "assets/stitch/experts-numeriques.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 92934,
+      "sha256": "db438c6e7a676f253ded42f9cfd236c23ef8ca7039f8794a0d0c52f41b244fcc"
+    },
+    {
+      "id": 21,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_strategic_consulting_and_feasibility_study_in_west_africa/screen.png",
+      "sourceSha256": "9699319e7c8bed7e48607dbc670a0a8d1f0265020361fefbc05075cb1bab81d3",
+      "publicPath": "assets/stitch/etudes-faisabilite.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 160980,
+      "sha256": "3f19e3be4fd9575a7c78504fe751bc53f92ce668333297216550ac74676d337b"
+    },
+    {
+      "id": 22,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photography_of_advanced_agricultural_mechanization_in_west_africa/screen.png",
+      "sourceSha256": "2d04c422a99d5c2f31b0176c66ff9e47a417dd2abf8bb316a3d1b8c4661dc593",
+      "publicPath": "assets/stitch/mecanisation.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 173292,
+      "sha256": "7d73c10a856e59cbb02b42f3ad7a783a147c3f32e4170198da86c48f2bde6d16"
+    },
+    {
+      "id": 23,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_documentary_photo_of_personalized_beneficiary_coaching_and_support_in/screen.png",
+      "sourceSha256": "fc6a5ee0c19e91f2d38b0908163276946d04d4a2d00328599dfe0518b1cd5c74",
+      "publicPath": "assets/stitch/accompagnement-personnalise.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 129982,
+      "sha256": "333335792c34c50489049e5f257e06834713832e1f4c30d4d105f401a1faaded"
+    },
+    {
+      "id": 24,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_documentary_photography_of_an_interactive_capacity_building_training/screen.png",
+      "sourceSha256": "e8e6e7a0bebaa0cae9efd8cdc190a6e65faf571d0ee61562d355d059e0c4921d",
+      "publicPath": "assets/stitch/formation-collective.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 130712,
+      "sha256": "1c721052f11500b9e70080c6bc0b368a4421ae14c4771d20dcc5ea336f6fbde1"
+    },
+    {
+      "id": 25,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_hands_on_field_project_implementation_in_west_africa_a/screen.png",
+      "sourceSha256": "21d0c0fc4e44da4d8ca1ab1c820e0ad2127c210058e2e234e721a422cae06301",
+      "publicPath": "assets/stitch/mise-en-oeuvre-terrain.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 211628,
+      "sha256": "aa7bb803619e13630c011e7b9845b3a74d9b54ed1d8e5e2fe45a465329da2b8e"
+    },
+    {
+      "id": 26,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_agricultural_project_data_collection_and_field_enumeration/screen.png",
+      "sourceSha256": "b2b7c463f695c17d74d2a0169ab37b81f1c283d6b7357ab00352325c0922371c",
+      "publicPath": "assets/stitch/collecte-donnees.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 185248,
+      "sha256": "58362c1bdc729657352155918eda9f14686ab6919fbcca44bebdd54512c9fb55"
+    },
+    {
+      "id": 27,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photography_of_applied_digital_innovation_in_african_agriculture/screen.png",
+      "sourceSha256": "c0466720500160ab6b869f2913ed309284fa2ccc15236e2f9fc925c7ce614d58",
+      "publicPath": "assets/stitch/innovation-appliquee.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 134486,
+      "sha256": "92c651a5752c2d258475ddedb615553b81da695e01a6ecbc5dd629d92af61348"
+    },
+    {
+      "id": 28,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_a_formal_project_restitution_workshop_and_closing_seminar_in/screen.png",
+      "sourceSha256": "f020f1d827f608a36e39ea649457650ff8f82c7f072683a4ae342a06756af5be",
+      "publicPath": "assets/stitch/restitution-etudes.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 91840,
+      "sha256": "b24fee7c8c7e2d8b3638e853909ba514776e1d49f102fbd426cdc9aba570d0c9"
+    },
+    {
+      "id": 29,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_photo_of_an_agricultural_project_steering_and/screen.png",
+      "sourceSha256": "577eab7144686b1583cf681ead441e4f6ca27d20726a066edf8092aa21408b70",
+      "publicPath": "assets/stitch/pilotage-strategique.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 86934,
+      "sha256": "79836b9c89945f54a1e4a63ba80b30a0678da3a17a1508635ebe83c2f60f4419"
+    },
+    {
+      "id": 30,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_documentary_photo_of_young_west_african_men_and_women_in/screen.png",
+      "sourceSha256": "f282579cb552c9017122319d8d9b348e59f4eec0986ab562c1a2dc685a1a7149",
+      "publicPath": "assets/stitch/fellowship-formation.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 93628,
+      "sha256": "6fdb498acaafbe95b7adf87e21ed60a53948b847bfdaa5437bc1abca7f86ab22"
+    },
+    {
+      "id": 31,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_personalized_field_advisory_and_technical_coaching_in_a_west/screen.png",
+      "sourceSha256": "2276713df1f22eeeac4aefd531bc5b632a5098bd84339b061689b4790fffa4ad",
+      "publicPath": "assets/stitch/mentorat-terrain.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 203766,
+      "sha256": "012b10b1fc7fd5af57e040ef696b47e2b3b10d1c60f53a3b1b0222c957f31019"
+    },
+    {
+      "id": 32,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_the_cashew_value_chain_in_west_africa_young_african/screen.png",
+      "sourceSha256": "7a1778f79e901aa1bebbbb611984431e738d90f6372cef1cdc0cdc19f5153705",
+      "publicPath": "assets/stitch/filiere-cajou.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 195194,
+      "sha256": "0b484dd3c08b4b06a64c04fddf964416996a952f7ed8b2269000c751e91a4be7"
+    },
+    {
+      "id": 33,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_documentary_photography_of_participatory_group_work_among_young/screen.png",
+      "sourceSha256": "8bd321ce23bfdecc314971bc246094ad1af091b189ffa32515a557292e6d0a91",
+      "publicPath": "assets/stitch/travail-collectif.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 171610,
+      "sha256": "42c1dcb35824f920080e386d4eb382dae6194bbbf60e6bf478ba9eef25e987f0"
+    },
+    {
+      "id": 34,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_digital_agronomy_tools_in_the_cashew_sector_close_up_hands/screen.png",
+      "sourceSha256": "ab268516232c8edb935830662cfe083f5e598f8a392d23d99dfb61bbfb58cb32",
+      "publicPath": "assets/stitch/donnees-cajou.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 69098,
+      "sha256": "4844bb61aa344f498c88d1160ecbeadf0c62e02b508e1f75ce962ee9c06be980"
+    },
+    {
+      "id": 35,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_cashew_project_monitoring_evaluation_and_data_analytics_in/screen.png",
+      "sourceSha256": "6a6556bcc592fe815d3b7867db765637145dbac0f11aebe65c57ea22d2628154",
+      "publicPath": "assets/stitch/suivi-evaluation.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 74372,
+      "sha256": "004b2bb605b59feedc22a7d24f3cf5b6dffe9141ba94aff696f49d15b409c02e"
+    },
+    {
+      "id": 36,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_empowering_documentary_portrait_of_african_female_agripreneurs_in/screen.png",
+      "sourceSha256": "001ed37e32624865032b7f78432e77dd1559009dda0382aed3d20721ae70fa65",
+      "publicPath": "assets/stitch/femmes-agripreneuses.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 168556,
+      "sha256": "43b8e2eb94c16e7ab8917fc512fe2363e7252f1a240b0e7bcfef3fc3a283915e"
+    },
+    {
+      "id": 37,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_an_interactive_technology_training_session_for_african_women/screen.png",
+      "sourceSha256": "200f6c8eefef74bf054b2a1f7e4316b599195d535acff0bb5667419931133a51",
+      "publicPath": "assets/stitch/formation-femmes.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 118874,
+      "sha256": "100e70724a2a8e18d6f01d77dd0f75dbd5ce42cc8941afc7990edf17280f6753"
+    },
+    {
+      "id": 38,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photography_of_agriculture_and_innovative_smart_farming_led_by/screen.png",
+      "sourceSha256": "80a28d495808c8d4d9f1041b9b370a85f8ed54a221c4257950295ab54278bbfe",
+      "publicPath": "assets/stitch/agriculture-intelligente.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 210594,
+      "sha256": "6eb187b31442239c64c8e080dcfcd5a51bdc5d9e92290eba08db683000191893"
+    },
+    {
+      "id": 39,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_a_hands_on_practical_field_workshop_for_women_farmers_in/screen.png",
+      "sourceSha256": "a6c6c635ad6f96e8c73cda8b944c69d5357018381edc633408f95595616a1723",
+      "publicPath": "assets/stitch/atelier-femmes.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 188990,
+      "sha256": "d17a97a97d3b0c1aa0f4a42b508245f232a6ef477d16800ba7d7ffde572fe367"
+    },
+    {
+      "id": 40,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photography_of_artificial_intelligence_applied_to_african_agriculture/screen.png",
+      "sourceSha256": "9f455b171fa6c4ec60f00ace87d255eb6c20c0e7545051cd917c48acb87000a9",
+      "publicPath": "assets/stitch/ia-au-champ.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 142572,
+      "sha256": "0fe98f9ba3ca72506fbca1ff38e53e728b2a314480516cc8ccd0c8229850ad1b"
+    },
+    {
+      "id": 41,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_a_cooperative_group_of_african_women_farmers_collaborating/screen.png",
+      "sourceSha256": "55b356c6617b3b7383aa6dba2c45942e3396f30e963deefcd92602a00ef50ced",
+      "publicPath": "assets/stitch/cooperation-femmes.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 184532,
+      "sha256": "796e38cc9e13c496a69978ece7097980e293ddbf69501bc3d5d05149008d4f3e"
+    },
+    {
+      "id": 42,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_documentary_photo_of_personalized_field_advisory_and_technical/screen.png",
+      "sourceSha256": "4524a4acc56d5be361cf54b822110b6d428f3d3f8380238aa85040e3ba176f1e",
+      "publicPath": "assets/stitch/conseil-personnalise.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 187460,
+      "sha256": "5be097687e317c27d7ff14d3f81282491a198db0e56726d034c97465ce3e2cb4"
+    },
+    {
+      "id": 43,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_an_inter_organizational_agricultural_roundtable_meeting_in/screen.png",
+      "sourceSha256": "9b3e9e2426a57e2d22fd02c30719df07eafc9544078454b48ea1d86c5b92e5b1",
+      "publicPath": "assets/stitch/concertation-partenaires.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 70122,
+      "sha256": "1579401ca7b226143712fb536b6e86bc901d340d6f12188fa2be3a2721b5c6cc"
+    },
+    {
+      "id": 45,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_photo_of_collaborative_technical_partnership_and_field/screen.png",
+      "sourceSha256": "7a4c0d48643b1762811b754472d4e64a7120b69923bd95c3bb16c54ec50f93ff",
+      "publicPath": "assets/stitch/partenariat-terrain.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 139816,
+      "sha256": "e3120c534245a3b5c84028de5cfb4b529fc771fe3bc085742557fdc7dca3ae84"
+    },
+    {
+      "id": 46,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_business_photo_symbolizing_trust_and_network_alliance_in/screen.png",
+      "sourceSha256": "13ba28c4b3a9d2e05a238a490a932824e160f90f398c239a4fc6b65bd37e1bff",
+      "publicPath": "assets/stitch/collaboration.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 69494,
+      "sha256": "c9342719dedad9ceb2be96a5a29d2ae5c5e27c796447bedbf2a67f8a40e73a47"
+    },
+    {
+      "id": 47,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_documentary_photo_of_a_multi_stakeholder_agricultural_workshop_and/screen.png",
+      "sourceSha256": "97112f59adc20f9f10d48f4502c1eb90cf06acf176298a5b44d31e6ee67f8e95",
+      "publicPath": "assets/stitch/atelier-partenaires.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 99402,
+      "sha256": "a2955d4be353291ce298274154d8c7ef94a61b665c4868abcc123ae18dd9b208"
+    },
+    {
+      "id": 48,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_high_end_professional_photography_of_official_agricultural_policy_and/screen.png",
+      "sourceSha256": "06c87dadf03e71efed6f7c1f4d71c66f25325ab7562f27acb6a2e1cd108ec20c",
+      "publicPath": "assets/stitch/ressources-agricoles.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 67378,
+      "sha256": "7886fe77144655606a7fb891b774819fa69da913e0ab2e6ee2b54f7a97d6b64a"
+    },
+    {
+      "id": 49,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_documentary_photo_of_a_professional_west_african_woman_agronomist_and/screen.png",
+      "sourceSha256": "f0ac7c2b171402b6f1e4b7724132f34451d81002ce693dd1c80a691b136a1d24",
+      "publicPath": "assets/stitch/expertise-agronomique.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 81498,
+      "sha256": "14c8b77b1df437c9d3ee2a923e0bda5ab87e2d585172f7f042b805266c176823"
+    },
+    {
+      "id": 50,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_interactive_agricultural_data_dashboards_and_analytical/screen.png",
+      "sourceSha256": "c427214914967b78557c9f1a830feec50d7db6da47b42d0c174424e1ad593e2d",
+      "publicPath": "assets/stitch/tableaux-bord.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 78180,
+      "sha256": "e11a8fa0d239edd2325d22e881889e671275f27f809b9aaa264c8bd302064ffb"
+    },
+    {
+      "id": 51,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_photo_of_agricultural_publications_and_practical_farmer/screen.png",
+      "sourceSha256": "8abccd0ad1e937a65ce13e49ee5831e9753d447a28fba4ca937b8bea022bf44e",
+      "publicPath": "assets/stitch/publications.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 91868,
+      "sha256": "0a4d1617ee0846f445b23022ae86acef6185fd760eea95168911f8c8ba7a633b"
+    },
+    {
+      "id": 52,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_photo_of_two_young_african_professionals_man_and_woman/screen.png",
+      "sourceSha256": "4ac0cd6ea91fa9b8394084b9677640e4c4a4cb74977eee9590646783631e5c76",
+      "publicPath": "assets/stitch/presentation-donnees.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 81786,
+      "sha256": "d4b9628d4898ebad48aecd5ac1cde596e078ccaa91bbb1c835154e3efbed6fed"
+    },
+    {
+      "id": 53,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_documentary_photo_of_agricultural_data_analytics_and_open_access/screen.png",
+      "sourceSha256": "e3e3e097f90652a687aebb579dd793dd7e2b700583abc2f363ca994f315f942a",
+      "publicPath": "assets/stitch/donnees-ouvertes.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 56020,
+      "sha256": "1e68dc43bb91895c6e2a28511b01482b364d51d0cb4cf5b1dfb4ce7025e4ddbd"
+    },
+    {
+      "id": 54,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_photography_of_a_warm_and_welcoming_client_relations_and/screen.png",
+      "sourceSha256": "fbbe7d598d028c2a7ed616b8ad09fd034b75a066e5f51222da173d098075aa68",
+      "publicPath": "assets/stitch/accueil-contact.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 79272,
+      "sha256": "6709c21f9f644437730c1a12af3582751668b81346a63e74d212c2d90f863b36"
+    },
+    {
+      "id": 55,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_photo_of_an_engaging_one_on_one_consultation_and_advisory_meeting_an/screen.png",
+      "sourceSha256": "65d617a6d14e4972170d69345610e9062546e8caea26f22c79ddf8ef6c25c4b8",
+      "publicPath": "assets/stitch/consultation.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 62324,
+      "sha256": "85ce441ee8c8a32ab783310c295da2134e57b5334e57cf198f5c9864ff4c6fce"
+    },
+    {
+      "id": 57,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_documentary_photo_symbolizing_continuous_communication_human/screen.png",
+      "sourceSha256": "ac8a059096d13e6a8e908c462900bb12bb4f83ac0da22afa664174e7e912a382",
+      "publicPath": "assets/stitch/communication-terrain.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 122734,
+      "sha256": "c175dc3b05eed4bb44a7390a3b0123797e835291fb550507e83b267f017d7953"
+    },
+    {
+      "id": 58,
+      "source": "stitch_agropulse_visual_assets_collection/realistic_professional_photo_of_dedicated_client_and_partner_support_team_at/screen.png",
+      "sourceSha256": "3e884906dc7200d0313a239d9dd06843fa2d96a51c6f0ce73f62ef7e2d520372",
+      "publicPath": "assets/stitch/support-equipe.webp",
+      "width": 1280,
+      "height": 714,
+      "bytes": 63900,
+      "sha256": "fd6c3a0acc6d210ee55816a30b85ab47c68e1f43353a8e6dd20e5400e6b02716"
+    }
+  ]
+}

@@ -81,8 +81,8 @@ assert.match(html,/SITE\.partners=SITE\.partners\.filter\(p=>p\.status==="confir
 const resourceForm=getSection('ressources','notif');
 assert.deepEqual(resourceForm.fields.map(field=>field.name),['email','consent']);
 assert.match(JSON.stringify(resourceForm.lead),/not automatically subscribe|ne vous inscrit pas automatiquement/u);
-const imageReferences=new Set([...html.matchAll(/assets\/maquette\/([a-f0-9]{20}\.(?:webp|png))/gu)].map(match=>match[1]));
-for(const image of imageReferences)await access(new URL(`assets/maquette/${image}`,root));
+const imageReferences=new Set([...html.matchAll(/assets\/(?:maquette|stitch)\/[a-z0-9-]+\.(?:webp|png)/gu)].map(match=>match[0]));
+for(const image of imageReferences)await access(new URL(image,root));
 assert.ok(!app.includes('fetch('),'This preview must not send requests');
 assert.ok(!homepageScript.includes('fetch('),'The homepage preview must not send requests');
 assert.ok(sitePagesScript.includes("fetch('/api/contact'"),'Contact form must submit to the server API');

@@ -1,3 +1,4 @@
+import { applyVisualAssets, visualFallbacks, visualPath } from './visual-assets.mjs';
 import { expertiseAreas, applyProgrammeContent } from './editorial-content.mjs';
 import { createHash } from 'node:crypto';
 import { access, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
@@ -509,6 +510,7 @@ for (const page of Object.values(pages)) {
 }
 
 applyProgrammeContent(pages);
+applyVisualAssets(pages);
 
 html = html.replace(dataPattern, (_match, openingTag, _contents, closingTag) =>
   `${openingTag}${JSON.stringify(pages)}${closingTag}`);
@@ -912,5 +914,16 @@ if (!html.includes(teamTextColors)) html = html.replace('</style>', teamTextColo
 
 if (!html.includes('src="editorial-client.js"')) html = html.replace('</body>', '<script src="editorial-client.js" defer></script></body>');
 await writeFile(path.join(publicRoot,'style-policy.mjs'),await readFile(new URL('../pilot/cms/src/domain/style-policy.mjs',import.meta.url),'utf8'));
+// Apply supplied illustrations after all editorial generators and preserve the approved layout.
+const remapMatch = html.match(/window\.RES=(\{[^;]+\});/u);
+if (!remapMatch) throw new Error('Missing maquette image remapping.');
+const previousRemaps = JSON.parse(remapMatch[1]);
+const nextRemaps = {...previousRemaps, ...visualFallbacks};
+html = html.replace(remapMatch[0], 'window.RES=' + JSON.stringify(nextRemaps) + ';');
+const heroStart = html.indexOf('const HOME_HERO=');
+const heroEnd = html.indexOf('function heroHTML(', heroStart);
+if (heroStart < 0 || heroEnd < 0) throw new Error('Missing home hero image.');
+const heroChunk = html.slice(heroStart,heroEnd).replace(/--hero:url\('[^']+'\)/u, "--hero:url('" + visualPath(1) + "')");
+html = html.slice(0,heroStart) + heroChunk + html.slice(heroEnd);
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);
