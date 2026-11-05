@@ -1,4 +1,4 @@
-import { applyVisualAssets, visualFallbacks, visualPath } from './visual-assets.mjs';
+import { applyVisualAssets, visualFallbacks } from './visual-assets.mjs';
 import { expertiseAreas, applyProgrammeContent } from './editorial-content.mjs';
 import { createHash } from 'node:crypto';
 import { access, mkdir, readFile, stat, writeFile } from 'node:fs/promises';
@@ -975,7 +975,7 @@ html = html.replace(remapMatch[0], 'window.RES=' + JSON.stringify(nextRemaps) + 
 const heroStart = html.indexOf('const HOME_HERO=');
 const heroEnd = html.indexOf('function heroHTML(', heroStart);
 if (heroStart < 0 || heroEnd < 0) throw new Error('Missing home hero image.');
-const heroChunk = html.slice(heroStart,heroEnd).replace(/--hero:url\('[^']+'\)/u, "--hero:url('" + visualPath(1) + "')");
+const heroChunk = html.slice(heroStart,heroEnd).replace(/--hero:url\('[^']+'\)/u, "--hero:url('assets/maquette/e5ef43c2399f6772da7b.webp')");
 html = html.slice(0,heroStart) + heroChunk + html.slice(heroEnd);
 if(!html.includes('href="country-map.css"'))html=html.replace('</head>','<link rel="stylesheet" href="country-map.css"/></head>');
 await writeFile(indexPath, html);
