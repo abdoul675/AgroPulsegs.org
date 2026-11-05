@@ -492,8 +492,8 @@ resourceNotice.fields = [
 ];
 const network = getSection(pages.accueil, 'reseau-international');
 network.lead = paragraphs(
-  'Un réseau ouvert sur le monde. Sélectionnez un partenaire pour découvrir les projets associés, ou faites glisser le globe pour l’explorer.',
-  'A network open to the world. Select a partner to discover associated projects, or drag the globe to explore it.',
+  'Retrouvez nos partenaires sur le globe. Sélectionnez un partenaire pour centrer la vue sur sa localité, ou faites glisser le globe pour l’explorer.',
+  'Locate our partners on the globe. Select a partner to centre the view on their locality, or drag the globe to explore it.',
 );
 
 for (const page of Object.values(pages)) {
@@ -512,6 +512,30 @@ html = html
   .replace('Nous répondons sous 48 heures ouvrées.', 'Transmettez votre demande via notre formulaire.')
   .replace('We reply within 48 working hours.', 'Send your request using our form.')
   .replace('Siège : Abidjan, Côte d’Ivoire', 'Côte d’Ivoire · Sénégal · Guinée-Bissau');
+
+const updatePartnerGlobe = source => {
+  if (source.includes('/* partner geographic markers */')) return source;
+  const start = source.indexOf('function initGlobe('), end = source.indexOf('function initLab(', start);
+  if (start < 0 || end < 0) throw new Error('Missing partner globe renderer.');
+  let globe = source.slice(start, end);
+  const patch = (before, after) => { if (!globe.includes(before)) throw new Error('Partner globe anchor missing: ' + before.slice(0, 70)); globe = globe.replace(before, after); };
+  patch('function initGlobe(partners,countries,details,hq){', 'function initGlobe(partners,countries,details,hq){/* partner geographic markers */');
+  patch('gv=true,sats=[];', 'gv=true,sats=[],hits=[];');
+  patch("(e?'Headquarters: ':'Siège : ')", "(e?'Location: ':'Localisation : ')");
+  patch("(e?'Projects run with this partner':'Projets menés avec ce partenaire')", "(e?'Initiatives with this partner':'Initiatives avec ce partenaire')");
+  patch("+'</p><h4>'", "+'</p><p class=\"globe-location-note\">'+(d.hq?(e?'City-level marker':'Repère à l’échelle de la ville'):(e?'Location to be provided':'Localisation à renseigner'))+'</p><h4>'");
+  patch('if(m){tl=m.lon;tp=m.lat}else tl=null;rP()', "if(m){tl=m.lon;tp=m.lat;if(rm){lam=tl;phi=tp}}else tl=null;gb.setAttribute('aria-label',(lg()?'Partner locations on the globe: ':'Localisation des partenaires sur le globe : ')+PD[k].n[lg()]+(Lx(PD[k].hl)?' — '+Lx(PD[k].hl):''));rP()");
+  patch('sats.forEach(s=>{if(Math.hypot(s.x-x,s.y-y)<20)pickP(s.k)})', "const hit=hits.filter(s=>Math.hypot(s.x-x,s.y-y)<22).sort((a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y))[0];if(hit){pickP(hit.k);if(hit.t==='p')pickJ(hit.j)}");
+  patch('g2.clearRect(0,0,W,W);', 'g2.clearRect(0,0,W,W);hits=[];');
+  patch('sats=PD.map((d,k)=>{const p=op(gt*.9+k*6.2832/N);return{k,x:p.x,y:p.y,z:p.z,d}});', 'sats=[];');
+  const curveStart=globe.indexOf('const s0=sats[m.k];'),curveEnd=globe.indexOf('g2.setLineDash([])',curveStart);
+  if(curveStart<0||curveEnd<0)throw new Error('Missing orbital connection curve');
+  globe=globe.slice(0,curveStart)+globe.slice(curveEnd+'g2.setLineDash([])'.length);
+  patch("col=m.t=='p'?'143,227,138':'126,224,245';", "col=m.t=='p'?'143,227,138':'126,224,245';hits.push({...m,x,y});");
+  patch("g2.textAlign='left';g2.fillText(lb,x+12,y-10)", "g2.textAlign='center';const labelX=clamp(x,16,W-16);g2.fillText(lb,labelX,y-24,W-32);g2.font='600 11px Manrope,sans-serif';g2.fillStyle='#b7e6a5';g2.fillText(d.n[e],labelX,y-43,W-32)");
+  patch('gframe();', "gb.addEventListener('pointercancel',()=>{drag=null});gframe();");
+  return source.slice(0,start)+globe+source.slice(end);
+};
 
 let appMatch;
 for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gu)) {
@@ -568,6 +592,13 @@ const updateSiteData = (source, assignment) => {
     detail.role = localized('Pays d’intervention', 'Country of intervention');
     detail.text = localized('Pays d’intervention indiqué.', 'Country of intervention listed.');
     detail.facts = [];
+  }
+  // City confirmed by the project owner on 5 November 2026; a city marker, not a street address.
+  // Abidjan coordinates: https://www.geonames.org/2293538/abidjan.html (CC BY GeoNames).
+  for (const partner of site.partners || []) {
+    if (partner.name?.fr === 'Fondation AWI' && partner.status === 'confirmed') {
+      partner.hq = { label: localized('Abidjan, Côte d’Ivoire', 'Abidjan, Côte d’Ivoire'), lat: 5.35444, lon: -4.00167, precision: 'city' };
+    }
   }
   site.hq = null;
   return source.slice(0, jsonStart) + JSON.stringify(site) + source.slice(jsonEnd);
@@ -809,6 +840,8 @@ if (!appScript.includes('SITE.partners=SITE.partners.filter(p=>p.status==="confi
     'confirmed partner data',
   );
 }
+// Keep partner locations on the Earth's surface rather than in a decorative orbit.
+appScript = updatePartnerGlobe(appScript);
 let sendFormStart = appScript.indexOf('function sendForm(f,m){');
 while (sendFormStart >= 6 && appScript.slice(0, sendFormStart).endsWith('async ')) {
   sendFormStart -= 6;
