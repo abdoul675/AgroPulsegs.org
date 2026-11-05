@@ -1,3 +1,4 @@
+import { improveProgrammePresentation } from './programme-presentation.mjs';
 import { applyVisualAssets, visualFallbacks } from './visual-assets.mjs';
 import { expertiseAreas, applyProgrammeContent } from './editorial-content.mjs';
 import { createHash } from 'node:crypto';
@@ -510,6 +511,7 @@ for (const page of Object.values(pages)) {
 }
 
 applyProgrammeContent(pages);
+improveProgrammePresentation(pages);
 applyVisualAssets(pages);
 const countryMapSection = compact => ({
   id: 'pays-intervention', type: 'countrymap', compact,
@@ -899,6 +901,19 @@ if(appScript.includes(countryStart)){
   appScript=appScript.replace('const BT={',countryBlock+'const BT={');
 }
 if(!appScript.includes('countrymap:s=>countryMapHTML(s),'))appScript=appScript.replace('const BT={','const BT={\ncountrymap:s=>countryMapHTML(s),');
+const programmeRenderer = await readFile(new URL('./programme-renderer.js', import.meta.url), 'utf8');
+const programmeStart='/* AgroPulse programme renderer:start */', programmeEnd='/* AgroPulse programme renderer:end */';
+const programmeBlock=programmeStart+'\n'+programmeRenderer+'\n'+programmeEnd+'\n';
+if(appScript.includes(programmeStart)){
+  const start=appScript.indexOf(programmeStart),end=appScript.indexOf(programmeEnd,start);
+  if(end<0)throw new Error('Incomplete programme renderer');
+  appScript=appScript.slice(0,start)+programmeBlock+appScript.slice(end+programmeEnd.length).replace(/^[\r\n]+/u,'');
+}else appScript=appScript.replace('const BT={',programmeBlock+'const BT={');
+if(!appScript.includes('programmefaq:s=>programmeFaqHTML(s),'))appScript=appScript.replace('const BT={','const BT={\nprogrammefaq:s=>programmeFaqHTML(s),');
+if(!appScript.includes("mosaic:s=>s.variant==='programme-facts'?programmeFactsHTML(s):"))appScript=appScript.replace('mosaic:s=>',"mosaic:s=>s.variant==='programme-facts'?programmeFactsHTML(s):");
+if(!appScript.includes('app.dataset.page=CUR;'))appScript=appScript.replace("const app=q('#app');app.innerHTML=", "const app=q('#app');app.dataset.page=CUR;app.innerHTML=");
+if(!appScript.includes('class="programme-notice"'))appScript=appScript.replace("${ls}${sc&&","${ls}${h.notice?`<p class=\"programme-notice\">${E(tr(h.notice))}</p>`:''}${sc&&");
+
 // Keep partner locations on the Earth's surface rather than in a decorative orbit.
 appScript = updatePartnerGlobe(appScript);
 appScript = simplifyPartnerOrbit(appScript);
@@ -982,5 +997,6 @@ if(!html.includes('href="country-map.css"'))html=html.replace('</head>','<link r
 html = html.replaceAll('Space Grotesk', 'Sora');
 html = html.replace(/<link\b[^>]*href=["']https:\/\/fonts\.(?:googleapis|gstatic)\.com[^>]*>/gu, '');
 if(!html.includes('href="typography.css"'))html=html.replace('</head>','<link rel="preload" href="assets/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin/><link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin/><link rel="stylesheet" href="typography.css"/></head>');
+if(!html.includes('href="programmes.css"'))html=html.replace('</head>','<link rel="stylesheet" href="programmes.css"/></head>');
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);

@@ -143,7 +143,7 @@ export function applyProgrammeContent(pages) {
     lead: [l('Aucun document n’est actuellement proposé au téléchargement. Retrouvez les informations utiles sur les pages ci-dessous.', 'No documents are currently available for download. Find useful information on the pages below.')],
     groups: [
       { title: l('YIDA-Cashew', 'YIDA-Cashew'), text: [l('Compétences en données et accompagnement des talents pour la filière cajou.', 'Data skills and talent development for the cashew value chain.')], to: 'fellowship' },
-      { title: l('AGIR-IA', 'AGIR-IA'), text: [l('Une initiative distincte autour de l’intelligence artificielle et des femmes agripreneures.', 'A separate initiative focused on artificial intelligence and women agripreneurs.')], to: 'agir-ia' },
+      { title: l('AGIR-IA', 'AGIR-IA'), text: [l('Formation réalisée le 26 septembre 2026 pour 20 femmes agripreneuses en Côte d’Ivoire.', 'Training held on 26 September 2026 for 20 women agripreneurs in Côte d’Ivoire.')], to: 'agir-ia' },
     ],
   });
 }

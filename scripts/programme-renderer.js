@@ -1,0 +1,2 @@
+function programmeFactsHTML(s){return `<div class="w">${sh(s)}<div class="programme-facts">${s.groups.map(g=>`<article class="programme-fact"><h3>${E(tr(g.title))}</h3>${(g.text||[]).map(t=>`<p>${E(tr(t))}</p>`).join('')}</article>`).join('')}</div></div>`}
+function programmeFaqHTML(s){return `<div class="w">${sh(s)}<div class="programme-questions">${s.groups.map(g=>`<article class="programme-question"><details><summary>${E(tr(g.title))}</summary><div>${(g.text||[]).map(t=>`<p>${E(tr(t))}</p>`).join('')}</div></details></article>`).join('')}</div></div>`}

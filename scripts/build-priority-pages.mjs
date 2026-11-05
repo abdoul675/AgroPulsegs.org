@@ -91,18 +91,18 @@ const pages = [
     file: 'agir-ia.html',
     titleFr: 'AGIR-IA',
     titleEn: 'AGIR-IA',
-    descFr: 'AGIR-IA, programme AgroPulse distinct du Fellowship YIDA-Cashew.',
-    descEn: 'AGIR-IA, an AgroPulse program separate from the YIDA-Cashew Fellowship.',
-    heroFr: 'AGIR-IA · une initiative distincte.',
-    heroEn: 'AGIR-IA · a distinct initiative.',
-    introFr: 'AGIR-IA est présenté séparément du Fellowship YIDA-Cashew. La Fondation AWI est identifiée comme partenaire confirmé.',
-    introEn: 'AGIR-IA is presented separately from the YIDA-Cashew Fellowship. The AWI Foundation is identified as a confirmed partner.',
+    descFr: 'AGIR-IA : une formation réalisée pour 20 femmes agripreneuses en Côte d’Ivoire, le 26 septembre 2026.',
+    descEn: 'AGIR-IA: training held for 20 women agripreneurs in Côte d’Ivoire on 26 September 2026.',
+    heroFr: 'AGIR-IA · 20 femmes agripreneuses formées.',
+    heroEn: 'AGIR-IA · 20 women agripreneurs trained.',
+    introFr: 'Le 26 septembre 2026, AGIR-IA a réuni 20 femmes agripreneuses en Côte d’Ivoire. La Fondation AWI porte l’initiative, avec l’accompagnement pédagogique d’AgroPulse.',
+    introEn: 'On 26 September 2026, AGIR-IA brought together 20 women agripreneurs in Côte d’Ivoire. Fondation AWI initiated the activity with educational support from AgroPulse.',
     heroImage: 'agir-ia.webp',
     heroAltFr: 'Visuel illustratif d’une formation numérique destinée aux agripreneures.',
     heroAltEn: 'Illustrative visual of digital training for women agripreneurs.',
     sections: `<section class="intro-section content-wrap page-intro">
       <div class="intro-heading"><p class="eyebrow">AGIR-IA</p><h2 data-fr="Intelligence artificielle et entrepreneuriat agricole." data-en="Artificial intelligence and agricultural entrepreneurship.">Intelligence artificielle et entrepreneuriat agricole.</h2></div>
-      <div class="intro-copy"><p data-fr="AGIR-IA est distinct du programme YIDA-Cashew. La Fondation AWI est le partenaire indiqué comme confirmé dans les informations disponibles." data-en="AGIR-IA is distinct from YIDA-Cashew. The AWI Foundation is the partner identified as confirmed in the available information.">AGIR-IA est distinct du programme YIDA-Cashew. La Fondation AWI est le partenaire indiqué comme confirmé dans les informations disponibles.</p><p class="location-note" data-fr="Le contenu détaillé des sessions et les suites du programme seront publiés après confirmation." data-en="Details of sessions and future program activities will be published once confirmed.">Le contenu détaillé des sessions et les suites du programme seront publiés après confirmation.</p></div>
+      <div class="intro-copy"><p data-fr="AGIR-IA est distinct du programme YIDA-Cashew. La Fondation AWI est à l’initiative de cette action ; AgroPulse assure la conception, l’animation et le suivi pédagogique." data-en="AGIR-IA is distinct from YIDA-Cashew. Fondation AWI initiated this activity; AgroPulse handles training design, facilitation and educational follow-up.">AGIR-IA est distinct du programme YIDA-Cashew. La Fondation AWI est à l’initiative de cette action ; AgroPulse assure la conception, l’animation et le suivi pédagogique.</p><p class="location-note" data-fr="La session du 26 septembre 2026 est terminée. Aucune nouvelle date ni inscription n’est annoncée ici." data-en="The session of 26 September 2026 is complete. No new date or registration is announced here.">La session du 26 septembre 2026 est terminée. Aucune nouvelle date ni inscription n’est annoncée ici.</p></div>
     </section>`,
   },
   {

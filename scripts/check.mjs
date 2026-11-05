@@ -162,3 +162,19 @@ for (let index=1; index<=8; index++) {
  assert.deepEqual(page.title, page.hero.title, 'Expertise page titles must agree');
 }
 console.log('OK — eight distinct areas, Initiatives, exact YIDA-Cashew spelling and programme content on page.');
+
+// Programme facts must not turn a future YIDA target into an AGIR-IA achievement.
+for (const locale of ['fr','en']) {
+ const yida=JSON.stringify(maquettePages.fellowship);
+ assert.match(yida,/2030/u);
+ assert.match(maquettePages.fellowship.hero.notice[locale],locale==='fr'?/fermées/u:/closed/u);
+ const agir=maquettePages['agir-ia'];
+ const summary=agir.sections.find(section=>section.id==='crowd');
+ assert.match(summary.title[locale],/20/u);
+ assert.match(summary.kicker[locale],locale==='fr'?/26 septembre 2026/u:/26 September 2026/u);
+ assert.match(summary.kicker[locale],/Côte d’Ivoire/u);
+ const content=JSON.stringify(agir);
+ assert.doesNotMatch(content,/Date à valider|Date to be confirmed|nombre de participantes et les sessions restent à confirmer/u);
+ assert.doesNotMatch(content,/micro-crédit|micro-loan|Record your fields with GPS/u,'Unconfirmed training modules must not survive from the mockup');
+}
+console.log('OK — AGIR-IA completed session and closed YIDA applications remain distinct from future targets.');
