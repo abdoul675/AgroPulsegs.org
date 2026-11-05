@@ -7,7 +7,7 @@ import { createHomeContentHandler } from './home-content.mjs';
 import { createPageContentHandler } from './page-content.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../public/', import.meta.url)));
-const types = { '.pdf': 'application/pdf', '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
+const types = { '.mjs': 'application/javascript; charset=utf-8', '.pdf': 'application/pdf', '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
 const handleContact = createContactHandler();
 const handleHomeContent = createHomeContentHandler();
 const handlePageContent = createPageContentHandler();
@@ -31,8 +31,11 @@ const maquetteRoutes = new Map([
   ['/partenaires.html', 'partenaires'],
   ['/ressources.html', 'ressources'],
 ]);
-const server = http.createServer(async (req, res) => {
-  const requestUrl = new URL(req.url, 'http://localhost');
+// Every request is contained: malformed targets and rejected async handlers must not stop the process.
+async function handleRequest(req, res) {
+  let requestUrl;
+  try { requestUrl = new URL(req.url, 'http://localhost'); }
+  catch { res.writeHead(400, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}).end(JSON.stringify({error:'invalid_request_target'})); return; }
   if (requestUrl.pathname === '/healthz') {
     if (!['GET','HEAD'].includes(req.method)) { res.writeHead(405, {Allow:'GET, HEAD'}).end(); return; }
     res.writeHead(200, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}).end(req.method==='HEAD'?undefined:JSON.stringify({status:'ok'}));
@@ -109,6 +112,21 @@ const server = http.createServer(async (req, res) => {
     });
     res.end(req.method === 'HEAD' ? undefined : body);
   } catch { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('404 — Page introuvable'); }
+}
+const server = http.createServer((req, res) => {
+  res.setHeader('X-Content-Type-Options','nosniff');
+  res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
+  let frameOrigin='';
+  try {
+    const origin=new URL(process.env.AGROPULSE_CMS_ADMIN_ORIGIN||process.env.AGROPULSE_CMS_URL||'http://127.0.0.1:1338');
+    if(!origin.username&&!origin.password&&(origin.protocol==='https:'||(origin.protocol==='http:'&&['127.0.0.1','localhost','[::1]'].includes(origin.hostname))))frameOrigin=' '+origin.origin;
+  } catch {}
+  // Permit the trusted CMS preview while denying unrelated frame parents and embedded objects.
+  res.setHeader('Content-Security-Policy',"object-src 'none'; base-uri 'none'; frame-ancestors 'self'"+frameOrigin);
+  void handleRequest(req,res).catch(()=>{
+    if(res.headersSent){res.destroy();return;}
+    res.writeHead(500,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}).end(JSON.stringify({error:'internal_error'}));
+  });
 });
 server.requestTimeout = 15_000;
 server.headersTimeout = 10_000;
