@@ -1,0 +1,63 @@
+{
+  "completed": true,
+  "checks": [
+    {
+      "lang": "fr",
+      "width": 1440,
+      "slug": "accueil",
+      "links": [
+        "https://www.facebook.com/share/1Dsafj48jn/?mibextid=wwXIfr",
+        "https://x.com/agropulsegs",
+        "https://www.tiktok.com/@agropulse.global"
+      ],
+      "keyboardNewTabs": true,
+      "isolatedOpener": true,
+      "touchTargets44px": true
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "slug": "accueil",
+      "links": [
+        "https://www.facebook.com/share/1Dsafj48jn/?mibextid=wwXIfr",
+        "https://x.com/agropulsegs",
+        "https://www.tiktok.com/@agropulse.global"
+      ],
+      "keyboardNewTabs": true,
+      "isolatedOpener": true,
+      "touchTargets44px": true
+    },
+    {
+      "lang": "fr",
+      "width": 375,
+      "slug": "contact",
+      "links": [
+        "https://www.facebook.com/share/1Dsafj48jn/?mibextid=wwXIfr",
+        "https://x.com/agropulsegs",
+        "https://www.tiktok.com/@agropulse.global"
+      ],
+      "keyboardNewTabs": true,
+      "isolatedOpener": true,
+      "touchTargets44px": true
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "slug": "contact",
+      "links": [
+        "https://www.facebook.com/share/1Dsafj48jn/?mibextid=wwXIfr",
+        "https://x.com/agropulsegs",
+        "https://www.tiktok.com/@agropulse.global"
+      ],
+      "keyboardNewTabs": true,
+      "isolatedOpener": true,
+      "touchTargets44px": true
+    }
+  ],
+  "errors": [],
+  "limits": [
+    "Profile contents unavailable to automated reading",
+    "External tab navigation intercepted: destination and isolation verified without requesting social platforms",
+    "No account interaction or messages sent"
+  ]
+}

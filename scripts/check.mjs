@@ -1,3 +1,4 @@
+import { socialProfiles } from './social-links.mjs';
 import assert from 'node:assert/strict';
 import { readFile, access, readdir } from 'node:fs/promises';
 import vm from 'node:vm';
@@ -51,7 +52,11 @@ assert.match(html,/\.lg2\{grid-template-columns:minmax\(0,1fr\);gap:24px\}/u,'Le
 assert.match(html,/\.toc\{position:static;grid-template-columns:minmax\(0,1fr\)!important\}/u,'The legal contents navigation must fit narrow screens');
 assert.match(html,/const target=document\.getElementById\(a\.dataset\.go\)\?a\.dataset\.go:'sec-'\+a\.dataset\.go;a\.setAttribute\('href','#'\+target\)/u,'Section links must receive real fragment destinations');
 assert.match(html,/<\$\{g\.to\?'a':'div'\} class="mt"/u,'Informational mosaic cards must not be emitted as placeholder links');
-assert.equal([...html.matchAll(/<span class="social-placeholder" aria-hidden="true">/gu)].length,4,'Unconfirmed social profiles must not be clickable links');
+const socialFooter=html.match(/<div class="soc"[^>]*>([\s\S]*?)<\/div>/u)?.[1];
+assert.ok(socialFooter,'Social footer must exist');
+assert.equal([...socialFooter.matchAll(/<a\s/gu)].length,3,'Only the three owner-supplied social profiles are linked');
+for(const profile of socialProfiles)assert.ok(socialFooter.includes('href="'+profile.url.replaceAll('&','&amp;')+'"'),'Missing approved '+profile.name+' link');
+assert.ok(!socialFooter.includes('social-placeholder'),'Inactive social icons must not appear as official links');
 assert.doesNotMatch(html,/aria-label="(?:LinkedIn|Facebook|YouTube|TikTok)" href="#"/u,'Social icons must not point to placeholder URLs');
 assert.doesNotMatch(html,/Headquarters: Abidjan/u,'The site must not imply an unconfirmed office location');
 assert.doesNotMatch(html,/Our headquarters are in Abidjan|Notre siège est à Abidjan|AgroPulse headquarters · Abidjan|Regional office \(to be confirmed\)|Antenne \(à valider\)|rooted in Abidjan|ancré à Abidjan/iu,'The site and map must not imply unconfirmed offices or an Abidjan headquarters');

@@ -1,3 +1,4 @@
+import { applySocialLinks } from './social-links.mjs';
 import { improveLegalPages } from './legal-content.mjs';
 import { improveProgrammePresentation } from './programme-presentation.mjs';
 import { applyVisualAssets, visualFallbacks } from './visual-assets.mjs';
@@ -20,11 +21,6 @@ if (!html.includes('data-en-aria-label="Main navigation"')) {
     'aria-label="Navigation principale"',
     'aria-label="Navigation principale" data-fr-aria-label="Navigation principale" data-en-aria-label="Main navigation"',
   );
-}
-const socialLinks = /<a aria-label="(?:LinkedIn|Facebook|YouTube|TikTok)" href="#">([\s\S]*?)<\/a>/gu;
-html = html.replace(socialLinks, '<span class="social-placeholder" aria-hidden="true">$1</span>');
-if (html.includes('.soc a{')) {
-  html = html.replace('.soc a{', '.soc a,.soc .social-placeholder{');
 }
 const oldFooterLocation = '<span data-en="Headquarters: Abidjan, Côte d’Ivoire">Côte d’Ivoire · Sénégal · Guinée-Bissau</span>';
 const validatedFooterLocation = '<span data-fr="Pays d’intervention : Côte d’Ivoire · Sénégal · Guinée-Bissau" data-en="Countries of intervention: Côte d’Ivoire · Senegal · Guinea-Bissau">Pays d’intervention : Côte d’Ivoire · Sénégal · Guinée-Bissau</span>';
@@ -950,5 +946,6 @@ if(!html.includes('href="typography.css"'))html=html.replace('</head>','<link re
 if(!html.includes('href="programmes.css"'))html=html.replace('</head>','<link rel="stylesheet" href="programmes.css"/></head>');
 if(!html.includes('href="expertise-grid.css"'))html=html.replace('</head>','<link rel="stylesheet" href="expertise-grid.css"/></head>');
 if(!html.includes('href="legal-pages.css"'))html=html.replace('</head>','<link rel="stylesheet" href="legal-pages.css"/></head>');
+html=applySocialLinks(html);
 await writeFile(indexPath, html);
 console.log(`Built the approved maquette page and updated validated content; ${imageFiles.size} embedded image assets externalized.`);
