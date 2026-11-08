@@ -1,5 +1,5 @@
 import http from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, realpath } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { createContactHandler } from './contact-handler.mjs';
@@ -7,6 +7,7 @@ import { createHomeContentHandler } from './home-content.mjs';
 import { createPageContentHandler } from './page-content.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../public/', import.meta.url)));
+const realPublicRoot = await realpath(root);
 const types = { '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.mjs': 'application/javascript; charset=utf-8', '.pdf': 'application/pdf', '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.avif': 'image/avif' };
 const handleContact = createContactHandler();
 const handleHomeContent = createHomeContentHandler();
@@ -93,7 +94,14 @@ async function handleRequest(req, res) {
     const pathname = decodeURIComponent(requestUrl.pathname);
     const target = path.resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));
     if (!target.startsWith(root + path.sep)) { res.writeHead(403).end(); return; }
-    let body = await readFile(target);
+    // A public symlink/junction must never expose a file outside the real public tree.
+    const realTarget = await realpath(target);
+    const relativeTarget = path.relative(realPublicRoot, realTarget);
+    if (relativeTarget === '..' || relativeTarget.startsWith('..' + path.sep) || path.isAbsolute(relativeTarget)) {
+      res.writeHead(403).end();
+      return;
+    }
+    let body = await readFile(realTarget);
     if (target === path.join(root, 'index.html')) {
       let editorOrigin = '';
       try {

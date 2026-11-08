@@ -193,3 +193,29 @@ test('reports provider failure without returning provider details', async () => 
     console.error = originalError;
   }
 });
+
+test('untrusted contact text is escaped in email HTML and cannot choose recipients',async()=>{
+ let email;
+ const handler=createContactHandler({env:mailEnvironment,fetchImpl:async(_url,options)=>{email=JSON.parse(options.body);return new Response(null,{status:200});}});
+ const marker='<img src=x onerror="auditCanary()">';
+ await withServer((req,res)=>void handler(req,res),async base=>{
+  const response=await request(base+'/api/contact',{...validSubmission,name:marker,organization:'<b>fictional</b>',message:marker,to:'other@example.org',bcc:['other@example.org']});
+  assert.equal(response.status,200);
+ });
+ assert.ok(!email.html.includes('<img'));
+ assert.ok(email.html.includes('&lt;img'));
+ assert.ok(!email.html.includes('<b>fictional</b>'));
+ assert.deepEqual(email.to,[mailEnvironment.AGROPULSE_RECIPIENT_EMAIL]);
+ assert.equal(email.bcc,undefined);
+ assert.equal(email.reply_to,validSubmission.email);
+});
+
+test('email header injection is rejected before contacting the provider',async()=>{
+ let calls=0;
+ const handler=createContactHandler({env:mailEnvironment,fetchImpl:async()=>{calls++;throw Error('Provider must not be called');}});
+ await withServer((req,res)=>void handler(req,res),async base=>{
+  const response=await request(base+'/api/contact',{...validSubmission,email:'aicha@example.org\r\nBcc: other@example.org'});
+  assert.equal(response.status,400);
+ });
+ assert.equal(calls,0);
+});
