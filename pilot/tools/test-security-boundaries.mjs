@@ -32,3 +32,37 @@ test('Zod in the installed body/session consumers validates trusted setup, not s
   assert.equal(bodyCalls,1);assert.equal(sessionCalls,1);assert.deepEqual(unexpected,[]);
  }finally{await new Promise(resolve=>server.close(resolve));bodyTypes.KoaBodyMiddlewareOptionsSchema.parse=bodyParse;session.SessionOptions.parse=sessionParse;}
 });
+
+test('closed media routes reject requests before parsing their body',async()=>{
+ const middleware=require('../cms/config/middlewares.js');
+ const deny=require('../cms/src/middlewares/media-import-closed.js')();
+ const app=new Koa();let parses=0;
+ app.on('error',()=>{});
+ app.context.forbidden=function(){this.status=403;this.body={error:'media_closed'};};
+ for(const entry of middleware){
+  const name=typeof entry==='string'?entry:entry.name;
+  if(name==='global::media-import-closed')app.use(deny);
+  if(name==='strapi::body'){
+   const parse=body.koaBody(entry?.config||{});
+   app.use(async(ctx,next)=>{parses++;return parse(ctx,next);});
+  }
+ }
+ app.use(ctx=>{ctx.body={ok:true};});
+ const server=app.listen(0,'127.0.0.1');await once(server,'listening');const base='http://127.0.0.1:'+server.address().port;
+ try{
+  for(const route of ['/upload','/api/upload']){
+   const response=await fetch(base+route,{method:'POST',headers:{'content-type':'application/json'},body:'{invalid-json'});
+   assert.equal(response.status,403,'Disabled media route must reject before JSON parsing');
+  }
+  assert.equal(parses,0,'Disabled media routes must not reach body parsing');
+  assert.equal((await fetch(base+'/ordinary',{method:'POST',headers:{'content-type':'application/json'},body:'{}'})).status,200);
+  assert.equal(parses,1,'Normal routes still parse their body');
+ }finally{await new Promise(resolve=>server.close(resolve));}
+});
+
+test('CMS binds to loopback by default while preserving explicit deployment configuration',()=>{
+ const configure=require('../cms/config/server.js');
+ const environment=values=>Object.assign((name,fallback)=>values[name]??fallback,{int:(name,fallback)=>Number(values[name]??fallback),array:name=>String(values[name]||'').split(','),bool:(name,fallback)=>values[name]===undefined?fallback:values[name]==='true'});
+ assert.equal(configure({env:environment({})}).host,'127.0.0.1');
+ assert.equal(configure({env:environment({HOST:'0.0.0.0'})}).host,'0.0.0.0');
+});

@@ -1,0 +1,187 @@
+{
+  "completed": true,
+  "environment": "Fresh isolated PostgreSQL and actual CMS application; no user database or pilot credentials reused",
+  "checks": [
+    {
+      "name": "FR and EN configured",
+      "result": "PASS"
+    },
+    {
+      "name": "Native login admin",
+      "result": "PASS"
+    },
+    {
+      "name": "Native login editor",
+      "result": "PASS"
+    },
+    {
+      "name": "Native login publisher",
+      "result": "PASS"
+    },
+    {
+      "name": "Anonymous content-manager denied",
+      "result": "PASS"
+    },
+    {
+      "name": "Anonymous content API denied",
+      "result": "PASS"
+    },
+    {
+      "name": "Read token cannot write",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor may create draft",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor cannot publish",
+      "result": "PASS"
+    },
+    {
+      "name": "Publisher cannot publish incomplete page",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor saves complete fr",
+      "result": "PASS"
+    },
+    {
+      "name": "Publisher publishes fr",
+      "result": "PASS"
+    },
+    {
+      "name": "Published read fr",
+      "result": "PASS"
+    },
+    {
+      "name": "Correct published title fr",
+      "result": "PASS"
+    },
+    {
+      "name": "Draft update saved fr",
+      "result": "PASS"
+    },
+    {
+      "name": "Draft endpoint refused fr",
+      "result": "PASS"
+    },
+    {
+      "name": "Published stays unchanged fr",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor saves complete en",
+      "result": "PASS"
+    },
+    {
+      "name": "Publisher publishes en",
+      "result": "PASS"
+    },
+    {
+      "name": "Published read en",
+      "result": "PASS"
+    },
+    {
+      "name": "Correct published title en",
+      "result": "PASS"
+    },
+    {
+      "name": "Draft update saved en",
+      "result": "PASS"
+    },
+    {
+      "name": "Draft endpoint refused en",
+      "result": "PASS"
+    },
+    {
+      "name": "Published stays unchanged en",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor creates closed campaign draft",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor cannot change state",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor cannot change opensAt",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor creates unconfirmed partner",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor cannot confirm partner",
+      "result": "PASS"
+    },
+    {
+      "name": "Media import denied to admin",
+      "result": "PASS"
+    },
+    {
+      "name": "Anonymous media import denied",
+      "result": "PASS"
+    },
+    {
+      "name": "Closed route rejects before parsing /upload",
+      "result": "PASS"
+    },
+    {
+      "name": "Closed route rejects before parsing /api/upload",
+      "result": "PASS"
+    },
+    {
+      "name": "Configured preview origin allowed",
+      "result": "PASS"
+    },
+    {
+      "name": "Untrusted origin not granted CORS",
+      "result": "PASS"
+    },
+    {
+      "name": "Preview endpoint rejects missing secret",
+      "result": "PASS"
+    },
+    {
+      "name": "Editor UI cannot publish",
+      "result": "PASS"
+    },
+    {
+      "name": "Publisher UI can publish",
+      "result": "PASS"
+    }
+  ],
+  "limits": [
+    "Not a production hosting verification",
+    "Not a migration of the user CMS database",
+    "Dependency advisories remain unless separately patched"
+  ],
+  "dependencyReview": {
+    "installedAndLatest": {
+      "strapi": "5.61.0",
+      "reactRouter6": "6.30.6",
+      "deepmerge": "4.3.1"
+    },
+    "auditCounts": {
+      "critical": 0,
+      "high": 5,
+      "moderate": 22,
+      "low": 2,
+      "total": 29
+    },
+    "packagesChanged": false
+  },
+  "hosting": {
+    "invitationReceived": false,
+    "productionTested": false
+  },
+  "dataProtection": {
+    "userDatabaseAccessed": false,
+    "existingPilotCredentialsReused": false,
+    "testClusterStoppedAndRemoved": true
+  }
+}

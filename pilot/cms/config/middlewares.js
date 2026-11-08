@@ -9,8 +9,9 @@ module.exports = [
   { name: 'strapi::cors', config: { origin: trustedOrigins, credentials: true, maxAge: 600 } },
   'strapi::poweredBy',
   'strapi::query',
-  'strapi::body',
+  // Reject disabled media mutations before parsing or allocating their request body.
   'global::media-import-closed',
+  'strapi::body',
   'global::editorial-language',
   'strapi::session',
   'strapi::favicon',
