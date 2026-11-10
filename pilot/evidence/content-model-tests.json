@@ -1,5 +1,5 @@
 {
-  "executedAt": "2026-10-26T19:55:47.691Z",
+  "executedAt": "2026-11-05T06:21:27.577Z",
   "completed": true,
   "environment": "Isolated local fictional content fixtures",
   "results": [
@@ -104,9 +104,14 @@
       "actual": 4
     },
     {
-      "name": "SEO localisé fr",
+      "name": "Titre SEO dérivé fr",
       "result": "PASS",
-      "actual": "Démonstration AgroPulse"
+      "actual": "Accueil fictif du pilote"
+    },
+    {
+      "name": "Description SEO dérivée fr",
+      "result": "PASS",
+      "actual": "Introduction de test isolée FR"
     },
     {
       "name": "Sauvegarde du programme fr",
@@ -151,7 +156,7 @@
     {
       "name": "Identité du programme fr",
       "result": "PASS",
-      "actual": "oqu07bb6ca68cz7567avhtal"
+      "actual": "z0g78dtpb3iipsj8fngulnw5"
     },
     {
       "name": "Relations arbitraires non exposées fr",
@@ -179,9 +184,14 @@
       "actual": 4
     },
     {
-      "name": "SEO localisé en",
+      "name": "Titre SEO dérivé en",
       "result": "PASS",
-      "actual": "AgroPulse demonstration"
+      "actual": "Fictional pilot home"
+    },
+    {
+      "name": "Description SEO dérivée en",
+      "result": "PASS",
+      "actual": "Introduction de test isolée EN"
     },
     {
       "name": "Sauvegarde du programme en",
@@ -216,7 +226,7 @@
     {
       "name": "Identité du programme en",
       "result": "PASS",
-      "actual": "oqu07bb6ca68cz7567avhtal"
+      "actual": "z0g78dtpb3iipsj8fngulnw5"
     },
     {
       "name": "Relations arbitraires non exposées en",

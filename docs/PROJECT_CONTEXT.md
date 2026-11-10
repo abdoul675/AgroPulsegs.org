@@ -83,3 +83,31 @@ Vérifications actuelles : construction Next.js et parcours de la version concis
 L’accueil comporte les expertises, les programmes, une courte présentation et le contact. Le menu conserve cinq entrées et la police Arial. À propos présente l’identité de l’entreprise, sa mission et les compétences de l’équipe, sans répéter les six expertises. Les noms et fonctions des membres restent à fournir et à valider. Les huit pages intérieures existent en français et en anglais ; leurs informations ne nécessitent ni onglets ni textes à déplier. Le logo reste dans l’en-tête et le pied de page.
 
 Les preuves actuelles sont `pilot/evidence/business-home-tests.json` et `pilot/evidence/concise-ui-tests.json`. Les captures et contrôles de l’ancienne composition sont historiques. Ces contrôles locaux ne constituent pas une validation client ni un audit d’accessibilité complet. Le raccordement intégral des pages à Strapi et l’envoi réel des formulaires restent à réaliser ; le contact prépare seulement un brouillon local et les candidatures restent fermées. L’échéance reste le 12 novembre 2026.
+
+## Comparaison des sources reçues le 3 novembre 2026
+
+Le cahier des charges v0.1, le chronogramme v0.2, le dossier de présentation, le formulaire de validation, la revue YIDA-Cashew et les deux collections d’images ont été rapprochés des fichiers déjà présents. Le chronogramme est identique à la copie existante. Le cahier v0.1 est conservé dans `docs/archive/` : il confirme les six pôles et les besoins initiaux, mais ne remplace ni les décisions ni les conditions d’activation de la v0.5.
+
+Le dossier de présentation contient des chiffres et projections qui ne sont pas corroborés par les décisions de contenu ; ils restent exclus de la publication jusqu’à validation explicite. La maquette finale propose notamment huit expertises, de nouveaux chiffres, des promesses, des logos, un répertoire de partenaires et un jeu. Ces éléments ne sont pas des validations ; l’intégration de l’accueil conserve les six expertises approuvées et les contenus existants. Seule la direction visuelle est reprise.
+
+Le dossier `AGROPULSE GLOBALE SOLUTION` est un clone du dépôt sur le même commit de base, avec des changements locaux non commités (documentation, pages publiques, script, contrôles et suppression de deux SVG). Ces changements n’ont pas été copiés en bloc : seuls les documents complémentaires classés et la maquette demandée ont été repris, sans remplacer de fichiers plus récents du dépôt.
+
+## Refonte statique de l’accueil — consigne actuelle
+
+La consigne la plus récente demande de refaire uniquement l’accueil statique sur `integration-maquette-finale`, en utilisant les documents comme source métier et la maquette HTML intégrée comme référence de design, structure et images. Elle remplace, pour `public/index.html`, les descriptions précédentes d’un accueil simplifié ou basé sur l’ancien contenu. Les autres pages ne sont pas modifiées.
+
+`public/index.html` utilise maintenant `public/homepage.css` et `public/homepage.js`, sans les feuilles ou le script partagés avec les anciennes pages. Le contenu reprend les six pôles exacts de la v0.5. Le Fellowship mentionne uniquement la formation de 2 à 3 mois, sans garantie d’emploi ; les candidatures restent fermées tant que dates et critères ne sont pas confirmés. AGIR-IA reste distinct et aucune nouvelle édition n’est annoncée. La revue YIDA-Cashew no 1, datée d’octobre 2026, n’a pas de lien de téléchargement tant que sa diffusion n’est pas validée. Le questionnaire de validation est vierge. Aucun formulaire de contact n’est actif et aucun destinataire, délai de réponse, chiffre non corroboré ou partenariat non confirmé n’est inventé.
+
+Les images de l’accueil sont extraites des URI intégrées à la maquette et conservées dans `public/assets/home/`. Elles sont signalées comme illustratives ; leur autorisation de diffusion reste à valider. Les prototypes de jeu, globe et candidatures de la maquette ne sont pas activés. Le contrôle statique couvre désormais la page dédiée en français/anglais, ses six pôles, ses liens et ses médias ; cela ne vaut pas validation éditoriale ni approbation de publication.
+
+## Téléchargements — 4 novembre 2026
+
+Le porteur demande explicitement le téléchargement des documents après avoir fourni la revue YIDA-Cashew n° 01. Le fichier original est intégré sans modification à un catalogue public explicite, accessible depuis Ressources et YIDA-Cashew. La revue est en français ; les libellés du site sont bilingues. Cette demande ne vaut pas publication des dossiers internes, ni validation automatique des huit expertises et des objectifs ou organismes mentionnés dans la revue. Les descriptions antérieures de l’absence de téléchargement sont historiques pour cette revue.
+
+Vérifications du téléchargement : génération et contrôles du projet réussis (7 tests), puis téléchargements au clavier sur Ressources et YIDA-Cashew en FR/EN à 375 et 1440 px. Aucun débordement ni erreur JavaScript détecté ; fichiers téléchargés identiques au PDF original (SHA-256 fd93a5e7ea629bf105c1097add78f58d6bc3f7fffd8989528fa2710e83124aa0, 1 070 191 octets). Réponses GET/HEAD, type PDF, nom de téléchargement, document absent et exclusion du dossier interne vérifiés. Captures examinées ; polices externes bloquées pendant les contrôles navigateur. Ce résultat concerne la copie locale et ne vaut pas déploiement.
+
+## Décisions du porteur — reprise du 4 novembre 2026
+
+La dernière instruction remplace les descriptions antérieures de six pôles et de téléchargement de la revue. Le site présente huit pôles distincts, selon les intitulés demandés dans la conversation. Les programmes sont regroupés sous Initiatives et YIDA-Cashew garde exactement cette graphie.
+
+YIDA-Cashew est une page vitrine de programme : origine, objectifs, publics et parcours sont présentés sur la page en FR/EN à partir de la revue. Le document source demeure interne ; le PDF est retiré du catalogue et des fichiers publics, et son ancienne URL est refusée par le serveur. Les candidatures restent fermées ; seul un renseignement peut être demandé. Ces décisions ne valident pas un calendrier, un partenaire supplémentaire, une promesse d’emploi ou une mise en production.

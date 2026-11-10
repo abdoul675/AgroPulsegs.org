@@ -1,5 +1,5 @@
 {
-  "executedAt": "2026-10-27T00:26:51.291Z",
+  "executedAt": "2026-11-04T20:22:09.578Z",
   "completed": true,
   "results": [
     {
@@ -40,7 +40,7 @@
     {
       "name": "Cartes et boutons conservés",
       "result": "PASS",
-      "actual": "[{\"title\":\"Services fictifs / Fictional services\",\"items\":[{\"id\":20,\"title\":\"Exemple / Example\",\"description\":\"Démonstration / Demonstration\"}],\"__component\":\"content.card-grid\"},{\"title\":\"Contact\",\"description\":null,\"label\":\"Contact\",\"path\":\"/fr/contact\",\"__component\":\"content.cta\"}]"
+      "actual": "[{\"title\":\"Services fictifs / Fictional services\",\"items\":[{\"id\":52,\"title\":\"Exemple / Example\",\"description\":\"Démonstration / Demonstration\"}],\"__component\":\"content.card-grid\"},{\"title\":\"Contact\",\"description\":null,\"label\":\"Contact\",\"path\":\"/fr/contact\",\"__component\":\"content.cta\"}]"
     },
     {
       "name": "Référencement préparé",

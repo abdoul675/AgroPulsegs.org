@@ -15,6 +15,16 @@ Les copies HTML sont destinées à la revue dans un navigateur. Le contenu des f
 
 Les documents antérieurs et le questionnaire restent conservés comme historique. Leurs noms de validateurs, propositions techniques ou dates ne remplacent pas les décisions consignées dans les versions ci-dessus.
 
+## Sources complémentaires reçues le 3 novembre 2026
+
+- [Dossier de présentation](projet/AgroPulse_Dossier_Presentation.docx) — document de travail interne ; ses chiffres et projections ne sont pas corroborés par le cahier v0.5 et ne sont pas repris sur le site.
+- [Formulaire de validation](validation/Formulaire_validation_AgroPulse.docx) — conservé comme pièce de validation, sans présumer d’une signature ou d’un accord supplémentaire.
+- [Revue YIDA-Cashew no 1](ressources/La%20Revue%20YIDA-Cashew%20AgroPulse_N01.pdf) et [collection d’images AgroPulse](ressources/AgroPulse_Maquette_Images_Uniques.zip), [collection Stitch](ressources/stitch_agropulse_visual_assets_collection.zip) — ressources de référence, non publiées automatiquement.
+- [Cahier des charges v0.1](archive/AgroPulse_Cahier_des_charges_v0.1.docx) — version historique ; la v0.5 demeure la référence fonctionnelle la plus récente déjà intégrée.
+- La [maquette HTML intégrée](../.work/maquettes/AgroPulse_Maquette_Images_Integrees_Directement.html) est un support de travail ignoré par Git. Ses nouveaux chiffres, promesses, logos, partenaires, huit expertises et jeu ne sont pas des validations éditoriales.
+
+Le chronogramme v0.2 fourni est identique à la copie déjà conservée dans `docs/AgroPulse_Chronogramme_v0.2.docx` ; aucune copie supplémentaire n’a été créée. Les documents v0.2 à v0.5 et le cahier de référence existants n’ont pas été remplacés.
+
 ## Skills AgroPulse
 
 Les sources partageables sont dans `skills/` à la racine du dépôt. Les instructions se réfèrent au workspace AgroPulse courant et aux documents de cet index, sans importer les contraintes de Talent-Job.
@@ -60,3 +70,19 @@ L’accueil simplifié est remplacé par la composition complète de la maquette
 À la demande du porteur : accueil conservé, menu limité à cinq entrées, police Arial, À propos raccourci et expertises sans onglets ni carrousel. Huit pages FR/EN sont disponibles dans l’application Next.js : `/a-propos`, `/expertises` et `/pole-1` à `/pole-6`, sous `/fr` ou `/en`. Le parcours de revue actuel est consigné dans `pilot/evidence/concise-ui-tests.json`. Les preuves de reproduction de la maquette initiale sont historiques et ne remplacent pas la dernière consigne éditoriale.
 
 Présentation actuelle du 27 octobre : accueil et huit pages intérieures simplifiés en FR/EN, inspirés de l’organisation visuelle de SMAG. À propos contient identité, mission et équipe, sans liste de services répétée. Voir la dernière section de `PROJECT_CONTEXT.md` et les preuves `pilot/evidence/business-home-tests.json` / `pilot/evidence/concise-ui-tests.json`. Les comparaisons avec l’ancienne maquette sont historiques.
+
+## Dernière consigne relative à l’accueil statique
+
+La page `public/index.html` est refondue seule sur la branche `integration-maquette-finale`. Elle reprend la composition visuelle et les images de l’accueil de la maquette finale, avec un style et un script dédiés (`public/homepage.css`, `public/homepage.js`) ; les pages intérieures et `public/app.js` restent isolés de cette refonte.
+
+Le contenu métier s’appuie d’abord sur le cahier des charges v0.5 : six pôles, Fellowship et AGIR-IA distincts, pays indiqués et informations de programme limitées à ce qui est documenté. Les candidatures restent fermées ; les dates et critères incertains, chiffres non corroborés, partenariats non confirmés et promesses d’emploi ne sont pas repris. La revue YIDA-Cashew no 1 (octobre 2026) est identifiée, mais son téléchargement n’est pas activé avant validation de publication et des droits. Le formulaire de validation reçu est vierge. Les coordonnées, le destinataire des demandes et les contenus légaux restent à compléter ; aucun formulaire ni envoi n’est activé dans cet aperçu.
+
+Les visuels locaux de `public/assets/home/` proviennent des images intégrées à la maquette et sont présentés comme illustratifs, pas comme preuves de réalisations. Leur autorisation de diffusion doit être confirmée avant mise en ligne. Les jeux, globe et autres extensions de la maquette ne sont pas activés.
+
+## Publications téléchargeables — 4 novembre 2026
+
+- Revue YIDA-Cashew n° 01 : téléchargement public depuis Ressources et YIDA-Cashew, fichier français original dans `public/documents/revue-yida-cashew-n01.pdf`. Catalogue et procédure d’ajout dans le README racine. Les autres documents restent internes sauf demande de publication.
+
+## Consigne actuelle — 4 novembre 2026
+
+Huit pôles distincts, navigation Initiatives et page informative YIDA-Cashew en FR/EN. La revue est une source interne, sans téléchargement public. Cette instruction remplace les mentions historiques contraires ; voir la dernière section de PROJECT_CONTEXT.md.

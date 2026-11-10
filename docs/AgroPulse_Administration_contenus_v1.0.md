@@ -46,7 +46,7 @@ Ces adaptations ont été fondées sur le code de Strapi installé et sur des es
 
 ## Preuves du lot
 
-La suite [content-model-tests.json](../pilot/evidence/content-model-tests.json) comporte **75 assertions techniques réussies** lors de son exécution finale. Elle couvre les publications FR/EN, les quatre types de blocs, les données SEO, les interdictions de rôle, les partenaires non confirmés, l’identité stable, la création concurrente, les campagnes fermées et dates inversées, les ressources absentes, les imports fermés et les lectures publiées.
+La suite [content-model-tests.json](../pilot/evidence/content-model-tests.json) comporte **77 assertions techniques réussies** lors de son exécution finale. Elle couvre les publications FR/EN, les quatre types de blocs, les données SEO, les interdictions de rôle, les partenaires non confirmés, l’identité stable, la création concurrente, les campagnes fermées et dates inversées, les ressources absentes, les imports fermés et les lectures publiées.
 
 La vérification des écrans comporte **8 assertions réussies** dans [content-browser-tests.json](../pilot/evidence/content-browser-tests.json), avec `completed: true` : pages et campagnes de l’Éditeur, état/dates non modifiables, programme et commande du Publieur. Les captures associées sont : [page — Éditeur](../pilot/evidence/content-page-editor.png), [campagne — Éditeur](../pilot/evidence/content-campaign-editor.png), [programme — Publieur](../pilot/evidence/content-programme-publisher.png). Les titres d’administration utilisent le titre, le nom ou la clé du contenu plutôt qu’un identifiant technique.
 
