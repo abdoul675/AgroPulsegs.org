@@ -4,7 +4,7 @@ const simpleEntry=require('./simple-entry');
 const sitePresentation=require('./site-presentation-policy');
 const definitions={
   'site-setting':{required:['brandName','tagline','logo','navigation'],fields:['brandName','tagline','locale'],populate:{navigation:true,publicContact:true,socialLinks:true}},
-  page:{required:['key','slug','title','sections','seo'],identity:'key',fields:['key','slug','title','heroTitle','summary','mainContent','locale','siteText','siteLayout'],populate:{seo:true,sections:{on:{'content.hero':{fields:['title','intro']},'content.rich-text':{fields:['heading','body']},'content.card-grid':{populate:{items:true}},'content.cta':{fields:['title','description','label','path']}}}}},
+  page:{required:['key','slug','title','heroTitle'],identity:'key',fields:['key','slug','title','heroTitle','summary','mainContent','locale','siteText','siteLayout'],populate:{seo:true,sections:{on:{'content.hero':{fields:['title','intro']},'content.rich-text':{fields:['heading','body']},'content.card-grid':{populate:{items:true}},'content.cta':{fields:['title','description','label','path']}}}}},
   programme:{required:['key','slug','title','objective','audience','body','seo'],identity:'key',fields:['key','slug','title','objective','audience','durationDescription','body','locale','siteText','siteLayout'],populate:{seo:true}},
   campaign:{required:['key','state','notice','programme'],identity:'key',restricted:['state','opensAt','closesAt','applicationRoute'],fields:['key','state','opensAt','closesAt'],populate:{notice:true,criteria:true}},
   resource:{required:['key','language','title','file'],identity:'key',fields:['key','language','title','description','format','sizeBytes','releaseVersion'],populate:{}},
@@ -95,7 +95,7 @@ function install(strapi){
       const populate=context.uid===uidFor('page')?{seo:true,sections:{on:{'content.hero':{populate:{visual:{populate:{media:true}}}},'content.rich-text':{fields:['heading','body']},'content.card-grid':{populate:{items:true}},'content.cta':{fields:['title','description','label','path']}}}}:context.uid===uidFor('programme')?{seo:true,visual:{populate:{media:true}},expertise:true,partners:true}: '*';
       const doc=await strapi.documents(context.uid).findOne({documentId:params.documentId,status:'draft',...(locale?{locale}:{}),populate});
       if(!doc)fail('Brouillon absent.');
-      if(spec.required.some(field=>!filled(doc[field])))fail(`Publication incomplète : ${spec.required.join(', ')}.`);
+      const missing=spec.required.filter(field=>!filled(doc[field]));if(missing.length)fail(`Publication incomplète : ${missing.join(', ')}.`);
       await assertIdentity(strapi,context.uid,params.documentId,doc,spec.identity);
       await sitePresentation.validate(doc);
       validateStructured(doc);
