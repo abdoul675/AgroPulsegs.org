@@ -31,7 +31,12 @@ module.exports = ({ env }) => {
           rejectUnauthorized: env.bool('DATABASE_SSL_REJECT_UNAUTHORIZED', true),
         },
       },
-      pool: { min: env.int('DATABASE_POOL_MIN', 2), max: env.int('DATABASE_POOL_MAX', 10) },
+      pool: {
+        min: env.int('DATABASE_POOL_MIN', 0),
+        max: env.int('DATABASE_POOL_MAX', 5),
+        idleTimeoutMillis: env.int('DATABASE_POOL_IDLE_TIMEOUT', 30000),
+        reapIntervalMillis: env.int('DATABASE_POOL_REAP_INTERVAL', 1000),
+      },
     },
     postgres: {
       client: 'postgres',
