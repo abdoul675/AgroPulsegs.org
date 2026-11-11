@@ -656,7 +656,7 @@ if (appScript.includes(originalLanguageSwap)) {
   appScript = replaceOnce(
     appScript,
     originalLanguageSwap,
-    "qa('[data-en]').forEach(el=>{const key=el.dataset.cms==='hero.title'?'title':el.dataset.cms==='hero.subtitle'?'intro':null,value=key&&CMS_HOME_TEXT[l][key];if(value)el.textContent=value;else el.innerHTML=l=='en'?el.dataset.en:el.dataset.fr});",
+    "qa('[data-en]').forEach(el=>{const key=el.dataset.cms==='hero.title'?'title':el.dataset.cms==='hero.subtitle'?'intro':null,value=key&&CMS_HOME_TEXT[l][key];if(value){const reference=l=='en'?el.dataset.en:el.dataset.fr,probe=document.createElement('div');probe.innerHTML=reference||'';if(probe.textContent.trim()===value.trim())el.innerHTML=reference;else el.textContent=value}else el.innerHTML=l=='en'?el.dataset.en:el.dataset.fr});",
     'safe published homepage language rendering',
   );
 }
@@ -701,7 +701,7 @@ async function loadPublishedHome(){
   if(result.status==='published'){
    for(const [key,field] of [['title','hero.title'],['intro','hero.subtitle']]){
     const value=result.content?.[key],target=hero.querySelector('[data-cms="'+field+'"]');
-    if(typeof value==='string'&&value.trim()&&target){CMS_HOME_TEXT[locale][key]=value;target.textContent=value}
+    if(typeof value==='string'&&value.trim()&&target){CMS_HOME_TEXT[locale][key]=value;const reference=locale==='en'?target.dataset.en:target.dataset.fr,probe=document.createElement('div');probe.innerHTML=reference||'';if(probe.textContent.trim()===value.trim())target.innerHTML=reference;else target.textContent=value}
     else{delete CMS_HOME_TEXT[locale][key];if(target)target.innerHTML=locale==='en'?target.dataset.en:target.dataset.fr}
    }
   }else{
