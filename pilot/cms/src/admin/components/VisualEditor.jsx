@@ -82,6 +82,12 @@ export default function VisualEditor(){
  const value=field=>selectedCopy?.[field]??selectedReference?.[field]??'';
  const choose=next=>{if(dirty&&!window.confirm(t('Quitter sans enregistrer les modifications ?','Leave without saving your changes?')))return;setChosen(next);setDirty(false);setStatus('');};
  const changeLanguage=next=>{if(dirty&&!window.confirm(t('Changer de langue sans enregistrer ?','Change language without saving?')))return;setEntries([]);setLanguage(next);setChosen('');setDirty(false);setStatus('');};
+ const orderedSections=reference?(()=>{
+  const byId=new Map(reference.sections.map(section=>[section.id,section]));
+  const result=[];
+  for(const id of layout.sections||[]){const section=byId.get(id);if(section){result.push(section);byId.delete(id);}}
+  return result.concat([...byId.values()]);
+ })():[];
  const moveSectionFromPanel=(sectionId,direction)=>{
   if(!reference)return;
   const base=reference.sections.map(section=>section.id);
@@ -90,9 +96,11 @@ export default function VisualEditor(){
   const index=order.indexOf(sectionId),next=index+direction;
   if(index<0||next<0||next>=order.length)return;
   [order[index],order[next]]=[order[next],order[index]];
-  setLayout(previous=>({...previous,sections:order}));
+  const nextLayout={...layout,sections:order};
+  setLayout(nextLayout);
   setDirty(true);
-  setStatus(t('Ordre des sections modifié dans le brouillon.','Section order changed in the draft.'));
+  setStatus(t('Section déplacée. Enregistrez le brouillon pour conserver ce nouvel ordre.','Section moved. Save the draft to keep this new order.'));
+  message({type:'draft',page:slug,locale:language,copy,layout:nextLayout});
  };
  async function publish(){
   if(!entry?.documentId||dirty||pending.current||busy)return;
@@ -141,7 +149,7 @@ export default function VisualEditor(){
   </section>
   <p className="agp-status" role="status" aria-live="polite">{status||(!reference&&entry?t('Chargement des sections de la page…','Loading page sections…'):!dirty?t('Vos changements restent privés jusqu’à leur publication par le rôle autorisé.','Your changes stay private until published by an authorised role.'):t('Modifications non enregistrées','Unsaved changes'))}</p>
   {!entry?<section className="agp-empty"><div className="agp-empty-symbol" aria-hidden="true">↗</div><h2>{t('Commencez par choisir une page','Start by choosing a page')}</h2><p>{t('1. Choisissez une page. 2. Modifiez-la dans l’aperçu. 3. Enregistrez. 4. Publiez quand tout est prêt.','1. Choose a page. 2. Edit it in the preview. 3. Save. 4. Publish when everything is ready.')}</p></section>:<div className="agp-workspace">
-   <aside className="agp-panel"><h2>{t('Le contenu de la page','Page content')}</h2>{reference&&<AppearanceEditor value={layout.styles||{}} onChange={setStyles} error={styleError} t={t}/>}<nav aria-label={t('Sections à modifier','Sections to edit')}><button aria-current={active.section==='hero'?'true':undefined} onClick={()=>setActive({section:'hero',card:null})}>{t('Présentation en haut de page','Top-of-page introduction')}</button>{reference?.sections.map(section=><div key={section.id} className="agp-section-row"><button aria-current={active.section===section.id?'true':undefined} onClick={()=>setActive({section:section.id,card:null})}>{section.title||t('Section sans titre','Untitled section')}</button><div className="agp-section-move"><button type="button" title={t('Monter cette section','Move section up')} aria-label={t('Monter cette section','Move section up')} onClick={()=>moveSectionFromPanel(section.id,-1)}>↑</button><button type="button" title={t('Descendre cette section','Move section down')} aria-label={t('Descendre cette section','Move section down')} onClick={()=>moveSectionFromPanel(section.id,1)}>↓</button></div></div>)}</nav>
+   <aside className="agp-panel"><h2>{t('Le contenu de la page','Page content')}</h2>{reference&&<AppearanceEditor value={layout.styles||{}} onChange={setStyles} error={styleError} t={t}/>}<nav aria-label={t('Sections à modifier','Sections to edit')}><button aria-current={active.section==='hero'?'true':undefined} onClick={()=>setActive({section:'hero',card:null})}>{t('Présentation en haut de page','Top-of-page introduction')}</button>{orderedSections.map(section=><div key={section.id} className="agp-section-row"><button aria-current={active.section===section.id?'true':undefined} onClick={()=>setActive({section:section.id,card:null})}>{section.title||t('Section sans titre','Untitled section')}</button><div className="agp-section-move"><button type="button" title={t('Monter cette section','Move section up')} aria-label={t('Monter cette section','Move section up')} onClick={()=>moveSectionFromPanel(section.id,-1)}>↑</button><button type="button" title={t('Descendre cette section','Move section down')} aria-label={t('Descendre cette section','Move section down')} onClick={()=>moveSectionFromPanel(section.id,1)}>↓</button></div></div>)}</nav>
     {reference&&<div className="agp-fields"><h3>{active.card===null?t('Textes de la section','Section text'):t('Texte de la carte','Card text')}</h3><label>{t('Titre','Heading')}<input value={value('title')} maxLength={500} onChange={event=>edit('title',event.target.value)}/></label><label>{active.section==='hero'?t('Introduction','Introduction'):t('Description','Description')}<textarea rows={7} value={value(active.section==='hero'?'intro':active.card===null?'lead':'text')} onChange={event=>edit(active.section==='hero'?'intro':active.card===null?'lead':'text',event.target.value)}/></label><p className="agp-help">{t('Les poignées dans l’aperçu permettent de déplacer les éléments. Les flèches offrent la même action au clavier.','Use handles in the preview to move elements. Arrow buttons provide the same action by keyboard.')}</p><button className="agp-secondary" onClick={()=>{if(window.confirm(t('Rétablir la disposition d’origine ? Les textes seront conservés.','Restore the original layout? Text will be kept.'))){setLayout(previous=>previous.styles?{styles:previous.styles}:{});setDirty(true);}}}>{t('Rétablir la disposition','Restore original layout')}</button></div>}
 
    </aside><section className={'agp-preview '+(mobile?'agp-mobile':'')} aria-label={t('Aperçu du brouillon','Draft preview')}><iframe key={previewUrl} ref={frame} src={previewUrl} title={t('Aperçu modifiable du site AgroPulse','Editable AgroPulse website preview')} onLoad={()=>message({type:'hello'})}/>{!reference&&<p className="agp-preview-help">{t('L’aperçu se connecte au site. Si cet écran reste vide, vérifiez que le serveur de prévisualisation est démarré.','The preview is connecting to the website. If it remains empty, check that the preview server is running.')}</p>}</section>
