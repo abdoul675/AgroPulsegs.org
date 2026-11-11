@@ -12,10 +12,20 @@
  const parameters=new URLSearchParams(location.search);
  const preview=parameters.get('editor')==='1'&&window.parent!==window;
  let adminOrigin;
+ const trustedAdmin=value=>{
+  try{
+   const url=new URL(value,location.href);
+   if(url.username||url.password)return null;
+   if(url.protocol==='http:'&&!['127.0.0.1','localhost','[::1]'].includes(url.hostname))return null;
+   if(!['http:','https:'].includes(url.protocol))return null;
+   return url.origin;
+  }catch{return null;}
+ };
  try{
   const configured=document.querySelector('meta[name="agropulse-cms-admin-origin"]')?.content?.trim();
-  const source=configured||document.referrer;
-  if(source)adminOrigin=new URL(source,location.href).origin;
+  const baseHost=location.hostname.replace(/^www\./u,'');
+  const automatic=location.protocol==='https:'?'https://cms.'+baseHost:'';
+  adminOrigin=trustedAdmin(configured)||trustedAdmin(document.referrer)||trustedAdmin(automatic);
  }catch{}
  const send=data=>{if(preview&&adminOrigin)window.parent.postMessage({channel:'agropulse-editor',...data},adminOrigin);};
 
@@ -114,9 +124,15 @@
   }
  }
  window.addEventListener('message',event=>{
-  if(!preview||event.source!==window.parent||event.origin!==adminOrigin||event.data?.channel!=='agropulse-editor')return;
+  if(!preview||event.source!==window.parent||event.data?.channel!=='agropulse-editor')return;
+  if(!adminOrigin){
+   const candidate=trustedAdmin(event.origin);
+   const baseHost=location.hostname.replace(/^www\./u,'');
+   if(candidate&&(new URL(candidate).hostname==='cms.'+baseHost||['127.0.0.1','localhost','[::1]'].includes(new URL(candidate).hostname)))adminOrigin=candidate;
+  }
+  if(!adminOrigin||event.origin!==adminOrigin)return;
   if(event.data.type==='focus'){focusPreview(event.data.section,event.data.card);return;}
-  if(event.data.type==='hello'){send({type:'reference',reference:reference()});return;}
+  if(event.data.type==='hello'){send({type:'ready'});send({type:'reference',reference:reference()});return;}
   if(event.data.type==='draft'&&event.data.page===CUR&&event.data.locale===locale()){
    try{if(JSON.stringify(event.data).length>200000)return;}catch{return;}
    const next={page:CUR,locale:locale(),copy:event.data.copy||{},layout:event.data.layout||{}};if(draft&&JSON.stringify(draft)===JSON.stringify(next))return;draft=next;apply(draft.copy,draft.layout);
