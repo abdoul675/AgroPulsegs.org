@@ -3,21 +3,63 @@ const strapi = require('@strapi/strapi');
 
 const host = process.env.HOST || '0.0.0.0';
 const port = Number(process.env.PORT || 3000);
+const startupRequestTimeoutMs = Number(process.env.STARTUP_REQUEST_TIMEOUT_MS || 20000);
 
-let requestHandler = (_req, res) => {
+let app;
+let strapiHandler = null;
+let startupError = null;
+
+function sendStartupUnavailable(res, message = 'Strapi is starting') {
+  if (res.writableEnded || res.destroyed) return;
+
+  const body = JSON.stringify({
+    data: null,
+    error: {
+      status: 503,
+      name: 'ServiceUnavailableError',
+      message,
+    },
+  });
+
   res.statusCode = 503;
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-  res.setHeader('Retry-After', '5');
-  res.end('Strapi is starting');
-};
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('Retry-After', '2');
+  res.end(body);
+}
 
-const server = http.createServer((req, res) => requestHandler(req, res));
+function waitForStrapi(req, res) {
+  const startedAt = Date.now();
+
+  const forwardWhenReady = () => {
+    if (res.writableEnded || res.destroyed) return;
+
+    if (strapiHandler) {
+      strapiHandler(req, res);
+      return;
+    }
+
+    if (startupError) {
+      sendStartupUnavailable(res, 'Strapi failed to start');
+      return;
+    }
+
+    if (Date.now() - startedAt >= startupRequestTimeoutMs) {
+      sendStartupUnavailable(res);
+      return;
+    }
+
+    setTimeout(forwardWhenReady, 100);
+  };
+
+  forwardWhenReady();
+}
+
+const server = http.createServer((req, res) => waitForStrapi(req, res));
 
 server.listen(port, host, () => {
   console.log(`[bootstrap] listening on ${host}:${port}`);
 });
-
-let app;
 
 async function startStrapi() {
   app = strapi.createStrapi();
@@ -25,7 +67,7 @@ async function startStrapi() {
   await app.load();
   app.server.mount();
 
-  requestHandler = app.server.app.callback();
+  strapiHandler = app.server.app.callback();
 
   if (typeof app.postListen === 'function') {
     await app.postListen();
@@ -62,6 +104,7 @@ process.on('unhandledRejection', (error) => {
 });
 
 startStrapi().catch((error) => {
+  startupError = error;
   console.error('[bootstrap] Strapi failed to start:', error);
-  server.close(() => process.exit(1));
+  setTimeout(() => server.close(() => process.exit(1)), 250).unref();
 });
