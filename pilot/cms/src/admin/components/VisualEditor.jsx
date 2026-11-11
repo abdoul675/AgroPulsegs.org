@@ -20,10 +20,22 @@ export default function VisualEditor(){
  let styleError='';try{normalizeStyles(layout.styles||{});}catch(error){styleError=error.message;}
  const setStyles=styles=>{setLayout(previous=>({...previous,styles}));setDirty(true);};
  const site=new URL(import.meta.env.VITE_AGROPULSE_SITE_URL||'http://127.0.0.1:4173');
+ const siteOrigins=(()=>{
+  const values=new Set([site.origin]);
+  if(site.protocol==='https:'&&!['127.0.0.1','localhost','[::1]'].includes(site.hostname)){
+   const alternate=new URL(site.href);
+   alternate.hostname=site.hostname.startsWith('www.')?site.hostname.slice(4):'www.'+site.hostname;
+   values.add(alternate.origin);
+  }
+  return [...values];
+ })();
  const entry=entries.find(item=>item.option===chosen),slug=entry?slugOf(entry):null;
  const previewUrl=slug?new URL('?'+new URLSearchParams({lang:language,editor:'1'})+'#p-'+slug,site).href:'';
  const publishUrl=entry?'/admin/content-manager/collection-types/'+entry.uid+'/'+entry.documentId+'?plugins[i18n][locale]='+language:'#';
- const message=data=>frame.current?.contentWindow?.postMessage({channel:'agropulse-editor',...data},site.origin);
+ const message=data=>{
+  const target=frame.current?.contentWindow;if(!target)return;
+  for(const origin of siteOrigins){try{target.postMessage({channel:'agropulse-editor',...data},origin);}catch{}}
+ };
  useEffect(()=>{
   let live=true;
   (async()=>{
@@ -45,7 +57,7 @@ export default function VisualEditor(){
  },[chosen,language]);
  useEffect(()=>{
   const receive=event=>{
-   if(event.source!==frame.current?.contentWindow||event.origin!==site.origin||event.data?.channel!=='agropulse-editor')return;
+   if(event.source!==frame.current?.contentWindow||!siteOrigins.includes(event.origin)||event.data?.channel!=='agropulse-editor')return;
    const data=event.data;
    if(data.type==='reference'&&data.reference?.page===slug&&data.reference?.locale===language)setReference(data.reference);
    if(data.type==='layout'){setLayout(data.layout||{});setDirty(true);setStatus(t('Disposition modifiée dans le brouillon.','Layout changed in the draft.'));}
