@@ -925,7 +925,10 @@ if (!html.includes('[data-brand="yida-cashew"]{text-transform:none!important}'))
 const teamTextColors = '#sec-equipe.t-team.hasbg h2{color:#ffffff}#sec-equipe.t-team.hasbg .lead,#sec-equipe.t-team.hasbg .tr2 div>span{color:#e3efea}#sec-equipe.t-team.hasbg .tr2 b{color:#b7e6a5}';
 if (!html.includes(teamTextColors)) html = html.replace('</style>', teamTextColors + '</style>');
 
-if (!html.includes('src="editorial-client.js"')) html = html.replace('</body>', '<script src="editorial-client.js" defer></script></body>');
+if (!html.match(/src="editorial-client\.js(?:\?v=[^"]*)?"/u)) html = html.replace('</body>', '<script src="editorial-client.js" defer></script></body>');
+const editorialClient=await readFile(path.join(publicRoot,'editorial-client.js'),'utf8');
+const editorialVersion=createHash('sha256').update(editorialClient).digest('hex').slice(0,12);
+html=html.replace(/<script src="editorial-client\.js(?:\?v=[^"]*)?" defer><\/script>/u,`<script src="editorial-client.js?v=${editorialVersion}" defer></script>`);
 await writeFile(path.join(publicRoot,'style-policy.mjs'),await readFile(new URL('../pilot/cms/src/domain/style-policy.mjs',import.meta.url),'utf8'));
 // Apply supplied illustrations after all editorial generators and preserve the approved layout.
 const remapMatch = html.match(/window\.RES=(\{[^;]+\});/u);
