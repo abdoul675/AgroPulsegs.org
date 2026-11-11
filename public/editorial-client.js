@@ -58,6 +58,22 @@
   }
   return {page:CUR,locale:language,title:local(page.title,language),hero:{title:heroTitle,intro},sections:page.sections.map(section=>({id:section.id,type:section.type,title:local(section.title,language),kicker:local(section.kicker,language),lead:(section.lead||[]).map(x=>local(x,language)).join('\n\n'),groups:(section.groups||[]).map(group=>({title:local(group.title,language),text:(group.text||[]).map(x=>local(x,language)).join('\n\n')}))}))};
  }
+ function reorderRenderedSections(order){
+  if(!Array.isArray(order)||!order.length)return;
+  const app=document.querySelector('#app');if(!app)return;
+  const elements=new Map();
+  for(const element of app.querySelectorAll(':scope > section[id^="sec-"]')){
+   elements.set(element.id.slice(4),element);
+  }
+  const seen=new Set();
+  for(const id of order){
+   const element=elements.get(id);
+   if(element){app.append(element);seen.add(id);}
+  }
+  for(const [id,element] of elements){
+   if(!seen.has(id))app.append(element);
+  }
+ }
  function apply(copy={},layout={}){
   const page=structuredClone(originals[CUR]),language=locale();if(!page)return;
   if(typeof copy.title==='string')page.title=update(page.title,copy.title,language);
@@ -69,6 +85,7 @@
   }
   page.sections=ordered(page.sections,layout.sections,section=>section.id);
   PAGES[CUR]=page;applying=true;nativeRender();applying=false;
+  reorderRenderedSections(layout.sections);
   if(CUR==='accueil'){
    if(typeof homeContentRequest!=='undefined')homeContentRequest++;
    for(const[key,selector]of [['title','[data-cms="hero.title"]'],['intro','[data-cms="hero.subtitle"]']]){const element=document.querySelector('.home-hero '+selector);if(element&&typeof copy.hero?.[key]==='string')element.textContent=copy.hero[key];}
