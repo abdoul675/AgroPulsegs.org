@@ -171,10 +171,12 @@ async function handleRequest(req, res) {
       if (requestUrl.searchParams.get('editor') === '1') res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
     }
     const download = pathname.startsWith('/documents/') && path.extname(target) === '.pdf';
+    const noStore = requestUrl.searchParams.get('editor') === '1' || path.basename(target) === 'editorial-client.js';
     res.writeHead(200, {
       'Content-Type': types[path.extname(target)] || 'application/octet-stream',
       'X-Content-Type-Options': 'nosniff',
       'Content-Length': body.length,
+      ...(noStore ? { 'Cache-Control': 'no-store' } : {}),
       ...(download ? { 'Content-Disposition': 'attachment; filename="' + path.basename(target).replace(/[^a-zA-Z0-9._-]/gu, '_') + '"' } : {}),
     });
     res.end(req.method === 'HEAD' ? undefined : body);
