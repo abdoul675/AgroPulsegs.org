@@ -12,7 +12,11 @@
  const parameters=new URLSearchParams(location.search);
  const preview=parameters.get('editor')==='1'&&window.parent!==window;
  let adminOrigin;
- try{adminOrigin=new URL(document.querySelector('meta[name="agropulse-cms-admin-origin"]')?.content).origin;}catch{}
+ try{
+  const configured=document.querySelector('meta[name="agropulse-cms-admin-origin"]')?.content?.trim();
+  const source=configured||document.referrer;
+  if(source)adminOrigin=new URL(source,location.href).origin;
+ }catch{}
  const send=data=>{if(preview&&adminOrigin)window.parent.postMessage({channel:'agropulse-editor',...data},adminOrigin);};
 
 
