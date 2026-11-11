@@ -62,10 +62,27 @@ function install(strapi){
       const data=params.data||{};
       if(spec.identity&&filled(data[spec.identity]))return strapi.db.transaction(async({trx})=>{
         // Serialize competing identities until the actual document write commits.
-        await trx.raw('SELECT pg_advisory_xact_lock(hashtext(?), hashtext(?))',[context.uid,String(data[spec.identity])]);
-        await assertIdentity(strapi,context.uid,params.documentId,data,spec.identity);
-        if(params.status==='published')fail('Enregistrer le brouillon puis utiliser l’action de publication contrôlée.');
-        return next();
+        // PostgreSQL and MySQL/MariaDB use different advisory-lock primitives.
+        const client=process.env.DATABASE_CLIENT||'sqlite';
+        const identity=String(data[spec.identity]);
+        let mysqlLockName=null;
+        if(client==='postgres'){
+          await trx.raw('SELECT pg_advisory_xact_lock(hashtext(?), hashtext(?))',[context.uid,identity]);
+        }else if(client==='mysql'){
+          const {createHash}=require('node:crypto');
+          mysqlLockName='agropulse:'+createHash('sha256').update(context.uid+'|'+identity).digest('hex').slice(0,48);
+          const raw=await trx.raw('SELECT GET_LOCK(?, 10) AS acquired',[mysqlLockName]);
+          const rows=Array.isArray(raw)?raw[0]:raw;
+          const acquired=Array.isArray(rows)?rows[0]?.acquired:rows?.acquired;
+          if(Number(acquired)!==1)fail('Impossible de verrouiller temporairement cette identité métier.');
+        }
+        try{
+          await assertIdentity(strapi,context.uid,params.documentId,data,spec.identity);
+          if(params.status==='published')fail('Enregistrer le brouillon puis utiliser l’action de publication contrôlée.');
+          return await next();
+        }finally{
+          if(mysqlLockName)await trx.raw('SELECT RELEASE_LOCK(?)',[mysqlLockName]);
+        }
       });
     }
     const publishing=context.action==='publish'||(['create','update'].includes(context.action)&&params.status==='published');
