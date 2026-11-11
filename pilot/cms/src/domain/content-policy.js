@@ -5,7 +5,7 @@ const sitePresentation=require('./site-presentation-policy');
 const definitions={
   'site-setting':{required:['brandName','tagline','logo','navigation'],fields:['brandName','tagline','locale'],populate:{navigation:true,publicContact:true,socialLinks:true}},
   page:{required:['key','slug','title','heroTitle'],identity:'key',fields:['key','slug','title','heroTitle','summary','mainContent','locale','siteText','siteLayout'],populate:{seo:true,sections:{on:{'content.hero':{fields:['title','intro']},'content.rich-text':{fields:['heading','body']},'content.card-grid':{populate:{items:true}},'content.cta':{fields:['title','description','label','path']}}}}},
-  programme:{required:['key','slug','title','objective','audience','body','seo'],identity:'key',fields:['key','slug','title','objective','audience','durationDescription','body','locale','siteText','siteLayout'],populate:{seo:true}},
+  programme:{required:['key','slug','title','objective'],identity:'key',fields:['key','slug','title','objective','audience','durationDescription','body','locale','siteText','siteLayout'],populate:{seo:true}},
   campaign:{required:['key','state','notice','programme'],identity:'key',restricted:['state','opensAt','closesAt','applicationRoute'],fields:['key','state','opensAt','closesAt'],populate:{notice:true,criteria:true}},
   resource:{required:['key','language','title','file'],identity:'key',fields:['key','language','title','description','format','sizeBytes','releaseVersion'],populate:{}},
   partner:{required:['key','name','confirmationStatus'],identity:'key',restricted:['confirmationStatus'],fields:['key','name','description','website','confirmationStatus','locale'],populate:{}}
