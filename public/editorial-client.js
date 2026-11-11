@@ -11,6 +11,8 @@
  let sequence=0,requestKey='',applying=false,draft=null,drag=null,referenceCache=null;
  const parameters=new URLSearchParams(location.search);
  const preview=parameters.get('editor')==='1'&&window.parent!==window;
+ const previewSectionOrder=(parameters.get('sections')||'').split(',').filter(value=>/^[a-z][a-z0-9-]{0,79}$/u.test(value));
+
  let adminOrigin;
  const trustedAdmin=value=>{
   try{
@@ -78,7 +80,13 @@
  async function refresh(){
   if(applying||!originals[CUR])return;
   const key=CUR+':'+locale();referenceCache=reference();
-  if(preview){if(draft?.page===CUR&&draft.locale===locale())apply(draft.copy,draft.layout);else installHandles();send({type:'reference',reference:referenceCache});return;}
+  if(preview){
+   if(draft?.page===CUR&&draft.locale===locale())apply(draft.copy,draft.layout);
+   else if(previewSectionOrder.length)apply({}, {sections:previewSectionOrder});
+   else installHandles();
+   send({type:'reference',reference:referenceCache});
+   return;
+  }
   if(requestKey===key)return;requestKey=key;const request=++sequence,page=CUR,language=locale();
   try{const response=await fetch('/api/page-content?'+new URLSearchParams({page,locale:language}),{cache:'no-store'});const body=await response.json();if(request!==sequence||CUR!==page||locale()!==language)return;if(!response.ok)throw Error('unavailable');if(body.status==='published'){apply(body.copy,body.layout);document.querySelector('#app').dataset.cmsPageState='published';}else{window.AGROPULSE_PAGE_CONTENT_READY=false;document.querySelector('#app').dataset.cmsPageState='reference';if(CUR==='accueil'&&typeof loadPublishedHome==='function')loadPublishedHome();}}catch{if(CUR===page)document.querySelector('#app').dataset.cmsPageState='unavailable';}
  }
@@ -140,5 +148,7 @@
  });
  window.render=function(){document.getElementById('agropulse-page-style')?.remove();nativeRender();markComponents();refresh();};
  if(preview){const style=document.createElement('style');style.textContent='#ap-editor-note{position:sticky;top:0;z-index:100000;background:#0f2f44;color:white;padding:10px 18px;font:600 14px Arial}.ap-editor-target{position:relative!important;outline:1px dashed #3f9a3c;outline-offset:-2px}.ap-editor-target[data-editor-kind=card]{padding-top:104px!important;box-sizing:border-box!important}.ap-editor-target>.ap-editor-tools{all:initial!important;position:absolute!important;top:6px!important;left:6px!important;right:6px!important;z-index:100!important;display:flex!important;align-items:center!important;flex-wrap:wrap!important;gap:4px!important;padding:5px!important;background:#edf7ed!important;color:#0f2f44!important;font:14px Arial!important;box-sizing:border-box!important;width:auto!important;height:auto!important;min-height:0!important;max-height:none!important;border-radius:6px!important}.ap-editor-target>.ap-editor-tools>button{all:initial!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:44px!important;min-width:38px!important;box-sizing:border-box!important;border:1px solid #b4d3b3!important;border-radius:5px!important;background:white!important;color:#163b29!important;padding:6px 8px!important;font:600 12px Arial!important;cursor:pointer!important;flex:0 1 auto!important;max-width:100%!important}.ap-editor-target>.ap-editor-tools>button:focus-visible{outline:3px solid #157bb8!important;outline-offset:1px!important}.ap-editor-target>.ap-editor-tools>button[draggable]{cursor:grab!important;max-width:180px!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;display:block!important}';document.head.append(style);}
+ document.addEventListener('visibilitychange',()=>{if(!preview&&!document.hidden){requestKey='';refresh();}});
+ window.addEventListener('focus',()=>{if(!preview){requestKey='';refresh();}});
  markComponents();refresh();
 })();
