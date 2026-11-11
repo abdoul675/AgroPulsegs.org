@@ -12,6 +12,61 @@ const types = { '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.mjs': 'application
 const handleContact = createContactHandler();
 const handleHomeContent = createHomeContentHandler();
 const handlePageContent = createPageContentHandler();
+const handleEditorReference = async (req, res, requestUrl) => {
+  if (!['GET','HEAD'].includes(req.method)) {
+    res.writeHead(405, { Allow: 'GET, HEAD' }).end();
+    return;
+  }
+  const page = String(requestUrl.searchParams.get('page') || '');
+  const locale = requestUrl.searchParams.get('locale') === 'en' ? 'en' : 'fr';
+  if (!/^[a-z0-9-]+$/u.test(page)) {
+    res.writeHead(400, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}).end(JSON.stringify({error:'invalid_page'}));
+    return;
+  }
+  try {
+    const source = await readFile(path.join(root, 'index.html'), 'utf8');
+    const match = source.match(/<script id="pages-data" type="application\/json">([\s\S]*?)<\/script>/u);
+    if (!match) throw new Error('pages-data missing');
+    const pages = JSON.parse(match[1]);
+    const value = pages[page];
+    if (!value) {
+      res.writeHead(404, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}).end(JSON.stringify({error:'not_found'}));
+      return;
+    }
+    const local = input => typeof input === 'string' ? input : (input?.[locale] || input?.fr || '');
+    const paragraphs = input => Array.isArray(input) ? input.map(local).filter(Boolean).join('\n\n') : local(input);
+    const reference = {
+      page,
+      locale,
+      title: local(value.title),
+      hero: {
+        title: local(value.hero?.title) || local(value.title),
+        intro: paragraphs(value.hero?.lead),
+      },
+      sections: (value.sections || []).map(section => ({
+        id: section.id,
+        type: section.type,
+        title: local(section.title),
+        kicker: local(section.kicker),
+        lead: paragraphs(section.lead),
+        groups: (section.groups || []).map(group => ({
+          title: local(group.title),
+          text: paragraphs(group.text),
+        })),
+      })),
+    };
+    const body = JSON.stringify(reference);
+    res.writeHead(200, {
+      'Content-Type':'application/json; charset=utf-8',
+      'Cache-Control':'no-store',
+      'Access-Control-Allow-Origin':'*',
+      'Content-Length':Buffer.byteLength(body),
+    });
+    res.end(req.method === 'HEAD' ? undefined : body);
+  } catch {
+    res.writeHead(500, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}).end(JSON.stringify({error:'reference_unavailable'}));
+  }
+};
 const maquetteRoutes = new Map([
   ['/apropos.html', 'a-propos'],
   ['/expertises.html', 'expertises'],
@@ -65,6 +120,10 @@ async function handleRequest(req, res) {
     return;
   }
 
+  if (requestUrl.pathname === '/api/editor-reference') {
+    await handleEditorReference(req, res, requestUrl);
+    return;
+  }
   if (requestUrl.pathname === '/api/page-content') {
     await handlePageContent(req, res);
     return;
