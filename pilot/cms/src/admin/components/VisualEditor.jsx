@@ -56,6 +56,21 @@ export default function VisualEditor(){
  useEffect(()=>{if(reference)message({type:'focus',section:active.section,card:active.card});},[active,reference]);
  useEffect(()=>{const guard=event=>{if(dirty){event.preventDefault();event.returnValue='';}};window.addEventListener('beforeunload',guard);return()=>window.removeEventListener('beforeunload',guard);},[dirty]);
  useEffect(()=>{if(entry&&!reference)message({type:'hello'});},[entry,reference,previewUrl]);
+ useEffect(()=>{
+  let cancelled=false;
+  if(!entry||!slug||reference)return()=>{};
+  const timer=setTimeout(async()=>{
+   try{
+    const response=await fetch(new URL('/api/editor-reference?'+new URLSearchParams({page:slug,locale:language}),site).href,{cache:'no-store'});
+    if(!response.ok)throw new Error('reference unavailable');
+    const data=await response.json();
+    if(!cancelled&&data?.page===slug&&data?.locale===language)setReference(data);
+   }catch{
+    if(!cancelled)setStatus(t('Impossible de charger les sections de cette page. Rechargez le site public puis réessayez.','Unable to load this page sections. Reload the public site and try again.'));
+   }
+  },900);
+  return()=>{cancelled=true;clearTimeout(timer);};
+ },[entry,slug,language,reference,site.origin]);
  const edit=(field,value)=>{setCopy(previous=>{
   const next=structuredClone(previous||emptyCopy());
   if(active.section==='hero'){next.hero||={};next.hero[field]=value;}
