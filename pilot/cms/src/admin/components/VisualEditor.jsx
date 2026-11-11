@@ -30,7 +30,9 @@ export default function VisualEditor(){
   return [...values];
  })();
  const entry=entries.find(item=>item.option===chosen),slug=entry?slugOf(entry):null;
- const previewUrl=slug?new URL('?'+new URLSearchParams({lang:language,editor:'1'})+'#p-'+slug,site).href:'';
+ const previewParams={lang:language,editor:'1'};
+ if(Array.isArray(layout.sections)&&layout.sections.length)previewParams.sections=layout.sections.join(',');
+ const previewUrl=slug?new URL('?'+new URLSearchParams(previewParams)+'#p-'+slug,site).href:'';
  const publishUrl=entry?'/admin/content-manager/collection-types/'+entry.uid+'/'+entry.documentId+'?plugins[i18n][locale]='+language:'#';
  const message=data=>{
   const target=frame.current?.contentWindow;if(!target)return;
@@ -119,7 +121,10 @@ export default function VisualEditor(){
   if(!window.confirm(t('Publier maintenant cette version sur le site ?','Publish this version on the website now?')))return;
   pending.current=true;setBusy(true);setStatus(t('Publication en cours…','Publishing…'));
   try{
-   const response=await post('/content-manager/collection-types/'+entry.uid+'/'+entry.documentId+'/actions/publish?locale='+encodeURIComponent(language),{});
+   const body={locale:language,siteText:copy,siteLayout:layout};
+   if(copy.hero?.title!==undefined){if(entry.uid==='api::page.page')body.heroTitle=copy.hero.title;else body.title=copy.hero.title;}
+   if(copy.hero?.intro!==undefined)body[entry.uid==='api::programme.programme'?'objective':'summary']=copy.hero.intro;
+   const response=await post('/content-manager/collection-types/'+entry.uid+'/'+entry.documentId+'/actions/publish?locale='+encodeURIComponent(language),body);
    if(response?.data?.data)setDocument(response.data.data);
    setStatus(t('Publié sur le site. Les visiteurs voient maintenant cette version.','Published on the website. Visitors now see this version.'));
   }catch(error){
