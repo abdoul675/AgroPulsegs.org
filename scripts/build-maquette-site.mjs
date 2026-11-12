@@ -872,6 +872,7 @@ if (sendFormStart < 0 || bindStepStart < 0) {
   throw new Error('The design page form submission function could not be located.');
 }
 appScript = appScript.slice(0, sendFormStart) + `async function sendForm(f,m){
+ if(f.dataset.submitting==='true')return;
  if(!f.checkValidity()){f.reportValidity();m.textContent=U('fill');m.className='msg er';return}
  const raw=Object.fromEntries(new FormData(f)),locale=document.documentElement.lang==='en'?'en':'fr';
  let d;
@@ -880,13 +881,18 @@ appScript = appScript.slice(0, sendFormStart) + `async function sendForm(f,m){
  else if(CUR==='partenaires')d={name:raw.name,email:raw.email,organization:raw.organization||'',type:'partnership',message:raw.message,consent:raw.consent==='on',locale};
  else if(CUR==='ressources')d={email:raw.email,type:'resources',consent:raw.consent==='on',locale};
  else{m.textContent=U('demo');m.className='msg';return}
+ d.website=raw.website||'';
  const ep=SITE.settings&&SITE.settings.formEndpoint;
  if(!ep){m.textContent=U('demo');m.className='msg';return}
+ f.dataset.submitting='true';f.setAttribute('aria-busy','true');
+ const buttons=[...f.querySelectorAll('button[type=submit],input[type=submit]')],disabled=buttons.map(b=>b.disabled);
+ buttons.forEach(b=>b.disabled=true);m.textContent=EN()?'Sending…':'Envoi en cours…';m.className='msg';
  try{
   const response=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},credentials:'same-origin',body:JSON.stringify(d)});
   const result=await response.json();
   if(!response.ok||result.ok!==true){
-   m.textContent=response.status===503?(EN()?'The request service is not configured yet. Please try again later.':'Le service de réception des demandes n’est pas encore configuré. Veuillez réessayer plus tard.'):response.status===429?(EN()?'Too many attempts. Please try again later.':'Trop de tentatives. Veuillez réessayer plus tard.'):(EN()?'The request could not be sent. Please check the form and try again.':'L’envoi a échoué. Vérifiez le formulaire puis réessayez.');
+   const wait=Number(result.retryAfter||response.headers.get('Retry-After')),minutes=Math.ceil((Number.isFinite(wait)&&wait>0?Math.min(wait,900):60)/60);
+   m.textContent=response.status===503?(EN()?'The request service is temporarily unavailable. Please try again later.':'Le service de réception est temporairement indisponible. Veuillez réessayer plus tard.'):response.status===429?(EN()?'Please wait '+minutes+' min before trying again. Your entries have been kept.':'Veuillez patienter '+minutes+' min avant de réessayer. Vos informations sont conservées.'):(EN()?'The request could not be sent. Please check the form and try again.':'L’envoi a échoué. Vérifiez le formulaire puis réessayez.');
    m.className='msg er';return
   }
   m.textContent=EN()?'Your request has been sent to AgroPulse.':'Votre demande a bien été transmise à AgroPulse.';
@@ -894,8 +900,14 @@ appScript = appScript.slice(0, sendFormStart) + `async function sendForm(f,m){
  }catch{
   m.textContent=EN()?'The delivery service could not be reached. Please try again.':'Impossible de joindre le service. Veuillez réessayer.';
   m.className='msg er'
+ }finally{
+  buttons.forEach((b,i)=>b.disabled=disabled[i]);delete f.dataset.submitting;f.removeAttribute('aria-busy')
  }
 }` + appScript.slice(bindStepStart);
+if(!appScript.includes('function ensureFormTrap(f){'))appScript=appScript.replace('function bindForm(f){', `function ensureFormTrap(f){if(f.querySelector('[name=website]'))return;const trap=document.createElement('div');trap.hidden=true;trap.setAttribute('aria-hidden','true');trap.innerHTML='<input type="text" name="website" tabindex="-1" autocomplete="off">';f.appendChild(trap)}
+function bindForm(f){`);
+if(!appScript.includes('if(!f)return;ensureFormTrap(f);'))appScript=appScript.replace('function bindForm(f){if(!f)return;', 'function bindForm(f){if(!f)return;ensureFormTrap(f);');
+if(!appScript.includes('function bindStep(f,s){ensureFormTrap(f);'))appScript=appScript.replace('function bindStep(f,s){', 'function bindStep(f,s){ensureFormTrap(f);');
 const endpointPattern = /"formEndpoint"\s*:\s*"[^"]*"/gu;
 if (!/"formEndpoint"\s*:\s*"[^"]*"/u.test(appScript)) {
   throw new Error('Contact API endpoint was not configured in the design page.');

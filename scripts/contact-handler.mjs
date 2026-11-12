@@ -1,8 +1,14 @@
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 
 const MAX_BODY_BYTES = 16 * 1024;
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT = 5;
+const FLOOD_WINDOW_MS = 60 * 1000;
+const FLOOD_LIMIT = 60;
+const DUPLICATE_WINDOW_MS = 10 * 60 * 1000;
+const MAX_RATE_KEYS = 10_000;
+const MAX_RECEIPTS = 1000;
+const MAX_PENDING = 100;
 const EMAIL_PATTERN = /^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/u;
 const REQUEST_TYPES = new Set(['contact', 'partnership', 'training', 'quote', 'resources']);
 const TYPE_LABELS = {
@@ -122,27 +128,32 @@ function validSender(value) {
   return EMAIL_PATTERN.test(angleAddress ? angleAddress[1] : trimmed);
 }
 
-function getClientKey(req) {
-  return req.socket.remoteAddress || 'unknown';
+function reserveRateSlot(limits, key, now, windowMs, maximum) {
+  const current = limits.get(key);
+  if (current && now < current.expiresAt && current.count >= maximum) {
+    return { retryAfter: Math.max(1, Math.ceil((current.expiresAt - now) / 1000)) };
+  }
+  if (!current || now >= current.expiresAt) {
+    for (const [address, entry] of limits) {
+      if (now >= entry.expiresAt) limits.delete(address);
+    }
+    if (limits.size >= MAX_RATE_KEYS) return { retryAfter: Math.ceil(windowMs / 1000) };
+  }
+  const entry = current && now < current.expiresAt ? current : { expiresAt: now + windowMs, count: 0 };
+  entry.count++;
+  limits.set(key, entry);
+  return {
+    retryAfter: 0,
+    release() {
+      entry.count = Math.max(0, entry.count - 1);
+      if (!entry.count && limits.get(key) === entry) limits.delete(key);
+    },
+  };
 }
 
-function allowSubmission(req, limits, now) {
-  const key = getClientKey(req);
-  const current = limits.get(key);
-  if (current && now - current.startedAt < RATE_WINDOW_MS) {
-    if (current.count >= RATE_LIMIT) return false;
-    current.count += 1;
-    return true;
-  }
-
-  if (limits.size >= 10_000) {
-    for (const [address, entry] of limits) {
-      if (now - entry.startedAt >= RATE_WINDOW_MS) limits.delete(address);
-    }
-    if (limits.size >= 10_000 && !limits.has(key)) return false;
-  }
-  limits.set(key, { startedAt: now, count: 1 });
-  return true;
+function rateLimited(res, retryAfter) {
+  res.setHeader('Retry-After', String(retryAfter));
+  respond(res, 429, { error: 'too_many_requests', retryAfter });
 }
 
 function buildEmail(submission) {
@@ -229,147 +240,124 @@ async function updateDelivery(storage, update, env, fetchImpl) {
   }
 }
 
+async function receiveSubmission(submission, env, fetchImpl) {
+  const storage = await storeSubmission(submission, env, fetchImpl);
+  if (storage.status !== 'stored') {
+    return { status: 503, body: { error: storage.status === 'not_configured' ? 'service_not_configured' : 'storage_unavailable' } };
+  }
+  const accepted = delivery => ({ status: delivery === 'sent' ? 200 : 202, body: { ok: true, reference: storage.reference, delivery } });
+  const recipient = env.AGROPULSE_RECIPIENT_EMAIL?.trim();
+  const sender = env.EMAIL_FROM?.trim();
+  const apiKey = env.RESEND_API_KEY?.trim();
+  if (!validRecipient(recipient) || !validSender(sender) || !apiKey) {
+    await updateDelivery(storage, { status: 'not_configured', at: new Date().toISOString() }, env, fetchImpl);
+    return accepted('stored');
+  }
+  const email = buildEmail(submission);
+  let delivery;
+  try {
+    delivery = await fetchImpl('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: sender, to: [recipient], reply_to: submission.email, subject: '[AgroPulse] ' + email.label, text: email.text, html: email.html }),
+      signal: AbortSignal.timeout(10_000),
+    });
+  } catch {
+    console.error('AgroPulse email delivery failed (network error).');
+    await updateDelivery(storage, { status: 'failed', provider: 'resend', error: 'network_error', at: new Date().toISOString() }, env, fetchImpl);
+    return accepted('stored_email_failed');
+  }
+  if (!delivery.ok) {
+    console.error('AgroPulse email provider returned HTTP ' + delivery.status + '.');
+    await updateDelivery(storage, { status: 'failed', provider: 'resend', error: 'provider_http_' + delivery.status, at: new Date().toISOString() }, env, fetchImpl);
+    return accepted('stored_email_failed');
+  }
+  let providerMessageId = '';
+  try {
+    const body = await delivery.json();
+    providerMessageId = typeof body?.id === 'string' ? body.id : '';
+  } catch {}
+  await updateDelivery(storage, { status: 'sent', provider: 'resend', providerMessageId, at: new Date().toISOString() }, env, fetchImpl);
+  return accepted('sent');
+}
+
 export function createContactHandler({
   env = process.env,
   fetchImpl = fetch,
   now = Date.now,
   limits = new Map(),
+  floodLimits = new Map(),
 } = {}) {
+  const salt = randomUUID();
+  const digest = value => createHash('sha256').update(salt).update(value).digest('hex');
+  const receipts = new Map();
+  const pending = new Map();
   return async function handleContact(req, res) {
     if (req.method !== 'POST') {
       res.setHeader('Allow', 'POST');
       respond(res, 405, { error: 'method_not_allowed' });
       return;
     }
-
     if (!isValidOrigin(req) || req.headers['sec-fetch-site'] === 'cross-site') {
       respond(res, 403, { error: 'origin_not_allowed' });
       return;
     }
-
-    if (!allowSubmission(req, limits, now())) {
-      respond(res, 429, { error: 'too_many_requests' });
-      return;
-    }
-
+    // A short transport flood guard protects parsing. The normal submission
+    // quota must not use this address: Hostinger/CDNs can share one proxy peer.
+    // Untrusted forwarding headers never choose either limiter's identity.
+    const flood = reserveRateSlot(floodLimits, digest(req.socket.remoteAddress || 'unknown'), now(), FLOOD_WINDOW_MS, FLOOD_LIMIT);
+    if (flood.retryAfter) return rateLimited(res, flood.retryAfter);
     const body = await readJsonBody(req);
-    if (body.error === 'unsupported_media_type') {
-      respond(res, 415, { error: body.error });
-      return;
-    }
-    if (body.error === 'payload_too_large') {
-      respond(res, 413, { error: body.error });
-      return;
-    }
     if (body.error) {
-      respond(res, 400, { error: body.error });
+      const status = body.error === 'unsupported_media_type' ? 415 : body.error === 'payload_too_large' ? 413 : 400;
+      respond(res, status, { error: body.error });
       return;
     }
-
     const submission = validateSubmission(body.value);
     if (!submission) {
       respond(res, 400, { error: 'invalid_submission' });
       return;
     }
-
     if (typeof body.value.website === 'string' && body.value.website.trim()) {
       respond(res, 202, { ok: true });
       return;
     }
-
-    const storage = await storeSubmission(submission, env, fetchImpl);
-
-    // A notification never substitutes for durable storage.
-    if (storage.status !== 'stored') {
-      respond(res, 503, { error: storage.status === 'not_configured' ? 'service_not_configured' : 'storage_unavailable' });
+    const normalized = { ...submission, email: submission.email.toLowerCase() };
+    const fingerprint = digest(JSON.stringify(normalized));
+    for (const [key, receipt] of receipts) if (now() >= receipt.expiresAt) receipts.delete(key);
+    const receipt = receipts.get(fingerprint);
+    if (receipt) {
+      respond(res, receipt.result.status, { ...receipt.result.body, duplicate: true });
       return;
     }
-
-    const recipient = env.AGROPULSE_RECIPIENT_EMAIL?.trim();
-    const sender = env.EMAIL_FROM?.trim();
-    const apiKey = env.RESEND_API_KEY?.trim();
-    if (!validRecipient(recipient) || !validSender(sender) || !apiKey) {
-      await updateDelivery(storage, {
-        status: 'not_configured',
-        at: new Date().toISOString(),
-      }, env, fetchImpl);
-
-      if (storage.status === 'stored') {
-        respond(res, 202, { ok: true, reference: storage.reference, delivery: 'stored' });
-      } else {
-        respond(res, 503, { error: 'service_not_configured' });
-      }
+    if (pending.has(fingerprint)) {
+      const result = await pending.get(fingerprint);
+      respond(res, result.status, { ...result.body, ...(result.body.ok ? { duplicate: true } : {}) });
       return;
     }
-
-    const email = buildEmail(submission);
-    let delivery;
-    try {
-      delivery = await fetchImpl('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: sender,
-          to: [recipient],
-          reply_to: submission.email,
-          subject: `[AgroPulse] ${email.label}`,
-          text: email.text,
-          html: email.html,
-        }),
-        signal: AbortSignal.timeout(10_000),
-      });
-    } catch (error) {
-      console.error(`AgroPulse email delivery failed (${error.name || 'network error'}).`);
-      await updateDelivery(storage, {
-        status: 'failed',
-        provider: 'resend',
-        error: 'network_error',
-        at: new Date().toISOString(),
-      }, env, fetchImpl);
-      if (storage.status === 'stored') {
-        respond(res, 202, { ok: true, reference: storage.reference, delivery: 'stored_email_failed' });
-      } else {
-        respond(res, 502, { error: 'email_delivery_failed' });
-      }
+    if (pending.size >= MAX_PENDING) {
+      res.setHeader('Retry-After', '5');
+      respond(res, 503, { error: 'service_busy' });
       return;
     }
-
-    if (!delivery.ok) {
-      console.error(`AgroPulse email provider returned HTTP ${delivery.status}.`);
-      await updateDelivery(storage, {
-        status: 'failed',
-        provider: 'resend',
-        error: 'provider_http_' + delivery.status,
-        at: new Date().toISOString(),
-      }, env, fetchImpl);
-      if (storage.status === 'stored') {
-        respond(res, 202, { ok: true, reference: storage.reference, delivery: 'stored_email_failed' });
-      } else {
-        respond(res, 502, { error: 'email_delivery_failed' });
-      }
-      return;
-    }
-
-    let providerMessageId = '';
-    try {
-      const body = await delivery.json();
-      providerMessageId = typeof body?.id === 'string' ? body.id : '';
-    } catch {}
-
-    await updateDelivery(storage, {
-      status: 'sent',
-      provider: 'resend',
-      providerMessageId,
-      at: new Date().toISOString(),
-    }, env, fetchImpl);
-
-    respond(res, 200, {
-      ok: true,
-      ...(storage.status === 'stored' ? { reference: storage.reference } : {}),
-      delivery: 'sent',
+    // Only distinct, validated submissions consume this quota. Email identities
+    // are salted hashes, never raw addresses or client-supplied proxy headers.
+    const slot = reserveRateSlot(limits, digest(normalized.email), now(), RATE_WINDOW_MS, RATE_LIMIT);
+    if (slot.retryAfter) return rateLimited(res, slot.retryAfter);
+    const processing = receiveSubmission(submission, env, fetchImpl).catch(() => {
+      console.error('AgroPulse inquiry processing failed.');
+      return { status: 503, body: { error: 'service_unavailable' } };
     });
+    pending.set(fingerprint, processing);
+    const result = await processing;
+    pending.delete(fingerprint);
+    if (result.body.ok && result.body.reference) {
+      if (receipts.size >= MAX_RECEIPTS) receipts.delete(receipts.keys().next().value);
+      receipts.set(fingerprint, { expiresAt: now() + DUPLICATE_WINDOW_MS, result });
+    } else {
+      // A CMS outage must not exhaust a visitor's normal submission allowance.
+      slot.release();
+    }
+    respond(res, result.status, result.body);
   };
 }

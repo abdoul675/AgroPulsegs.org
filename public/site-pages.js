@@ -78,8 +78,12 @@ if (contactForm) {
 }
 
 async function submitContactForm(form) {
+  if (form.dataset.submitting === 'true') return;
+  form.dataset.submitting = 'true';
+  form.setAttribute('aria-busy', 'true');
   const submitButton = form.querySelector('button[type="submit"]');
   const status = document.getElementById('form-status');
+  const wasDisabled = submitButton.disabled;
   submitButton.disabled = true;
   status.textContent = language === 'fr' ? 'Envoi en cours…' : 'Sending…';
 
@@ -106,9 +110,11 @@ async function submitContactForm(form) {
 
     if (!response.ok || result.ok !== true) {
       if (response.status === 429) {
+        const wait = Number(result.retryAfter || response.headers.get('Retry-After'));
+        const minutes = Math.ceil((Number.isFinite(wait) && wait > 0 ? Math.min(wait, 900) : 60) / 60);
         status.textContent = language === 'fr'
-          ? 'Trop de tentatives. Veuillez réessayer un peu plus tard.'
-          : 'Too many attempts. Please try again later.';
+          ? 'Veuillez patienter ' + minutes + ' min avant de réessayer. Vos informations sont conservées.'
+          : 'Please wait ' + minutes + ' min before trying again. Your entries have been kept.';
       } else if (response.status === 503) {
         status.textContent = language === 'fr'
           ? 'Le service de réception des demandes n’est pas encore configuré. Veuillez réessayer plus tard.'
@@ -130,7 +136,9 @@ async function submitContactForm(form) {
       ? 'Impossible de joindre le service. Vérifiez votre connexion puis réessayez.'
       : 'The delivery service could not be reached. Check your connection and try again.';
   } finally {
-    submitButton.disabled = false;
+    submitButton.disabled = wasDisabled;
+    delete form.dataset.submitting;
+    form.removeAttribute('aria-busy');
   }
 }
 

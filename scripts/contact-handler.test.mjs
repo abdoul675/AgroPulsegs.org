@@ -162,7 +162,7 @@ test('silently accepts honeypot submissions without sending email', async () => 
   assert.equal(called, false);
 });
 
-test('limits submissions per client and rejects oversized payloads', async () => {
+test('limits distinct submissions per email and rejects oversized payloads', async () => {
   const handler = createContactHandler({
     env: mailEnvironment,
     fetchImpl: async () => new Response(null, { status: 200 }),
@@ -170,7 +170,7 @@ test('limits submissions per client and rejects oversized payloads', async () =>
 
   await withServer((req, res) => void handler(req, res), async base => {
     for (let count = 0; count < 5; count += 1) {
-      const response = await request(`${base}/api/contact`, validSubmission);
+      const response = await request(`${base}/api/contact`, { ...validSubmission, message: validSubmission.message + count });
       assert.equal(response.status, 200);
     }
     const limited = await request(`${base}/api/contact`, validSubmission);
@@ -309,3 +309,89 @@ for (const mode of ['401', '503', 'network', 'invalid_json', 'missing_id', 'miss
     assert.equal(calls, mode === 'missing_token' ? 0 : 1);
   });
 }
+
+
+test('independent visitors behind the same proxy do not share the normal quota', async () => {
+ const handler=createContactHandler({env:mailEnvironment,fetchImpl:async()=>Response.json({id:'test'})});
+ await withServer(handler,async base=>{
+  for(let i=0;i<12;i++)assert.equal((await request(base,{...validSubmission,email:'visitor'+i+'@example.org'})).status,200);
+ });
+});
+
+test('invalid and honeypot submissions do not exhaust a valid email quota', async () => {
+ let sends=0;
+ const handler=createContactHandler({env:mailEnvironment,fetchImpl:async()=>{sends++;return Response.json({id:'test'});}});
+ await withServer(handler,async base=>{
+  for(let i=0;i<6;i++){
+   assert.equal((await request(base,{...validSubmission,consent:false})).status,400);
+   assert.equal((await request(base,{...validSubmission,website:'spam.example'})).status,202);
+  }
+  assert.equal((await request(base,validSubmission)).status,200);
+ });
+ assert.equal(sends,1);
+});
+
+test('quota normalizes email, ignores forged forwarding headers and reports when to retry', async () => {
+ let clock=0;
+ const handler=createContactHandler({env:mailEnvironment,now:()=>clock,fetchImpl:async()=>Response.json({id:'test'})});
+ await withServer(handler,async base=>{
+  for(let i=0;i<5;i++)assert.equal((await request(base,{...validSubmission,message:'Request '+i})).status,200);
+  clock=61_000;
+  const blocked=await request(base,{...validSubmission,email:'  AICHA@EXAMPLE.ORG  ',message:'Another request'},{headers:{'X-Forwarded-For':'192.0.2.99','X-Real-IP':'192.0.2.100'}});
+  assert.equal(blocked.status,429);
+  assert.equal(blocked.headers.get('Retry-After'),'839');
+  assert.equal((await blocked.json()).retryAfter,839);
+  clock=900_000;
+  assert.equal((await request(base,{...validSubmission,message:'After cooldown'})).status,200);
+ });
+});
+
+test('short flood guard still stops bursts and recovers after one minute', async () => {
+ let clock=0;
+ const handler=createContactHandler({env:mailEnvironment,now:()=>clock,fetchImpl:async()=>Response.json({id:'test'})});
+ await withServer(handler,async base=>{
+  for(let i=0;i<60;i++)assert.equal((await request(base,{...validSubmission,consent:false})).status,400);
+  const blocked=await request(base,validSubmission);
+  assert.equal(blocked.status,429);assert.equal(blocked.headers.get('Retry-After'),'60');
+  clock=60_000;
+  assert.equal((await request(base,validSubmission)).status,200);
+ });
+});
+
+test('identical simultaneous retries share durable storage and notification, then expire', async () => {
+ let clock=0,stored=0,sent=0,release;
+ const gate=new Promise(resolve=>release=resolve);
+ const handler=realContactHandler({env:mailEnvironment,now:()=>clock,fetchImpl:async(url,config)=>{
+  if(config.method==='PATCH')return Response.json({ok:true});
+  if(String(url).endsWith('/api/inquiries/intake')){stored++;await gate;return Response.json({documentId:'test',reference:JSON.parse(config.body).reference},{status:201});}
+  sent++;return Response.json({id:'test'});
+ }});
+ await withServer(handler,async base=>{
+  const first=request(base,validSubmission),second=request(base,validSubmission);
+  // The barrier keeps the first persistence pending while the retry arrives.
+  await new Promise(resolve=>setTimeout(resolve,30));release();
+  const results=await Promise.all([first,second]);const bodies=await Promise.all(results.map(r=>r.json()));
+  assert.equal(stored,1);assert.equal(sent,1);assert.equal(bodies[0].reference,bodies[1].reference);
+  assert.equal(bodies.filter(b=>b.duplicate===true).length,1);
+  const retry=await (await request(base,{...validSubmission,email:'AICHA@example.org'})).json();
+  assert.equal(retry.duplicate,true);assert.equal(retry.reference,bodies[0].reference);assert.equal(sent,1);
+  for(let i=0;i<4;i++)assert.equal((await request(base,{...validSubmission,message:'Distinct '+i})).status,200);
+  assert.equal((await request(base,{...validSubmission,message:'Sixth distinct'})).status,429);
+  clock=900_000;
+  assert.equal((await request(base,validSubmission)).status,200);assert.equal(stored,6);
+ });
+});
+
+test('failed storage retries do not consume the durable submission allowance', async () => {
+ let unavailable=true;
+ const handler=realContactHandler({env:mailEnvironment,fetchImpl:async(url,config)=>{
+  if(config.method==='PATCH')return Response.json({ok:true});
+  if(String(url).endsWith('/api/inquiries/intake'))return unavailable?new Response(null,{status:503}):Response.json({documentId:'test',reference:JSON.parse(config.body).reference},{status:201});
+  return Response.json({id:'test'});
+ }});
+ await withServer(handler,async base=>{
+  for(let i=0;i<7;i++)assert.equal((await request(base,validSubmission)).status,503);
+  unavailable=false;
+  assert.equal((await request(base,validSubmission)).status,200);
+ });
+});
