@@ -109,7 +109,8 @@ async function shutdown(signal) {
     console.error('[bootstrap] Strapi shutdown error:', error);
   }
 
-  server.close(() => process.exit(0));
+  const exitCode = signal === 'SIGTERM' || signal === 'SIGINT' ? 0 : 1;
+  server.close(() => process.exit(exitCode));
 }
 
 process.once('SIGTERM', () => void shutdown('SIGTERM'));
