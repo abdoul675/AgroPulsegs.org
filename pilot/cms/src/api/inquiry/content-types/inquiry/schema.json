@@ -1,0 +1,114 @@
+{
+  "kind": "collectionType",
+  "collectionName": "agropulse_inquiries",
+  "info": {
+    "singularName": "inquiry",
+    "pluralName": "inquiries",
+    "displayName": "Demandes du site",
+    "description": "Historique privé des demandes reçues depuis les formulaires AgroPulse"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "reference": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "minLength": 8,
+      "maxLength": 80
+    },
+    "receivedAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "contact",
+        "partnership",
+        "training",
+        "quote",
+        "resources"
+      ],
+      "required": true
+    },
+    "locale": {
+      "type": "enumeration",
+      "enum": [
+        "fr",
+        "en"
+      ],
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "organization": {
+      "type": "string",
+      "maxLength": 160
+    },
+    "message": {
+      "type": "text",
+      "required": true
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": [
+        "website"
+      ],
+      "default": "website",
+      "required": true
+    },
+    "workflowStatus": {
+      "type": "enumeration",
+      "enum": [
+        "new",
+        "in_progress",
+        "done",
+        "spam"
+      ],
+      "default": "new",
+      "required": true
+    },
+    "deliveryStatus": {
+      "type": "enumeration",
+      "enum": [
+        "received",
+        "sent",
+        "failed",
+        "not_configured"
+      ],
+      "default": "received",
+      "required": true
+    },
+    "deliveryProvider": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "providerMessageId": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "emailSentAt": {
+      "type": "datetime"
+    },
+    "deliveryError": {
+      "type": "text"
+    },
+    "deliveryEvents": {
+      "type": "json"
+    },
+    "internalNotes": {
+      "type": "text"
+    },
+    "handledAt": {
+      "type": "datetime"
+    }
+  }
+}
