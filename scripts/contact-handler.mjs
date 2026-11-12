@@ -279,6 +279,12 @@ export function createContactHandler({
 
     const storage = await storeSubmission(submission, env, fetchImpl);
 
+    // A notification never substitutes for durable storage.
+    if (storage.status !== 'stored') {
+      respond(res, 503, { error: storage.status === 'not_configured' ? 'service_not_configured' : 'storage_unavailable' });
+      return;
+    }
+
     const recipient = env.AGROPULSE_RECIPIENT_EMAIL?.trim();
     const sender = env.EMAIL_FROM?.trim();
     const apiKey = env.RESEND_API_KEY?.trim();

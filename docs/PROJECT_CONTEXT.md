@@ -111,3 +111,8 @@ Vérifications du téléchargement : génération et contrôles du projet réuss
 La dernière instruction remplace les descriptions antérieures de six pôles et de téléchargement de la revue. Le site présente huit pôles distincts, selon les intitulés demandés dans la conversation. Les programmes sont regroupés sous Initiatives et YIDA-Cashew garde exactement cette graphie.
 
 YIDA-Cashew est une page vitrine de programme : origine, objectifs, publics et parcours sont présentés sur la page en FR/EN à partir de la revue. Le document source demeure interne ; le PDF est retiré du catalogue et des fichiers publics, et son ancienne URL est refusée par le serveur. Les candidatures restent fermées ; seul un renseignement peut être demandé. Ces décisions ne valident pas un calendrier, un partenaire supplémentaire, une promesse d’emploi ou une mise en production.
+
+
+## Reprise production — 12 novembre 2026
+
+La demande actuelle du porteur fixe Hostinger, les domaines agropulsegs.org / cms.agropulsegs.org, Strapi 5.61.0 et MySQL existant. Elle remplace les propositions historiques d’hébergement. Priorité : démarrage stable et conservation des demandes avant notification e-mail ; domaine futur et déplacement des sections reportés. Voir AgroPulse_Reprise_production_2026-11-12.md pour le diagnostic observé, les changements et les limites des preuves.

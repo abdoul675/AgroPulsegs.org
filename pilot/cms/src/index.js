@@ -50,6 +50,12 @@ module.exports={
           permissions.push({action:`plugin::content-manager.explorer.${action}`,subject,properties:{fields:allowedFields,...(strapi.contentType(subject).pluginOptions?.i18n?.localized?{locales:['fr','en']}:{})},conditions:[]});
         }
       }
+      // Private operational records: editors can read and handle requests, but
+      // cannot rewrite the sender, the received message or delivery evidence.
+      permissions.push(
+        {action:'plugin::content-manager.explorer.read',subject:'api::inquiry.inquiry',properties:{fields:strapi.admin.services['content-type'].getNestedFields(strapi.contentType('api::inquiry.inquiry'),{components:strapi.components})},conditions:[]},
+        {action:'plugin::content-manager.explorer.update',subject:'api::inquiry.inquiry',properties:{fields:['workflowStatus','internalNotes','handledAt']},conditions:[]}
+      );
       await roles.assignPermissions(role.id,permissions);
     }
     if(!isolatedPilot){strapi.log.info('AgroPulse editorial roles ready; create the first institutional administrator through the native setup. No local credentials or fixtures were imported.');return;}

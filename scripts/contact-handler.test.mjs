@@ -2,10 +2,24 @@ import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { once } from 'node:events';
 import test from 'node:test';
-import { createContactHandler } from './contact-handler.mjs';
+import { createContactHandler as realContactHandler } from './contact-handler.mjs';
 
+const storageEnvironment = { AGROPULSE_CMS_URL: 'https://cms.example.org', AGROPULSE_FORM_INGEST_TOKEN: 'test-ingest-secret' };
+function createContactHandler(options) {
+ const provider=options.fetchImpl;
+ return realContactHandler({...options,fetchImpl:async(url,config)=>{
+  if(String(url).endsWith('/api/inquiries/intake')) {
+   const body=JSON.parse(config.body);
+   assert.equal(config.headers.Authorization,'Bearer test-ingest-secret');
+   return Response.json({documentId:'test-document',reference:body.reference},{status:201});
+  }
+  if(config.method==='PATCH')return Response.json({ok:true});
+  return provider(url,config);
+ }});
+}
 const mailEnvironment = {
-  AGROPULSE_RECIPIENT_EMAIL: 'contact@example.org',
+ ...storageEnvironment,
+  AGROPULSE_RECIPIENT_EMAIL: 'programsagropulsegs@gmail.com',
   EMAIL_FROM: 'AgroPulse <notifications@example.org>',
   RESEND_API_KEY: 'test-key',
 };
@@ -60,7 +74,7 @@ test('sends each supported request category to the configured recipient', async 
     for (const type of ['contact', 'partnership', 'training', 'quote', 'resources']) {
       const response = await request(`${base}/api/contact`, { ...validSubmission, type });
       assert.equal(response.status, 200);
-      assert.deepEqual(await response.json(), { ok: true });
+      const result=await response.json(); assert.equal(result.ok,true); if(result.reference)assert.match(result.reference,/^AGP-/u);
     }
   });
 
@@ -68,7 +82,7 @@ test('sends each supported request category to the configured recipient', async 
   for (const { url, options, payload } of sent) {
     assert.equal(url, 'https://api.resend.com/emails');
     assert.equal(options.headers.Authorization, 'Bearer test-key');
-    assert.deepEqual(payload.to, ['contact@example.org']);
+    assert.deepEqual(payload.to, ['programsagropulsegs@gmail.com']);
     assert.equal(payload.reply_to, validSubmission.email);
   }
   assert.match(sent[0].payload.text, /Contact général/u);
@@ -93,7 +107,7 @@ test('accepts a resource notification request with only email and consent', asyn
       consent: true,
     });
     assert.equal(response.status, 200);
-    assert.deepEqual(await response.json(), { ok: true });
+    const result=await response.json(); assert.equal(result.ok,true); if(result.reference)assert.match(result.reference,/^AGP-/u);
   });
 
   assert.equal(sentEmail.reply_to, 'reader@example.org');
@@ -108,7 +122,7 @@ test('does not send email or expose credentials when delivery is not configured'
   await withServer((req, res) => void handler(req, res), async base => {
     const response = await request(`${base}/api/contact`, validSubmission);
     assert.equal(response.status, 503);
-    assert.deepEqual(await response.json(), { error: 'email_not_configured' });
+    assert.deepEqual(await response.json(), { error: 'service_not_configured' });
   });
 
   assert.equal(called, false);
@@ -142,7 +156,7 @@ test('silently accepts honeypot submissions without sending email', async () => 
   await withServer((req, res) => void handler(req, res), async base => {
     const response = await request(`${base}/api/contact`, { ...validSubmission, website: 'bot' });
     assert.equal(response.status, 202);
-    assert.deepEqual(await response.json(), { ok: true });
+    const result=await response.json(); assert.equal(result.ok,true); if(result.reference)assert.match(result.reference,/^AGP-/u);
   });
 
   assert.equal(called, false);
@@ -186,8 +200,8 @@ test('reports provider failure without returning provider details', async () => 
 
     await withServer((req, res) => void handler(req, res), async base => {
       const response = await request(`${base}/api/contact`, validSubmission);
-      assert.equal(response.status, 502);
-      assert.deepEqual(await response.json(), { error: 'email_delivery_failed' });
+      assert.equal(response.status, 202);
+      const result=await response.json(); assert.equal(result.ok,true); assert.equal(result.delivery,'stored_email_failed');
     });
   } finally {
     console.error = originalError;
@@ -219,3 +233,79 @@ test('email header injection is rejected before contacting the provider',async()
  });
  assert.equal(calls,0);
 });
+
+test('storage precedes mail and delivery history is updated', async () => {
+  const calls = [];
+  const handler = realContactHandler({ env: mailEnvironment, fetchImpl: async (url, options) => {
+    const payload = JSON.parse(options.body);
+    calls.push({ url: String(url), method: options.method, payload });
+    if (calls.length === 1) return Response.json({ documentId: 'stored-doc', reference: payload.reference }, { status: 201 });
+    if (options.method === 'PATCH') return Response.json({ ok: true });
+    return Response.json({ id: 'resend-message' });
+  }});
+  await withServer(handler, async base => {
+    const response = await request(base, validSubmission);
+    assert.equal(response.status, 200);
+    assert.match((await response.json()).reference, /^AGP-/);
+  });
+  assert.deepEqual(calls.map(call => call.method), ['POST', 'POST', 'PATCH']);
+  assert.match(calls[0].url, /inquiries\/intake$/);
+  assert.equal(calls[0].payload.email, validSubmission.email);
+  assert.ok(Number.isFinite(Date.parse(calls[0].payload.receivedAt)));
+  assert.equal(calls[2].payload.status, 'sent');
+  assert.equal(calls[2].payload.providerMessageId, 'resend-message');
+});
+
+for (const mode of ['unconfigured', 'mail_http_error', 'mail_network_error', 'patch_error']) {
+  test(`durable request survives ${mode}`, async () => {
+    const saved = [];
+    const events = [];
+    const env = mode === 'unconfigured' || mode === 'patch_error' ? storageEnvironment : mailEnvironment;
+    const handler = realContactHandler({ env, fetchImpl: async (url, options) => {
+      const data = JSON.parse(options.body);
+      if (String(url).endsWith('/intake')) {
+        saved.push(data);
+        return Response.json({ documentId: 'saved', reference: data.reference }, { status: 201 });
+      }
+      if (options.method === 'PATCH') {
+        events.push(data);
+        if (mode === 'patch_error') throw Error('private-token');
+        return Response.json({ ok: true });
+      }
+      assert.equal(saved.length, 1);
+      if (mode === 'mail_network_error') throw Error('private-token');
+      return new Response('private-token', { status: 503 });
+    }});
+    await withServer(handler, async base => {
+      const response = await request(base, validSubmission);
+      assert.equal(response.status, 202);
+      const body = await response.text();
+      assert.equal(JSON.parse(body).ok, true);
+      assert.doesNotMatch(body, /private-token|test-key|test-ingest-secret/);
+    });
+    assert.equal(saved.length, 1);
+    assert.equal(events[0].status, mode.startsWith('mail_') ? 'failed' : 'not_configured');
+  });
+}
+
+for (const mode of ['401', '503', 'network', 'invalid_json', 'missing_id', 'missing_token']) {
+  test(`storage ${mode} never sends email or claims receipt`, async () => {
+    let calls = 0;
+    const handler = realContactHandler({ env: { ...mailEnvironment, ...(mode === 'missing_token' ? { AGROPULSE_FORM_INGEST_TOKEN: '' } : {}) }, fetchImpl: async (url) => {
+      calls++;
+      assert.match(String(url), /inquiries\/intake$/);
+      if (mode === 'network') throw Error('private-secret');
+      if (mode === 'invalid_json') return new Response('private-secret');
+      if (mode === 'missing_id') return Response.json({});
+      return new Response('private-secret', { status: Number(mode) });
+    }});
+    await withServer(handler, async base => {
+      const response = await request(base, validSubmission);
+      assert.equal(response.status, 503);
+      const body = await response.text();
+      assert.doesNotMatch(body, /private-secret|test-ingest-secret|test-key/);
+      assert.equal(JSON.parse(body).ok, undefined);
+    });
+    assert.equal(calls, mode === 'missing_token' ? 0 : 1);
+  });
+}

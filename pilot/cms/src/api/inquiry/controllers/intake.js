@@ -91,9 +91,17 @@ function deny(ctx) {
   ctx.body = { error: 'unauthorized' };
 }
 
+function oversized(ctx) {
+  if (Buffer.byteLength(JSON.stringify(ctx.request.body ?? null), 'utf8') <= 16 * 1024) return false;
+  ctx.status = 413;
+  ctx.body = { error: 'payload_too_large' };
+  return true;
+}
+
 module.exports = {
   async create(ctx) {
     if (!authorised(ctx)) return deny(ctx);
+    if (oversized(ctx)) return;
 
     const data = validateSubmission(ctx.request.body);
     if (!data) {
@@ -115,6 +123,7 @@ module.exports = {
 
   async updateDelivery(ctx) {
     if (!authorised(ctx)) return deny(ctx);
+    if (oversized(ctx)) return;
 
     const documentId = text(ctx.params.documentId, 64, true);
     const update = deliveryUpdate(ctx.request.body);
@@ -124,32 +133,38 @@ module.exports = {
       return;
     }
 
-    const current = await strapi.documents(UID).findOne({ documentId });
-    if (!current) {
-      ctx.status = 404;
-      ctx.body = { error: 'not_found' };
-      return;
+    try {
+      const current = await strapi.documents(UID).findOne({ documentId });
+      if (!current) {
+        ctx.status = 404;
+        ctx.body = { error: 'not_found' };
+        return;
+      }
+
+      const previousEvents = Array.isArray(current.deliveryEvents) ? current.deliveryEvents.slice(-29) : [];
+      const event = {
+        at: update.at,
+        status: update.status,
+        ...(update.provider ? { provider: update.provider } : {}),
+        ...(update.providerMessageId ? { providerMessageId: update.providerMessageId } : {}),
+        ...(update.error ? { error: update.error } : {}),
+      };
+
+      const data = {
+        deliveryStatus: update.status,
+        deliveryProvider: update.provider || current.deliveryProvider || '',
+        providerMessageId: update.providerMessageId || current.providerMessageId || '',
+        deliveryError: update.error || '',
+        deliveryEvents: [...previousEvents, event],
+        ...(update.status === 'sent' ? { emailSentAt: update.at } : {}),
+      };
+
+      await strapi.documents(UID).update({ documentId, data });
+      ctx.body = { ok: true };
+    } catch {
+      strapi.log.error('AgroPulse inquiry delivery update failed.');
+      ctx.status = 500;
+      ctx.body = { error: 'storage_failed' };
     }
-
-    const previousEvents = Array.isArray(current.deliveryEvents) ? current.deliveryEvents.slice(-29) : [];
-    const event = {
-      at: update.at,
-      status: update.status,
-      ...(update.provider ? { provider: update.provider } : {}),
-      ...(update.providerMessageId ? { providerMessageId: update.providerMessageId } : {}),
-      ...(update.error ? { error: update.error } : {}),
-    };
-
-    const data = {
-      deliveryStatus: update.status,
-      deliveryProvider: update.provider || current.deliveryProvider || '',
-      providerMessageId: update.providerMessageId || current.providerMessageId || '',
-      deliveryError: update.error || '',
-      deliveryEvents: [...previousEvents, event],
-      ...(update.status === 'sent' ? { emailSentAt: update.at } : {}),
-    };
-
-    await strapi.documents(UID).update({ documentId, data });
-    ctx.body = { ok: true };
   },
 };
