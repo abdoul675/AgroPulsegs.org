@@ -30,3 +30,18 @@ Contact réel de test : POST intake 201, PATCH du statut 200 ; référence AGP-9
 Contrôles HTTP à la reprise : site et /admin 200, /_health 204. GET /api/inquiries retourne 404 ; POST intake sans token et avec un token invalide retourne 401. Le destinataire a été vérifié dans Hostinger : programsagropulsegs@gmail.com. Les notifications restent en attente de EMAIL_FROM et RESEND_API_KEY. Les demandes identifiées TEST sont conservées pour la preuve et ne sont pas des demandes commerciales.
 
 Le dernier ajustement du lanceur garantit un code de sortie 1 sur erreur fatale, et 0 lors d’un arrêt normal. Les 52 tests et les contrôles statiques ont été relancés après cet ajustement. L’installation locale complète de Strapi n’a pas été menée à terme ; le démarrage réel avec inquiry a été vérifié sur Hostinger/MySQL.
+
+## Activation des notifications — état courant du 12 novembre
+
+Le porteur a ensuite autorisé explicitement les trois ajouts DNS nécessaires à Resend et la création d’une clé limitée à l’envoi. Cette autorisation remplace l’interdiction initiale de modifier les DNS pour ces seuls ajouts : TXT `resend._domainkey`, CNAME `rsend` vers `rsend-euw1.forge.rmta.net`, CNAME `send` vers `send.forge.rmta.net`, TTL 3600. Les enregistrements du site et du CMS ont été conservés. Aucun domaine n’a été acheté ou migré.
+
+Resend confirme le domaine `agropulsegs.org` vérifié, région Irlande. La clé « AgroPulse website notifications » a les droits `Sending access`, limités à ce domaine. Sa valeur est conservée dans la variable Hostinger `RESEND_API_KEY` de l’application publique ; elle ne figure pas dans le dépôt. L’expéditeur `EMAIL_FROM` est `AgroPulse <notifications@agropulsegs.org>` et le destinataire reste `programsagropulsegs@gmail.com`. La configuration a été appliquée et le redéploiement public `01a1cf93-46c3-7046-8ecc-43066cc5cd5e` est terminé.
+
+Deux nouvelles demandes TEST ont été envoyées depuis les formulaires publics :
+
+- Contact : message complet et coordonnées fictives ; confirmation positive affichée ; Resend **Delivered**, message `01a1cf94-986e-76a8-a2f0-ea2a925326d0` ([preuve dans Resend](https://resend.com/emails/01a1cf94-986e-76a8-a2f0-ea2a925326d0)).
+- Ressources : adresse fictive et consentement ; confirmation positive affichée ; Resend **Delivered**, message `01a1cf95-754f-7a5c-8851-bb5e68cd00bf` ([preuve dans Resend](https://resend.com/emails/01a1cf95-754f-7a5c-8851-bb5e68cd00bf)).
+
+Les deux notifications ont pour destinataire l’adresse Gmail officielle. `Delivered` confirme la remise au serveur destinataire ; la boîte Gmail elle-même n’a pas été ouverte pour déterminer le dossier de classement. Les journaux d’exécution du CMS montrent les créations `POST /api/inquiries/intake` en 201 et les mises à jour `PATCH /api/inquiries/intake/:documentId` en 200. Les données TEST restent identifiables et conservées. La liste complète dans le Content Manager n’a pas été relue après activation, car sa session administrative demande une authentification ; la preuve antérieure de réception et d’historique reste distincte.
+
+L’activation ne nécessite aucun changement de logique métier : les 52 tests déjà réussis couvrent la sauvegarde prioritaire, l’envoi configuré, l’échec du fournisseur et les mises à jour d’historique. Les nouveaux contrôles sont les deux essais de production ci-dessus. La conservation Strapi précède toujours l’e-mail, et une panne future d’e-mail ne supprime pas la demande enregistrée. Les mentions précédentes « notifications en attente » décrivent les étapes antérieures.

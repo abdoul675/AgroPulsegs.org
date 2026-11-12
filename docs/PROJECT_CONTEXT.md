@@ -116,3 +116,7 @@ YIDA-Cashew est une page vitrine de programme : origine, objectifs, publics et p
 ## Reprise production — 12 novembre 2026
 
 La demande actuelle du porteur fixe Hostinger, les domaines agropulsegs.org / cms.agropulsegs.org, Strapi 5.61.0 et MySQL existant. Elle remplace les propositions historiques d’hébergement. Priorité : démarrage stable et conservation des demandes avant notification e-mail ; domaine futur et déplacement des sections reportés. Voir AgroPulse_Reprise_production_2026-11-12.md pour le diagnostic observé, les changements et les limites des preuves.
+
+### Notifications Gmail activées — 12 novembre 2026
+
+Le porteur a autorisé les trois ajouts DNS Resend et une clé d’envoi limitée au domaine existant. `agropulsegs.org` est vérifié dans Resend ; l’expéditeur est `notifications@agropulsegs.org`, le destinataire reste `programsagropulsegs@gmail.com`. `EMAIL_FROM` et `RESEND_API_KEY` sont configurés dans Hostinger, sans secret dans Git. Les nouveaux tests réels Contact et Ressources ont affiché une réception positive et Resend a confirmé **Delivered** pour les deux notifications. Les journaux CMS confirment les créations 201 et mises à jour 200. Le rapport de reprise détaille les preuves, les 52 tests précédemment exécutés et la limite restante de relecture de la liste administrative. L’achat du domaine futur et le déplacement des sections restent reportés.
