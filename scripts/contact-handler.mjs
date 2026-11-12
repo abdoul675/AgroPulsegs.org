@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 const MAX_BODY_BYTES = 16 * 1024;
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT = 5;
@@ -159,6 +161,74 @@ function buildEmail(submission) {
   return { label, text, html };
 }
 
+function cmsIntakeConfig(env) {
+  const token = env.AGROPULSE_FORM_INGEST_TOKEN?.trim();
+  if (!token || /[\r\n]/u.test(token)) return null;
+
+  let base;
+  try { base = new URL(env.AGROPULSE_CMS_URL); } catch { return null; }
+  if (base.username || base.password || base.search || base.hash || base.pathname !== '/' || !['https:','http:'].includes(base.protocol)) return null;
+  if (base.protocol === 'http:' && !['127.0.0.1','localhost','[::1]'].includes(base.hostname)) return null;
+
+  return { base, token };
+}
+
+async function storeSubmission(submission, env, fetchImpl) {
+  const config = cmsIntakeConfig(env);
+  if (!config) return { status: 'not_configured' };
+
+  const reference = 'AGP-' + randomUUID();
+  const receivedAt = new Date().toISOString();
+  const endpoint = new URL('/api/inquiries/intake', config.base);
+
+  let response;
+  try {
+    response = await fetchImpl(endpoint, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${config.token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ ...submission, reference, receivedAt }),
+      signal: AbortSignal.timeout(8_000),
+    });
+  } catch {
+    return { status: 'failed' };
+  }
+
+  if (!response.ok) return { status: 'failed' };
+
+  try {
+    const body = await response.json();
+    if (typeof body?.documentId !== 'string' || !body.documentId) return { status: 'failed' };
+    return { status: 'stored', documentId: body.documentId, reference: body.reference || reference };
+  } catch {
+    return { status: 'failed' };
+  }
+}
+
+async function updateDelivery(storage, update, env, fetchImpl) {
+  if (storage.status !== 'stored' || !storage.documentId) return;
+  const config = cmsIntakeConfig(env);
+  if (!config) return;
+
+  try {
+    await fetchImpl(new URL('/api/inquiries/intake/' + encodeURIComponent(storage.documentId), config.base), {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${config.token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(update),
+      signal: AbortSignal.timeout(8_000),
+    });
+  } catch {
+    // Delivery history is best effort; the original submission is already stored.
+  }
+}
+
 export function createContactHandler({
   env = process.env,
   fetchImpl = fetch,
@@ -207,11 +277,22 @@ export function createContactHandler({
       return;
     }
 
+    const storage = await storeSubmission(submission, env, fetchImpl);
+
     const recipient = env.AGROPULSE_RECIPIENT_EMAIL?.trim();
     const sender = env.EMAIL_FROM?.trim();
     const apiKey = env.RESEND_API_KEY?.trim();
     if (!validRecipient(recipient) || !validSender(sender) || !apiKey) {
-      respond(res, 503, { error: 'email_not_configured' });
+      await updateDelivery(storage, {
+        status: 'not_configured',
+        at: new Date().toISOString(),
+      }, env, fetchImpl);
+
+      if (storage.status === 'stored') {
+        respond(res, 202, { ok: true, reference: storage.reference, delivery: 'stored' });
+      } else {
+        respond(res, 503, { error: 'service_not_configured' });
+      }
       return;
     }
 
@@ -236,16 +317,53 @@ export function createContactHandler({
       });
     } catch (error) {
       console.error(`AgroPulse email delivery failed (${error.name || 'network error'}).`);
-      respond(res, 502, { error: 'email_delivery_failed' });
+      await updateDelivery(storage, {
+        status: 'failed',
+        provider: 'resend',
+        error: 'network_error',
+        at: new Date().toISOString(),
+      }, env, fetchImpl);
+      if (storage.status === 'stored') {
+        respond(res, 202, { ok: true, reference: storage.reference, delivery: 'stored_email_failed' });
+      } else {
+        respond(res, 502, { error: 'email_delivery_failed' });
+      }
       return;
     }
 
     if (!delivery.ok) {
       console.error(`AgroPulse email provider returned HTTP ${delivery.status}.`);
-      respond(res, 502, { error: 'email_delivery_failed' });
+      await updateDelivery(storage, {
+        status: 'failed',
+        provider: 'resend',
+        error: 'provider_http_' + delivery.status,
+        at: new Date().toISOString(),
+      }, env, fetchImpl);
+      if (storage.status === 'stored') {
+        respond(res, 202, { ok: true, reference: storage.reference, delivery: 'stored_email_failed' });
+      } else {
+        respond(res, 502, { error: 'email_delivery_failed' });
+      }
       return;
     }
 
-    respond(res, 200, { ok: true });
+    let providerMessageId = '';
+    try {
+      const body = await delivery.json();
+      providerMessageId = typeof body?.id === 'string' ? body.id : '';
+    } catch {}
+
+    await updateDelivery(storage, {
+      status: 'sent',
+      provider: 'resend',
+      providerMessageId,
+      at: new Date().toISOString(),
+    }, env, fetchImpl);
+
+    respond(res, 200, {
+      ok: true,
+      ...(storage.status === 'stored' ? { reference: storage.reference } : {}),
+      delivery: 'sent',
+    });
   };
 }
