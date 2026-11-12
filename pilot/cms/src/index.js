@@ -31,7 +31,7 @@ module.exports={
     await require('./domain/simple-entry').backfill(strapi);
     await require('./domain/editorial-ui').configure(strapi);
     const manager=strapi.plugin('content-manager').service('content-types');
-    const mainFields={'site-setting':'brandName',page:'title',programme:'title',campaign:'key',resource:'title',partner:'name'};
+    const mainFields={'site-setting':'brandName',page:'title',programme:'title',campaign:'key',resource:'title',partner:'name',inquiry:'reference'};
     for(const [name,mainField] of Object.entries(mainFields)){
       const model=strapi.contentType(contentPolicy.uidFor(name));
       const config=await manager.findConfiguration(model);
