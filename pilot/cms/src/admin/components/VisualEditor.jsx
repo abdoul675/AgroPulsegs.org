@@ -13,7 +13,7 @@ const emptyCopy=()=>({hero:{},sections:{}});
 export default function VisualEditor(){
  const {locale:uiLocale}=useIntl(),t=(fr,en)=>uiLocale.startsWith('en')?en:fr;
  const {get,put,post}=useFetchClient();
- const frame=useRef(null),pending=useRef(false);
+ const frame=useRef(null),pending=useRef(false),previewState=useRef(null),previewRevision=useRef(0);
  const [entries,setEntries]=useState([]),[chosen,setChosen]=useState(''),[document,setDocument]=useState(null),[language,setLanguage]=useState('fr');
  const [reference,setReference]=useState(null),[copy,setCopy]=useState(emptyCopy),[layout,setLayout]=useState({}),[active,setActive]=useState({section:'hero',card:null});
  const [busy,setBusy]=useState(false),[dirty,setDirty]=useState(false),[status,setStatus]=useState(''),[mobile,setMobile]=useState(false);
@@ -31,8 +31,10 @@ export default function VisualEditor(){
  })();
  const entry=entries.find(item=>item.option===chosen),slug=entry?slugOf(entry):null;
  const previewParams={lang:language,editor:'1'};
- if(Array.isArray(layout.sections)&&layout.sections.length)previewParams.sections=layout.sections.join(',');
+ // The preview document belongs to a page/language, never to its current order.
+ // Changing its URL on every move destroys the frame and its pending messages.
  const previewUrl=slug?new URL('?'+new URLSearchParams(previewParams)+'#p-'+slug,site).href:'';
+ previewState.current={page:slug,locale:language,copy,layout,revision:previewRevision.current};
  const publishUrl=entry?'/admin/content-manager/collection-types/'+entry.uid+'/'+entry.documentId+'?plugins[i18n][locale]='+language:'#';
  const message=data=>{
   const target=frame.current?.contentWindow;if(!target)return;
@@ -61,12 +63,14 @@ export default function VisualEditor(){
   const receive=event=>{
    if(event.source!==frame.current?.contentWindow||!siteOrigins.includes(event.origin)||event.data?.channel!=='agropulse-editor')return;
    const data=event.data;
+   if(data.page!==slug||data.locale!==language)return;
+   if(data.type==='ready'&&Number.isSafeInteger(data.revision)&&data.revision>=0){previewRevision.current=data.revision;message({type:'draft',...previewState.current,revision:data.revision});}
    if(data.type==='reference'&&data.reference?.page===slug&&data.reference?.locale===language)setReference(data.reference);
-   if(data.type==='layout'){setLayout(data.layout||{});setDirty(true);setStatus(t('Disposition modifiée dans le brouillon.','Layout changed in the draft.'));}
+   if(data.type==='layout'&&Number.isSafeInteger(data.revision)&&data.revision>=previewRevision.current){previewRevision.current=data.revision;previewState.current={...previewState.current,layout:data.layout||{},revision:data.revision};setLayout(data.layout||{});setDirty(true);setStatus(t('Disposition modifiée dans le brouillon.','Layout changed in the draft.'));}
    if(data.type==='select')setActive({section:data.section,card:data.card});
   };window.addEventListener('message',receive);return()=>window.removeEventListener('message',receive);
  },[slug,language,site.origin]);
- useEffect(()=>{if(!reference||!entry)return;const timer=setTimeout(()=>message({type:'draft',page:slug,locale:language,copy,layout}),120);return()=>clearTimeout(timer);},[reference,document,copy,layout,slug,language]);
+ useEffect(()=>{if(!reference||!entry||busy)return;const payload={type:'draft',page:slug,locale:language,copy,layout,revision:previewRevision.current};const timer=setTimeout(()=>message(payload),120);return()=>clearTimeout(timer);},[reference,document,copy,layout,slug,language,busy]);
  useEffect(()=>{if(reference)message({type:'focus',section:active.section,card:active.card});},[active,reference]);
  useEffect(()=>{const guard=event=>{if(dirty){event.preventDefault();event.returnValue='';}};window.addEventListener('beforeunload',guard);return()=>window.removeEventListener('beforeunload',guard);},[dirty]);
  useEffect(()=>{if(entry&&!reference)message({type:'hello'});},[entry,reference,previewUrl]);
@@ -103,7 +107,7 @@ export default function VisualEditor(){
   return result.concat([...byId.values()]);
  })():[];
  const moveSectionFromPanel=(sectionId,direction)=>{
-  if(!reference)return;
+  if(!reference||busy)return;
   const base=reference.sections.map(section=>section.id);
   const current=(layout.sections||[]).filter(id=>base.includes(id));
   const order=[...current,...base.filter(id=>!current.includes(id))];
@@ -114,7 +118,7 @@ export default function VisualEditor(){
   setLayout(nextLayout);
   setDirty(true);
   setStatus(t('Section déplacée. Enregistrez le brouillon pour conserver ce nouvel ordre.','Section moved. Save the draft to keep this new order.'));
-  message({type:'draft',page:slug,locale:language,copy,layout:nextLayout});
+  message({type:'draft',page:slug,locale:language,copy,layout:nextLayout,revision:previewRevision.current});
  };
  async function publish(){
   if(!entry?.documentId||dirty||pending.current||busy)return;
@@ -169,7 +173,7 @@ export default function VisualEditor(){
    <aside className="agp-panel"><h2>{t('Le contenu de la page','Page content')}</h2>{reference&&<AppearanceEditor value={layout.styles||{}} onChange={setStyles} error={styleError} t={t}/>}<nav aria-label={t('Sections à modifier','Sections to edit')}><button aria-current={active.section==='hero'?'true':undefined} onClick={()=>setActive({section:'hero',card:null})}>{t('Présentation en haut de page','Top-of-page introduction')}</button>{orderedSections.map(section=><div key={section.id} className="agp-section-row"><button aria-current={active.section===section.id?'true':undefined} onClick={()=>setActive({section:section.id,card:null})}>{section.title||t('Section sans titre','Untitled section')}</button><div className="agp-section-move"><button type="button" title={t('Monter cette section','Move section up')} aria-label={t('Monter cette section','Move section up')} onClick={()=>moveSectionFromPanel(section.id,-1)}>↑</button><button type="button" title={t('Descendre cette section','Move section down')} aria-label={t('Descendre cette section','Move section down')} onClick={()=>moveSectionFromPanel(section.id,1)}>↓</button></div></div>)}</nav>
     {reference&&<div className="agp-fields"><h3>{active.card===null?t('Textes de la section','Section text'):t('Texte de la carte','Card text')}</h3><label>{t('Titre','Heading')}<input value={value('title')} maxLength={500} onChange={event=>edit('title',event.target.value)}/></label><label>{active.section==='hero'?t('Introduction','Introduction'):t('Description','Description')}<textarea rows={7} value={value(active.section==='hero'?'intro':active.card===null?'lead':'text')} onChange={event=>edit(active.section==='hero'?'intro':active.card===null?'lead':'text',event.target.value)}/></label><p className="agp-help">{t('Les poignées dans l’aperçu permettent de déplacer les éléments. Les flèches offrent la même action au clavier.','Use handles in the preview to move elements. Arrow buttons provide the same action by keyboard.')}</p><button className="agp-secondary" onClick={()=>{if(window.confirm(t('Rétablir la disposition d’origine ? Les textes seront conservés.','Restore the original layout? Text will be kept.'))){setLayout(previous=>previous.styles?{styles:previous.styles}:{});setDirty(true);}}}>{t('Rétablir la disposition','Restore original layout')}</button></div>}
 
-   </aside><section className={'agp-preview '+(mobile?'agp-mobile':'')} aria-label={t('Aperçu du brouillon','Draft preview')}><iframe key={previewUrl} ref={frame} src={previewUrl} title={t('Aperçu modifiable du site AgroPulse','Editable AgroPulse website preview')} onLoad={()=>message({type:'hello'})}/>{!reference&&<p className="agp-preview-help">{t('L’aperçu se connecte au site. Si cet écran reste vide, vérifiez que le serveur de prévisualisation est démarré.','The preview is connecting to the website. If it remains empty, check that the preview server is running.')}</p>}</section>
+   </aside><section className={'agp-preview '+(mobile?'agp-mobile':'')} aria-label={t('Aperçu du brouillon','Draft preview')}><iframe key={previewUrl} ref={frame} src={previewUrl} title={t('Aperçu modifiable du site AgroPulse','Editable AgroPulse website preview')} onLoad={()=>{previewRevision.current=0;message({type:'hello'});message({type:'draft',...previewState.current,revision:0});}}/>{!reference&&<p className="agp-preview-help">{t('L’aperçu se connecte au site. Si cet écran reste vide, vérifiez que le serveur de prévisualisation est démarré.','The preview is connecting to the website. If it remains empty, check that the preview server is running.')}</p>}</section>
   </div>}
  </main>;
 }

@@ -8,7 +8,7 @@
  const update=(value,text,language)=>({...((value&&typeof value==='object')?value:{}),[language]:text});
  const lines=(value,language)=>String(value).split(/\n\s*\n/u).filter(Boolean).map(text=>({[language]:text}));
  const ordered=(items,order,key)=>{const used=new Set(),result=[];for(const token of order||[]){const item=items.find((value,index)=>key(value,index)===token);if(item&&!used.has(item)){used.add(item);result.push(item);}}return result.concat(items.filter(item=>!used.has(item)));};
- let sequence=0,requestKey='',applying=false,draft=null,drag=null,referenceCache=null;
+ let sequence=0,requestKey='',applying=false,draft=null,drag=null,referenceCache=null,revision=0;
  const parameters=new URLSearchParams(location.search);
  const preview=parameters.get('editor')==='1'&&window.parent!==window;
  const previewSectionOrder=(parameters.get('sections')||'').split(',').filter(value=>/^[a-z][a-z0-9-]{0,79}$/u.test(value));
@@ -29,7 +29,7 @@
   const automatic=location.protocol==='https:'?'https://cms.'+baseHost:'';
   adminOrigin=trustedAdmin(configured)||trustedAdmin(document.referrer)||trustedAdmin(automatic);
  }catch{}
- const send=data=>{if(preview&&adminOrigin)window.parent.postMessage({channel:'agropulse-editor',...data},adminOrigin);};
+ const send=data=>{if(preview&&adminOrigin)window.parent.postMessage({channel:'agropulse-editor',page:CUR,locale:locale(),revision,...data},adminOrigin);};
 
 
  const cardSelectors='.pole-grid > .pole-card, .fx > .fr, .tl4 > .tc, .pl > a, .steps > li, .jn > .js, .lk > a, .mo > .mt, .country-list > .country-card, .programme-facts > .programme-fact, .programme-questions > .programme-question, .lg2 > div > article';
@@ -119,7 +119,7 @@
   if(destination<0||destination>=order.length)return;
   order.splice(destination,0,order.splice(position,1)[0]);
   if(kind==='section')state.layout.sections=order;else state.layout.cards[section]=order;
-  draft=state;apply(state.copy,state.layout);send({type:'layout',layout:state.layout});
+  revision++;draft=state;apply(state.copy,state.layout);send({type:'layout',layout:state.layout});
  }
  function handle(target,kind,section,token,label){
   target.classList.add('ap-editor-target');target.dataset.editorKind=kind;target.dataset.editorToken=String(token);target.dataset.editorSection=section;
@@ -159,6 +159,8 @@
   if(event.data.type==='focus'){focusPreview(event.data.section,event.data.card);return;}
   if(event.data.type==='hello'){send({type:'ready'});send({type:'reference',reference:reference()});return;}
   if(event.data.type==='draft'&&event.data.page===CUR&&event.data.locale===locale()){
+   // A delayed parent echo must never undo a newer move in this frame.
+   if(event.data.revision!==undefined&&event.data.revision!==revision)return;
    try{if(JSON.stringify(event.data).length>200000)return;}catch{return;}
    const next={page:CUR,locale:locale(),copy:event.data.copy||{},layout:event.data.layout||{}};if(draft&&JSON.stringify(draft)===JSON.stringify(next))return;draft=next;apply(draft.copy,draft.layout);
   }
