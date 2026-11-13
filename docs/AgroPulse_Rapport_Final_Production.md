@@ -1,0 +1,82 @@
+# AgroPulse — rapport de vérification production
+
+## Résumé
+
+Le périmètre de cette vérification est la finalisation technique d’AgroPulse : HTTPS, sécurité, formulaires, CMS et tests. Les maquettes approuvées, leurs images, leur présentation et le contenu visible n’ont pas été refaits.
+
+Les tests locaux sont verts et les essais de brouillon CMS effectués précédemment ont été restaurés sans publication. Plusieurs vérifications de production restent toutefois nécessaires avant de déclarer le site entièrement terminé : le déploiement Hostinger du dernier commit n’est pas confirmé, les contenus CMS publiés sont incomplets selon les réponses publiques observées, et les consoles Hostinger, Resend et Gmail n’étaient pas disponibles pour cette vérification.
+
+**Conclusion : le site est vérifié en partie, mais la fin de production n’est pas certifiée.**
+
+## État du dépôt et changements
+
+Au dernier contrôle, `main`, `origin/main` et `HEAD` pointaient tous vers `4a914653e1039b45c71f64743b51955928337f6e` (`4a91465`). Ce commit est présent sur GitHub.
+
+Deux changements ont été poussés :
+
+- `0c63cfe` — journalise les échecs HTTP et réseau de mise à jour de l’historique d’envoi, sans consigner de détails privés, avec des tests associés.
+- `4a91465` — renouvelle la référence de cache du script d’aperçu dans `public/index.html`. Ce changement ne modifie ni les textes visibles, ni les styles, ni les images ou leur disposition.
+
+`public/style-policy.js` est encore indiqué comme modifié par Git dans l’arbre de travail, mais `git diff` ne montre aucun changement de contenu. Il a été laissé intact.
+
+### Déploiement Hostinger
+
+Après le push de `4a91465`, le HTML public contrôlé servait encore l’ancienne référence `editorial-client.js?v=f74b72f10361`, au lieu de la référence attendue `4a22630ce00a`. Le déploiement de ce commit sur Hostinger n’est donc **pas confirmé**. L’accès aux journaux et à l’écran de déploiement Hostinger n’était pas disponible ; aucun déploiement manuel n’a été réalisé.
+
+## Maquettes et apparence
+
+Aucune refonte ni réorganisation visuelle n’a été effectuée dans les commits listés ci-dessus. La seule modification de fichier web est un identifiant de cache de script dans le HTML ; aucune capture avant/après n’a été produite. Les validations navigateur rapportées précédemment ont couvert 15 pages, en français et en anglais, aux largeurs 375, 768 et 1440 px : 90 contrôles sans échec, débordement horizontal ou erreur de page.
+
+Le fichier de maquette portant exactement le nom `AgroPulse_Maquette_Images_Integrees_Directement(2).html` n’a pas été retrouvé dans le dépôt. Une variante sans `(2)` est présente dans `.work/maquettes`. Aucune comparaison pixel par pixel avec le fichier exact demandé n’est donc attestée ici.
+
+## Vérifications locales
+
+- `npm run check` : 69 tests réussis et contrôles statiques des pages et ressources réussis.
+- `npm run check:cms-security` : 3 tests réussis.
+- `node --test scripts/contact-handler.test.mjs` : 27 tests réussis, notamment les échecs HTTP/réseau du suivi de notification.
+- Les tests automatiques de formulaires et de sécurité ne remplacent pas un nouvel envoi réel en production.
+
+## CMS et contenus publiés en production
+
+Les routes publiques ont été testées avec les paramètres attendus (`page` et `locale`). Réponses HTTP 200 observées :
+
+| Page | Français | Anglais |
+|---|---|---|
+| Accueil | Référence | Référence |
+| YIDA-Cashew (`fellowship`) | Strapi publié | Référence |
+| AGIR-IA (`agir-ia`) | Référence | Référence |
+
+`reference` signifie que cette route sert le contenu de référence du site, et non une entrée CMS publiée. Le contenu anglais de YIDA-Cashew et les contenus d’accueil et d’AGIR-IA ne sont donc pas confirmés comme publiés dans Strapi par ces vérifications.
+
+Un essai de brouillon YIDA-Cashew a été effectué avec l’autorisation de l’utilisateur : déplacement d’une section, puis ajout d’un marqueur fictif à l’introduction. Chaque brouillon a été sauvegardé et vérifié après rechargement ; l’ordre et le texte d’origine ont ensuite été restaurés et revérifiés. Aucun contenu n’a été publié.
+
+Les réponses anonymes 403 des API de lecture protégées sont cohérentes avec une restriction d’accès. Des requêtes directes vers `/api/inquiries` et `/api/inquiries/intake` ont répondu 404 lors des contrôles précédents ; cela ne constitue pas un essai du parcours de soumission réel, qui doit être vérifié depuis chaque formulaire.
+
+## HTTPS et sécurité observés
+
+- Certificats TLS acceptés par le client de vérification ; les variantes HTTP redirigent vers HTTPS.
+- Le site répond sur `agropulsegs.org` et `www.agropulsegs.org`, sans redirection entre ces deux noms. Le domaine canonique reste à choisir.
+- L’en-tête HSTS n’a pas été observé sur les réponses du site public contrôlées.
+- L’administration CMS répond en HTTPS ; `/_health` répond 204 et l’administration émet HSTS `max-age=31536000; includeSubDomains`.
+- Le prévol CORS observé autorise `https://agropulsegs.org`, mais pas `https://www.agropulsegs.org`. Des avertissements `postMessage` liés aux variantes d’origine ont aussi été observés dans l’éditeur.
+- Avant d’activer HSTS ou `includeSubDomains` pour le site, vérifier tous les sous-domaines et déterminer l’origine canonique. Ne pas élargir les origines CORS sans cette décision.
+- Les routes privées de demandes ne doivent pas être rendues publiques pour résoudre un 404 de test : vérifier le véritable parcours POST et conserver les contrôles d’authentification.
+- Un ancien token Strapi à accès étendu est mentionné dans les rapports d’exploitation. Son usage n’a pas été audité ici ; ne pas le révoquer avant d’avoir identifié ses consommateurs et préparé un remplacement.
+
+## Formulaires, Resend et Gmail
+
+Le rapport de reprise du 12 novembre documente deux notifications de test marquées **Delivered** par Resend (formulaires Contact et Ressources), ainsi que des soumissions de test conservées dans Strapi. `Delivered` atteste la remise au serveur destinataire, pas la lecture ni le classement dans Gmail.
+
+Aucun nouvel envoi réel, contrôle de boîte Gmail, examen des journaux Hostinger ou contrôle de configuration Resend n’a été effectué pendant cette vérification. Il n’est donc pas possible de certifier l’état actuel de ces services ni l’arrivée des messages dans la boîte de réception. Ne pas afficher ni copier de secret dans le rapport ou le chat.
+
+## Actions nécessaires pour clôturer
+
+1. Dans Hostinger, confirmer si `4a91465` est déployé. Si non, suivre la procédure de déploiement habituelle, puis vérifier que le HTML public sert la nouvelle référence cache et refaire les tests essentiels.
+2. Choisir le domaine canonique (`www` ou sans `www`), puis aligner redirection, CORS et aperçu CMS ; tester les deux origines.
+3. Vérifier les sous-domaines avant toute politique HSTS côté site.
+4. Depuis les vrais formulaires publics, tester Contact, Ressources et les autres parcours actifs avec des données explicitement fictives ; confirmer l’enregistrement Strapi et l’état de notification sans laisser de demandes de test confondues avec de vraies demandes.
+5. Dans Resend, vérifier la configuration et le statut des essais ; dans Gmail, confirmer la réception et le classement. Les preuves historiques `Delivered` ne remplacent pas ces contrôles.
+6. Dans l’administration CMS, confirmer les pages et langues qui doivent être gérées, publier uniquement les contenus approuvés par le propriétaire, puis vérifier leur lecture publique. Les réponses `reference` ne prouvent pas une publication CMS.
+7. Contrôler les sauvegardes et une procédure de restauration ; auditer les utilisateurs, rôles et l’ancien token à accès étendu avant tout retrait.
+
+À ce stade, aucune modification DNS, révocation de token, publication de contenu, suppression locale ou intervention manuelle Hostinger n’a été effectuée.
