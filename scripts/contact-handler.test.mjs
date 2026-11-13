@@ -256,6 +256,43 @@ test('storage precedes mail and delivery history is updated', async () => {
   assert.equal(calls[2].payload.providerMessageId, 'resend-message');
 });
 
+test('logs delivery history failures without exposing details or losing the stored request', async () => {
+  const originalError = console.error;
+  for (const mode of ['http', 'network']) {
+    const errors = [];
+    const calls = [];
+    console.error = message => errors.push(String(message));
+    try {
+      const handler = realContactHandler({ env: mailEnvironment, fetchImpl: async (url, options) => {
+        calls.push({ url: String(url), method: options.method });
+        if (String(url).endsWith('/intake') && options.method !== 'PATCH') {
+          const data = JSON.parse(options.body);
+          return Response.json({ documentId: 'stored-doc', reference: data.reference }, { status: 201 });
+        }
+        if (options.method === 'PATCH') {
+          if (mode === 'network') throw Error('private-ingest-secret');
+          return new Response('private database error', { status: 503 });
+        }
+        return Response.json({ id: 'resend-message' });
+      }});
+
+      await withServer(handler, async base => {
+        const response = await request(base, validSubmission);
+        assert.equal(response.status, 200);
+        assert.equal((await response.json()).delivery, 'sent');
+      });
+    } finally {
+      console.error = originalError;
+    }
+
+    assert.deepEqual(calls.map(call => call.method), ['POST', 'POST', 'PATCH']);
+    assert.deepEqual(errors, [mode === 'network'
+      ? 'AgroPulse delivery history update failed (network error).'
+      : 'AgroPulse delivery history update failed with HTTP 503.']);
+    assert.doesNotMatch(errors.join(' '), /private-ingest-secret|private database error/u);
+  }
+});
+
 for (const mode of ['unconfigured', 'mail_http_error', 'mail_network_error', 'patch_error']) {
   test(`durable request survives ${mode}`, async () => {
     const saved = [];

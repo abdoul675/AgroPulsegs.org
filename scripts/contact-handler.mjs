@@ -225,7 +225,7 @@ async function updateDelivery(storage, update, env, fetchImpl) {
   if (!config) return;
 
   try {
-    await fetchImpl(new URL('/api/inquiries/intake/' + encodeURIComponent(storage.documentId), config.base), {
+    const response = await fetchImpl(new URL('/api/inquiries/intake/' + encodeURIComponent(storage.documentId), config.base), {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${config.token}`,
@@ -235,8 +235,11 @@ async function updateDelivery(storage, update, env, fetchImpl) {
       body: JSON.stringify(update),
       signal: AbortSignal.timeout(8_000),
     });
+    if (!response.ok) {
+      console.error('AgroPulse delivery history update failed with HTTP ' + response.status + '.');
+    }
   } catch {
-    // Delivery history is best effort; the original submission is already stored.
+    console.error('AgroPulse delivery history update failed (network error).');
   }
 }
 
