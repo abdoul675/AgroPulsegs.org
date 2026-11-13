@@ -4,24 +4,27 @@
 
 Le périmètre de cette vérification est la finalisation technique d’AgroPulse : HTTPS, sécurité, formulaires, CMS et tests. Les maquettes approuvées, leurs images, leur présentation et le contenu visible n’ont pas été refaits.
 
-Les tests locaux sont verts et les essais de brouillon CMS effectués précédemment ont été restaurés sans publication. Plusieurs vérifications de production restent toutefois nécessaires avant de déclarer le site entièrement terminé : le déploiement Hostinger du dernier commit n’est pas confirmé, les contenus CMS publiés sont incomplets selon les réponses publiques observées, et les consoles Hostinger, Resend et Gmail n’étaient pas disponibles pour cette vérification.
+Les tests locaux sont verts et les essais de brouillon CMS effectués précédemment ont été restaurés sans publication. L’utilisateur a choisi `https://agropulsegs.org` comme domaine canonique ; le correctif correspondant est poussé sur GitHub, mais n’est pas encore actif en production. Les contenus CMS publiés sont incomplets selon les réponses publiques observées, et les consoles Hostinger, Resend et Gmail n’étaient pas disponibles pour cette vérification.
 
 **Conclusion : le site est vérifié en partie, mais la fin de production n’est pas certifiée.**
 
 ## État du dépôt et changements
 
-Au dernier contrôle, `main`, `origin/main` et `HEAD` pointaient tous vers `4a914653e1039b45c71f64743b51955928337f6e` (`4a91465`). Ce commit est présent sur GitHub.
+Au dernier contrôle, `main`, `origin/main` et `HEAD` pointaient tous vers `5201f0fdf48c9961615bfce29dd35a211a540c12` (`5201f0f`). Ce commit est présent sur GitHub.
 
-Deux changements ont été poussés :
+Les correctifs fonctionnels poussés sont :
 
 - `0c63cfe` — journalise les échecs HTTP et réseau de mise à jour de l’historique d’envoi, sans consigner de détails privés, avec des tests associés.
 - `4a91465` — renouvelle la référence de cache du script d’aperçu dans `public/index.html`. Ce changement ne modifie ni les textes visibles, ni les styles, ni les images ou leur disposition.
+- `5201f0f` — redirige l’hôte exact `www.agropulsegs.org` vers `https://agropulsegs.org` avec un 308, en conservant chemin et paramètres ; l’aperçu CMS n’envoie et n’accepte désormais les messages que depuis l’origine configurée, sans essayer l’alias `www`.
+
+Le rapport de production a été poussé dans `f6efa5f`.
 
 `public/style-policy.js` est encore indiqué comme modifié par Git dans l’arbre de travail, mais `git diff` ne montre aucun changement de contenu. Il a été laissé intact.
 
 ### Déploiement Hostinger
 
-Après le push de `4a91465`, le HTML public contrôlé servait encore l’ancienne référence `editorial-client.js?v=f74b72f10361`, au lieu de la référence attendue `4a22630ce00a`. Le déploiement de ce commit sur Hostinger n’est donc **pas confirmé**. L’accès aux journaux et à l’écran de déploiement Hostinger n’était pas disponible ; aucun déploiement manuel n’a été réalisé.
+Après les pushes, le HTML public contrôlé sert encore l’ancienne référence `editorial-client.js?v=f74b72f10361`, au lieu de la référence attendue `4a22630ce00a`. De plus, `https://www.agropulsegs.org/` répond encore 200 sans redirection vers le domaine canonique choisi. Les correctifs du site n’ont donc pas été confirmés en production. Le build CMS local incluant la restriction de l’aperçu a réussi, mais le déploiement de l’administration CMS n’est pas confirmé non plus. L’accès aux journaux et aux écrans de déploiement Hostinger n’était pas disponible ; aucun déploiement manuel n’a été réalisé.
 
 ## Maquettes et apparence
 
@@ -31,9 +34,10 @@ Le fichier de maquette portant exactement le nom `AgroPulse_Maquette_Images_Inte
 
 ## Vérifications locales
 
-- `npm run check` : 69 tests réussis et contrôles statiques des pages et ressources réussis.
+- `npm run check` : 70 tests réussis et contrôles statiques des pages et ressources réussis, y compris le test de redirection 308.
 - `npm run check:cms-security` : 3 tests réussis.
 - `node --test scripts/contact-handler.test.mjs` : 27 tests réussis, notamment les échecs HTTP/réseau du suivi de notification.
+- `npm --prefix pilot/cms run build` : build Strapi réussi après la restriction de l’origine d’aperçu.
 - Les tests automatiques de formulaires et de sécurité ne remplacent pas un nouvel envoi réel en production.
 
 ## CMS et contenus publiés en production
@@ -55,11 +59,11 @@ Les réponses anonymes 403 des API de lecture protégées sont cohérentes avec 
 ## HTTPS et sécurité observés
 
 - Certificats TLS acceptés par le client de vérification ; les variantes HTTP redirigent vers HTTPS.
-- Le site répond sur `agropulsegs.org` et `www.agropulsegs.org`, sans redirection entre ces deux noms. Le domaine canonique reste à choisir.
+- Le site répond sur `agropulsegs.org` et `www.agropulsegs.org`, sans redirection entre ces deux noms en production. Le domaine canonique choisi est `agropulsegs.org` ; le correctif source `5201f0f` n’est pas encore déployé.
 - L’en-tête HSTS n’a pas été observé sur les réponses du site public contrôlées.
 - L’administration CMS répond en HTTPS ; `/_health` répond 204 et l’administration émet HSTS `max-age=31536000; includeSubDomains`.
-- Le prévol CORS observé autorise `https://agropulsegs.org`, mais pas `https://www.agropulsegs.org`. Des avertissements `postMessage` liés aux variantes d’origine ont aussi été observés dans l’éditeur.
-- Avant d’activer HSTS ou `includeSubDomains` pour le site, vérifier tous les sous-domaines et déterminer l’origine canonique. Ne pas élargir les origines CORS sans cette décision.
+- Le prévol CORS observé autorise `https://agropulsegs.org`, mais pas `https://www.agropulsegs.org`. Des avertissements `postMessage` liés aux variantes d’origine ont aussi été observés dans l’éditeur. Le code CMS poussé n’accepte maintenant que l’origine configurée ; vérifier après déploiement.
+- Avant d’activer HSTS ou `includeSubDomains` pour le site, vérifier tous les sous-domaines. Ne pas élargir les origines CORS.
 - Les routes privées de demandes ne doivent pas être rendues publiques pour résoudre un 404 de test : vérifier le véritable parcours POST et conserver les contrôles d’authentification.
 - Un ancien token Strapi à accès étendu est mentionné dans les rapports d’exploitation. Son usage n’a pas été audité ici ; ne pas le révoquer avant d’avoir identifié ses consommateurs et préparé un remplacement.
 
@@ -71,12 +75,11 @@ Aucun nouvel envoi réel, contrôle de boîte Gmail, examen des journaux Hosting
 
 ## Actions nécessaires pour clôturer
 
-1. Dans Hostinger, confirmer si `4a91465` est déployé. Si non, suivre la procédure de déploiement habituelle, puis vérifier que le HTML public sert la nouvelle référence cache et refaire les tests essentiels.
-2. Choisir le domaine canonique (`www` ou sans `www`), puis aligner redirection, CORS et aperçu CMS ; tester les deux origines.
-3. Vérifier les sous-domaines avant toute politique HSTS côté site.
-4. Depuis les vrais formulaires publics, tester Contact, Ressources et les autres parcours actifs avec des données explicitement fictives ; confirmer l’enregistrement Strapi et l’état de notification sans laisser de demandes de test confondues avec de vraies demandes.
-5. Dans Resend, vérifier la configuration et le statut des essais ; dans Gmail, confirmer la réception et le classement. Les preuves historiques `Delivered` ne remplacent pas ces contrôles.
-6. Dans l’administration CMS, confirmer les pages et langues qui doivent être gérées, publier uniquement les contenus approuvés par le propriétaire, puis vérifier leur lecture publique. Les réponses `reference` ne prouvent pas une publication CMS.
-7. Contrôler les sauvegardes et une procédure de restauration ; auditer les utilisateurs, rôles et l’ancien token à accès étendu avant tout retrait.
+1. Dans Hostinger, confirmer/déployer `5201f0f` sur le site et reconstruire/redéployer l’administration CMS avec `VITE_AGROPULSE_SITE_URL=https://agropulsegs.org`. Vérifier ensuite que `www` redirige en 308, que le HTML sert la nouvelle référence cache et que l’aperçu n’émet plus de messages vers l’alias.
+2. Vérifier les sous-domaines avant toute politique HSTS côté site.
+3. Depuis les vrais formulaires publics, tester Contact, Ressources et les autres parcours actifs avec des données explicitement fictives ; confirmer l’enregistrement Strapi et l’état de notification sans laisser de demandes de test confondues avec de vraies demandes.
+4. Dans Resend, vérifier la configuration et le statut des essais ; dans Gmail, confirmer la réception et le classement. Les preuves historiques `Delivered` ne remplacent pas ces contrôles.
+5. Dans l’administration CMS, confirmer les pages et langues qui doivent être gérées, publier uniquement les contenus approuvés par le propriétaire, puis vérifier leur lecture publique. Les réponses `reference` ne prouvent pas une publication CMS.
+6. Contrôler les sauvegardes et une procédure de restauration ; auditer les utilisateurs, rôles et l’ancien token à accès étendu avant tout retrait.
 
 À ce stade, aucune modification DNS, révocation de token, publication de contenu, suppression locale ou intervention manuelle Hostinger n’a été effectuée.
