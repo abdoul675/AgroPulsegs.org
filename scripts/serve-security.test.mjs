@@ -1,4 +1,5 @@
-import {mkdtemp,mkdir,copyFile,writeFile,symlink,rm} from 'node:fs/promises';
+import {mkdtemp,mkdir,copyFile,readFile,writeFile,symlink,rm} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -19,6 +20,18 @@ async function withSite(run,siteDirectory=cwd){
 async function rawGet(port,target){
  return new Promise((resolve,reject)=>{let response='';const socket=net.createConnection({host:'127.0.0.1',port},()=>socket.write('GET '+target+' HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n'));socket.setEncoding('utf8');socket.on('data',chunk=>response+=chunk);socket.on('error',reject);socket.on('close',()=>resolve(response));socket.setTimeout(5000,()=>socket.destroy(Error('Local request timed out')));});
 }
+
+test('browser preview imports the canonical policy through a versioned JavaScript asset',async()=>withSite(async({base})=>{
+ const client=await (await fetch(base+'/editorial-client.js')).text();
+ const asset=client.match(/import\('(\.\/style-policy\.js\?v=[a-f\d]{12})'\)/u)?.[1];
+ assert.ok(asset,'The browser must not import a .mjs asset served as text/plain by static hosts');
+ const response=await fetch(new URL(asset,base+'/editorial-client.js'));
+ assert.equal(response.status,200);
+ assert.match(response.headers.get('content-type'),/javascript/u);
+ const policy=await response.text();
+ assert.equal(policy,await readFile(new URL('../pilot/cms/src/domain/style-policy.mjs',import.meta.url),'utf8'));
+ assert.equal(new URL(asset,base).searchParams.get('v'),createHash('sha256').update(policy).digest('hex').slice(0,12));
+}));
 test('malformed HTTP request targets return 400 without terminating the site',async()=>withSite(async({port,base,child})=>{
  for(const target of ['http://[','//[']){const response=await rawGet(port,target);assert.match(response,/^HTTP\/1\.1 400/u);assert.ok(!response.includes('TypeError'));assert.equal((await fetch(base+'/healthz')).status,200);assert.equal(child.exitCode,null);}
 }));

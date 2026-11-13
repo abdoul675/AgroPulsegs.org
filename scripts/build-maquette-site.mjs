@@ -938,10 +938,16 @@ const teamTextColors = '#sec-equipe.t-team.hasbg h2{color:#ffffff}#sec-equipe.t-
 if (!html.includes(teamTextColors)) html = html.replace('</style>', teamTextColors + '</style>');
 
 if (!html.match(/src="editorial-client\.js(?:\?v=[^"]*)?"/u)) html = html.replace('</body>', '<script src="editorial-client.js" defer></script></body>');
-const editorialClient=await readFile(path.join(publicRoot,'editorial-client.js'),'utf8');
+// Hostinger serves static .mjs files as text/plain before the Node app sees them.
+// Keep one policy source, and publish a .js module with a content-addressed URL.
+const stylePolicy=await readFile(new URL('../pilot/cms/src/domain/style-policy.mjs',import.meta.url),'utf8');
+await writeFile(path.join(publicRoot,'style-policy.mjs'),stylePolicy);
+await writeFile(path.join(publicRoot,'style-policy.js'),stylePolicy);
+const stylePolicyVersion=createHash('sha256').update(stylePolicy).digest('hex').slice(0,12);
+const editorialClient=(await readFile(path.join(publicRoot,'editorial-client.js'),'utf8')).replace(/import\('\.\/style-policy\.(?:mjs|js)(?:\?v=[^']*)?'\)/u,`import('./style-policy.js?v=${stylePolicyVersion}')`);
+await writeFile(path.join(publicRoot,'editorial-client.js'),editorialClient);
 const editorialVersion=createHash('sha256').update(editorialClient).digest('hex').slice(0,12);
 html=html.replace(/<script src="editorial-client\.js(?:\?v=[^"]*)?" defer><\/script>/u,`<script src="editorial-client.js?v=${editorialVersion}" defer></script>`);
-await writeFile(path.join(publicRoot,'style-policy.mjs'),await readFile(new URL('../pilot/cms/src/domain/style-policy.mjs',import.meta.url),'utf8'));
 // Apply supplied illustrations after all editorial generators and preserve the approved layout.
 const remapMatch = html.match(/window\.RES=(\{[^;]+\});/u);
 if (!remapMatch) throw new Error('Missing maquette image remapping.');

@@ -1,6 +1,6 @@
 /* Published copy and layout bridge. No CMS credential is sent to this script. */
 (async()=>{
- const {compileStyles}=await import('./style-policy.mjs');
+ const {compileStyles}=await import('./style-policy.js?v=eb04af4ec0bb');
  if(typeof PAGES==='undefined'||typeof render!=='function')return;
  const originals=structuredClone(PAGES),nativeRender=render;
  const locale=()=>document.documentElement.lang==='en'?'en':'fr';
