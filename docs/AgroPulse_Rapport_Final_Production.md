@@ -4,13 +4,13 @@
 
 Le périmètre de cette vérification est la finalisation technique d’AgroPulse : HTTPS, sécurité, formulaires, CMS et tests. Les maquettes approuvées, leurs images, leur présentation et le contenu visible n’ont pas été refaits.
 
-Les tests locaux sont verts et les essais de brouillon CMS effectués précédemment ont été restaurés sans publication. L’utilisateur a choisi `https://agropulsegs.org` comme domaine canonique ; le correctif correspondant est poussé sur GitHub, mais n’est pas encore actif en production. Les contenus CMS publiés sont incomplets selon les réponses publiques observées, et les consoles Hostinger, Resend et Gmail n’étaient pas disponibles pour cette vérification.
+Les tests locaux sont verts et les essais de brouillon CMS effectués précédemment ont été restaurés sans publication. L’utilisateur a choisi `https://agropulsegs.org` comme domaine canonique ; le code correspondant est poussé, mais la redirection n’est pas uniforme en production : des routes racine/API redirigent en 308, tandis que des pages statiques `.html` sous `www` répondent encore 200. La référence cache publique reste également ancienne. Les contenus CMS publiés sont incomplets selon les réponses observées, et les consoles Hostinger, Resend et Gmail n’étaient pas disponibles.
 
 **Conclusion : le site est vérifié en partie, mais la fin de production n’est pas certifiée.**
 
 ## État du dépôt et changements
 
-Au dernier contrôle, `main`, `origin/main` et `HEAD` pointaient tous vers `5201f0fdf48c9961615bfce29dd35a211a540c12` (`5201f0f`). Ce commit est présent sur GitHub.
+Au contrôle du 13 novembre, `main`, `origin/main` et `HEAD` pointaient tous vers `9962f5733c5dfe4c1f1277954f25163dc1926e60` (`9962f57`). Ce commit était présent sur GitHub.
 
 Les correctifs fonctionnels poussés sont :
 
@@ -24,7 +24,7 @@ Le rapport de production a été poussé dans `f6efa5f`.
 
 ### Déploiement Hostinger
 
-Après les pushes, le HTML public contrôlé sert encore l’ancienne référence `editorial-client.js?v=f74b72f10361`, au lieu de la référence attendue `4a22630ce00a`. De plus, `https://www.agropulsegs.org/` répond encore 200 sans redirection vers le domaine canonique choisi. Les correctifs du site n’ont donc pas été confirmés en production. Le build CMS local incluant la restriction de l’aperçu a réussi, mais le déploiement de l’administration CMS n’est pas confirmé non plus. L’accès aux journaux et aux écrans de déploiement Hostinger n’était pas disponible ; aucun déploiement manuel n’a été réalisé.
+Le HTML public, même avec une requête anti-cache, sert encore l’ancienne référence `editorial-client.js?v=f74b72f10361`, au lieu de la référence attendue `4a22630ce00a`. `https://www.agropulsegs.org/` et certaines routes app/API répondent maintenant 308 vers l’apex, mais `https://www.agropulsegs.org/contact.html` et `/yida-cashew.html` répondent encore 200. Les réponses indiquent `Server: hcdn` ; les pages `.html` semblent servies par une couche statique qui ne passe pas par la redirection du serveur Node. La règle CDN/Hostinger doit donc couvrir ces chemins aussi. Le build CMS local incluant la restriction de l’aperçu a réussi, mais le contenu de l’éditeur actuellement déployé n’a pas pu être confirmé. L’accès aux journaux et aux écrans Hostinger n’était pas disponible ; aucun réglage manuel n’a été effectué.
 
 ## Maquettes et apparence
 
@@ -59,10 +59,10 @@ Les réponses anonymes 403 des API de lecture protégées sont cohérentes avec 
 ## HTTPS et sécurité observés
 
 - Certificats TLS acceptés par le client de vérification ; les variantes HTTP redirigent vers HTTPS.
-- Le site répond sur `agropulsegs.org` et `www.agropulsegs.org`, sans redirection entre ces deux noms en production. Le domaine canonique choisi est `agropulsegs.org` ; le correctif source `5201f0f` n’est pas encore déployé.
+- Le domaine canonique choisi est `agropulsegs.org`. La racine `www` et les routes `/healthz` et `/api/...` contrôlées redirigent en 308, mais les URL de pages statiques `.html` répondent toujours 200 sous `www` : la canonicalisation de tout le site n’est pas achevée.
 - L’en-tête HSTS n’a pas été observé sur les réponses du site public contrôlées.
 - L’administration CMS répond en HTTPS ; `/_health` répond 204 et l’administration émet HSTS `max-age=31536000; includeSubDomains`.
-- Le prévol CORS observé autorise `https://agropulsegs.org`, mais pas `https://www.agropulsegs.org`. Des avertissements `postMessage` liés aux variantes d’origine ont aussi été observés dans l’éditeur. Le code CMS poussé n’accepte maintenant que l’origine configurée ; vérifier après déploiement.
+- Le prévol CMS autorise `https://agropulsegs.org` (204 avec `Access-Control-Allow-Origin`) et ne renvoie pas d’en-tête d’autorisation pour `https://www.agropulsegs.org`. Des avertissements `postMessage` liés aux variantes d’origine ont été observés précédemment. Le code CMS poussé n’accepte maintenant que l’origine configurée ; confirmer son activation dans l’éditeur après déploiement.
 - Avant d’activer HSTS ou `includeSubDomains` pour le site, vérifier tous les sous-domaines. Ne pas élargir les origines CORS.
 - Les routes privées de demandes ne doivent pas être rendues publiques pour résoudre un 404 de test : vérifier le véritable parcours POST et conserver les contrôles d’authentification.
 - Un ancien token Strapi à accès étendu est mentionné dans les rapports d’exploitation. Son usage n’a pas été audité ici ; ne pas le révoquer avant d’avoir identifié ses consommateurs et préparé un remplacement.
@@ -75,11 +75,12 @@ Aucun nouvel envoi réel, contrôle de boîte Gmail, examen des journaux Hosting
 
 ## Actions nécessaires pour clôturer
 
-1. Dans Hostinger, confirmer/déployer `5201f0f` sur le site et reconstruire/redéployer l’administration CMS avec `VITE_AGROPULSE_SITE_URL=https://agropulsegs.org`. Vérifier ensuite que `www` redirige en 308, que le HTML sert la nouvelle référence cache et que l’aperçu n’émet plus de messages vers l’alias.
-2. Vérifier les sous-domaines avant toute politique HSTS côté site.
-3. Depuis les vrais formulaires publics, tester Contact, Ressources et les autres parcours actifs avec des données explicitement fictives ; confirmer l’enregistrement Strapi et l’état de notification sans laisser de demandes de test confondues avec de vraies demandes.
-4. Dans Resend, vérifier la configuration et le statut des essais ; dans Gmail, confirmer la réception et le classement. Les preuves historiques `Delivered` ne remplacent pas ces contrôles.
-5. Dans l’administration CMS, confirmer les pages et langues qui doivent être gérées, publier uniquement les contenus approuvés par le propriétaire, puis vérifier leur lecture publique. Les réponses `reference` ne prouvent pas une publication CMS.
-6. Contrôler les sauvegardes et une procédure de restauration ; auditer les utilisateurs, rôles et l’ancien token à accès étendu avant tout retrait.
+1. Dans Hostinger, régler la redirection CDN de `www` pour couvrir tous les chemins, y compris les pages `.html`, puis confirmer le déploiement du site. Vérifier que chaque page testée redirige en 308 et que le HTML sert la nouvelle référence cache.
+2. Reconstruire/redéployer l’administration CMS avec `VITE_AGROPULSE_SITE_URL=https://agropulsegs.org`, puis vérifier le parcours de l’aperçu et l’absence de messages vers l’alias.
+3. Vérifier les sous-domaines avant toute politique HSTS côté site.
+4. Depuis les vrais formulaires publics, tester Contact, Ressources et les autres parcours actifs avec des données explicitement fictives ; confirmer l’enregistrement Strapi et l’état de notification sans laisser de demandes de test confondues avec de vraies demandes.
+5. Dans Resend, vérifier la configuration et le statut des essais ; dans Gmail, confirmer la réception et le classement. Les preuves historiques `Delivered` ne remplacent pas ces contrôles.
+6. Dans l’administration CMS, confirmer les pages et langues qui doivent être gérées, publier uniquement les contenus approuvés par le propriétaire, puis vérifier leur lecture publique. Les réponses `reference` ne prouvent pas une publication CMS.
+7. Contrôler les sauvegardes et une procédure de restauration ; auditer les utilisateurs, rôles et l’ancien token à accès étendu avant tout retrait.
 
 À ce stade, aucune modification DNS, révocation de token, publication de contenu, suppression locale ou intervention manuelle Hostinger n’a été effectuée.
