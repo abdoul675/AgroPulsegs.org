@@ -17,8 +17,8 @@ async function withSite(run,siteDirectory=cwd){
   await run({port,base:'http://127.0.0.1:'+port,child});assert.equal(errors,'');
  }finally{if(child.exitCode===null){const exited=once(child,'exit');child.kill();await exited;}}
 }
-async function rawGet(port,target){
- return new Promise((resolve,reject)=>{let response='';const socket=net.createConnection({host:'127.0.0.1',port},()=>socket.write('GET '+target+' HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n'));socket.setEncoding('utf8');socket.on('data',chunk=>response+=chunk);socket.on('error',reject);socket.on('close',()=>resolve(response));socket.setTimeout(5000,()=>socket.destroy(Error('Local request timed out')));});
+async function rawGet(port,target,host='localhost'){
+ return new Promise((resolve,reject)=>{let response='';const socket=net.createConnection({host:'127.0.0.1',port},()=>socket.write('GET '+target+' HTTP/1.1\r\nHost: '+host+'\r\nConnection: close\r\n\r\n'));socket.setEncoding('utf8');socket.on('data',chunk=>response+=chunk);socket.on('error',reject);socket.on('close',()=>resolve(response));socket.setTimeout(5000,()=>socket.destroy(Error('Local request timed out')));});
 }
 
 test('browser preview imports the canonical policy through a versioned JavaScript asset',async()=>withSite(async({base})=>{
@@ -34,6 +34,11 @@ test('browser preview imports the canonical policy through a versioned JavaScrip
 }));
 test('malformed HTTP request targets return 400 without terminating the site',async()=>withSite(async({port,base,child})=>{
  for(const target of ['http://[','//[']){const response=await rawGet(port,target);assert.match(response,/^HTTP\/1\.1 400/u);assert.ok(!response.includes('TypeError'));assert.equal((await fetch(base+'/healthz')).status,200);assert.equal(child.exitCode,null);}
+}));
+test('www requests permanently redirect to the chosen HTTPS canonical host',async()=>withSite(async({port})=>{
+ const response=await rawGet(port,'/apropos.html?lang=en','WWW.AGROPULSEGS.ORG:8443');
+ assert.match(response,/^HTTP\/1\.1 308/u);
+ assert.match(response,/\r\nLocation: https:\/\/agropulsegs\.org\/apropos\.html\?lang=en\r\n/iu);
 }));
 test('file traversal, source files and malformed encodings do not expose private files',async()=>withSite(async({port,base})=>{
  for(const target of ['/..%5c.env','/%2e%2e%5cpilot%5c.local%5cruntime.json','/scripts/serve.mjs','/.git/config','/docs/ressources/source.pdf','/%E0%A4%A']){const response=await rawGet(port,target);assert.match(response,/^HTTP\/1\.1 (?:403|404)/u);assert.ok(!response.includes('APP_KEYS'));assert.ok(!response.includes('adminPassword'));}

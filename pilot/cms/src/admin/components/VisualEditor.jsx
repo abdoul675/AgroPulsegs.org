@@ -20,15 +20,7 @@ export default function VisualEditor(){
  let styleError='';try{normalizeStyles(layout.styles||{});}catch(error){styleError=error.message;}
  const setStyles=styles=>{setLayout(previous=>({...previous,styles}));setDirty(true);};
  const site=new URL(import.meta.env.VITE_AGROPULSE_SITE_URL||'http://127.0.0.1:4173');
- const siteOrigins=(()=>{
-  const values=new Set([site.origin]);
-  if(site.protocol==='https:'&&!['127.0.0.1','localhost','[::1]'].includes(site.hostname)){
-   const alternate=new URL(site.href);
-   alternate.hostname=site.hostname.startsWith('www.')?site.hostname.slice(4):'www.'+site.hostname;
-   values.add(alternate.origin);
-  }
-  return [...values];
- })();
+ const siteOrigins=[site.origin];
  const entry=entries.find(item=>item.option===chosen),slug=entry?slugOf(entry):null;
  const previewParams={lang:language,editor:'1'};
  // The preview document belongs to a page/language, never to its current order.
