@@ -35,17 +35,18 @@ test('browser preview imports the canonical policy through a versioned JavaScrip
 test('malformed HTTP request targets return 400 without terminating the site',async()=>withSite(async({port,base,child})=>{
  for(const target of ['http://[','//[']){const response=await rawGet(port,target);assert.match(response,/^HTTP\/1\.1 400/u);assert.ok(!response.includes('TypeError'));assert.equal((await fetch(base+'/healthz')).status,200);assert.equal(child.exitCode,null);}
 }));
-test('www requests permanently redirect to the chosen HTTPS canonical host',async()=>withSite(async({port})=>{
- const response=await rawGet(port,'/apropos.html?lang=en','WWW.AGROPULSEGS.ORG:8443');
- assert.match(response,/^HTTP\/1\.1 308/u);
- assert.match(response,/\r\nLocation: https:\/\/agropulsegs\.org\/apropos\.html\?lang=en\r\n/iu);
+test('www requests permanently redirect to the chosen HTTPS canonical host without changing the request target',async()=>withSite(async({port})=>{
+ const requestTarget='/yida-cashew.html?lang=en&redirect=%2Fcontact.html';
+ const response=await rawGet(port,requestTarget,'WWW.AGROPULSEGS.ORG:8443');
+ assert.match(response,/^HTTP\/1\.1 301/u);
+ assert.ok(response.includes(`\r\nLocation: https://agropulsegs.org${requestTarget}\r\n`));
 }));
 test('file traversal, source files and malformed encodings do not expose private files',async()=>withSite(async({port,base})=>{
  for(const target of ['/..%5c.env','/%2e%2e%5cpilot%5c.local%5cruntime.json','/scripts/serve.mjs','/.git/config','/docs/ressources/source.pdf','/%E0%A4%A']){const response=await rawGet(port,target);assert.match(response,/^HTTP\/1\.1 (?:403|404)/u);assert.ok(!response.includes('APP_KEYS'));assert.ok(!response.includes('adminPassword'));}
  assert.equal((await fetch(base+'/healthz')).status,200);
 }));
 test('frame policy allows the configured CMS origin and blocks unrelated parents',async()=>withSite(async({base})=>{
- const response=await fetch(base+'/');assert.equal(response.headers.get('x-content-type-options'),'nosniff');assert.equal(response.headers.get('referrer-policy'),'strict-origin-when-cross-origin');const policy=response.headers.get('content-security-policy');assert.match(policy,/frame-ancestors 'self'/u);assert.ok(!policy.includes('*'));assert.ok(policy.includes("object-src 'none'"));assert.ok(!response.headers.has('x-frame-options'));
+ const response=await fetch(base+'/');assert.equal(response.headers.get('x-content-type-options'),'nosniff');assert.equal(response.headers.get('referrer-policy'),'strict-origin-when-cross-origin');assert.equal(response.headers.get('permissions-policy'),'camera=(), microphone=(), geolocation=()');const policy=response.headers.get('content-security-policy');assert.match(policy,/frame-ancestors 'self'/u);assert.ok(!policy.includes('*'));assert.ok(policy.includes("object-src 'none'"));assert.ok(!response.headers.has('x-frame-options'));
 }));
 
 test('public links cannot escape the real static root, while internal asset links still work',async()=>{

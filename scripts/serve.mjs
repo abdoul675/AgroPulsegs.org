@@ -94,7 +94,7 @@ async function handleRequest(req, res) {
   catch { res.writeHead(400, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}).end(JSON.stringify({error:'invalid_request_target'})); return; }
   const host = String(req.headers.host || '').replace(/:\d+$/u, '').toLowerCase();
   if (host === 'www.agropulsegs.org') {
-    res.writeHead(308, { Location: `https://agropulsegs.org${requestUrl.pathname}${requestUrl.search}` }).end();
+    res.writeHead(301, { Location: `https://agropulsegs.org${req.url}` }).end();
     return;
   }
   if (requestUrl.pathname === '/healthz') {
@@ -190,6 +190,7 @@ async function handleRequest(req, res) {
 const server = http.createServer((req, res) => {
   res.setHeader('X-Content-Type-Options','nosniff');
   res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy','camera=(), microphone=(), geolocation=()');
   let frameOrigin='';
   try {
     const origin=new URL(process.env.AGROPULSE_CMS_ADMIN_ORIGIN||process.env.AGROPULSE_CMS_URL||'http://127.0.0.1:1338');
