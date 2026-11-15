@@ -17,8 +17,8 @@ async function withSite(run,siteDirectory=cwd){
   await run({port,base:'http://127.0.0.1:'+port,child});assert.equal(errors,'');
  }finally{if(child.exitCode===null){const exited=once(child,'exit');child.kill();await exited;}}
 }
-async function rawGet(port,target,host='localhost'){
- return new Promise((resolve,reject)=>{let response='';const socket=net.createConnection({host:'127.0.0.1',port},()=>socket.write('GET '+target+' HTTP/1.1\r\nHost: '+host+'\r\nConnection: close\r\n\r\n'));socket.setEncoding('utf8');socket.on('data',chunk=>response+=chunk);socket.on('error',reject);socket.on('close',()=>resolve(response));socket.setTimeout(5000,()=>socket.destroy(Error('Local request timed out')));});
+async function rawGet(port,target,host='localhost',forwardedHost=''){
+ return new Promise((resolve,reject)=>{let response='';const forwardedHeader=forwardedHost?'\r\nX-Forwarded-Host: '+forwardedHost:'';const socket=net.createConnection({host:'127.0.0.1',port},()=>socket.write('GET '+target+' HTTP/1.1\r\nHost: '+host+forwardedHeader+'\r\nConnection: close\r\n\r\n'));socket.setEncoding('utf8');socket.on('data',chunk=>response+=chunk);socket.on('error',reject);socket.on('close',()=>resolve(response));socket.setTimeout(5000,()=>socket.destroy(Error('Local request timed out')));});
 }
 
 test('browser preview imports the canonical policy through a versioned JavaScript asset',async()=>withSite(async({base})=>{
@@ -40,6 +40,14 @@ test('www requests permanently redirect to the chosen HTTPS canonical host witho
  const response=await rawGet(port,requestTarget,'WWW.AGROPULSEGS.ORG:8443');
  assert.match(response,/^HTTP\/1\.1 301/u);
  assert.ok(response.includes(`\r\nLocation: https://agropulsegs.org${requestTarget}\r\n`));
+ assert.match(response,/\r\nCache-Control: no-store\r\n/u);
+}));
+test('www requests redirect when the proxy rewrites Host and preserves the forwarded host',async()=>withSite(async({port})=>{
+ const requestTarget='/contact.html?from=www';
+ const response=await rawGet(port,requestTarget,'agropulsegs.org','www.agropulsegs.org');
+ assert.match(response,/^HTTP\/1\.1 301/u);
+ assert.ok(response.includes(`\r\nLocation: https://agropulsegs.org${requestTarget}\r\n`));
+ assert.match(response,/\r\nCache-Control: no-store\r\n/u);
 }));
 test('file traversal, source files and malformed encodings do not expose private files',async()=>withSite(async({port,base})=>{
  for(const target of ['/..%5c.env','/%2e%2e%5cpilot%5c.local%5cruntime.json','/scripts/serve.mjs','/.git/config','/docs/ressources/source.pdf','/%E0%A4%A']){const response=await rawGet(port,target);assert.match(response,/^HTTP\/1\.1 (?:403|404)/u);assert.ok(!response.includes('APP_KEYS'));assert.ok(!response.includes('adminPassword'));}

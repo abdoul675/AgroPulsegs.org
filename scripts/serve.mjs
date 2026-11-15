@@ -92,9 +92,13 @@ async function handleRequest(req, res) {
   let requestUrl;
   try { requestUrl = new URL(req.url, 'http://localhost'); }
   catch { res.writeHead(400, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}).end(JSON.stringify({error:'invalid_request_target'})); return; }
-  const host = String(req.headers.host || '').replace(/:\d+$/u, '').toLowerCase();
+  const forwardedHost = String(req.headers['x-forwarded-host'] || '').split(',')[0].trim();
+  const host = String(forwardedHost || req.headers.host || '').replace(/:\d+$/u, '').toLowerCase();
   if (host === 'www.agropulsegs.org') {
-    res.writeHead(301, { Location: `https://agropulsegs.org${req.url}` }).end();
+    res.writeHead(301, {
+      Location: `https://agropulsegs.org${req.url}`,
+      'Cache-Control': 'no-store',
+    }).end();
     return;
   }
   if (requestUrl.pathname === '/healthz') {
