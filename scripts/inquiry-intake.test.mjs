@@ -6,11 +6,17 @@ const require = createRequire(import.meta.url);
 const controller = require('../pilot/cms/src/api/inquiry/controllers/intake.js');
 const { acquireStartupLock } = require('../pilot/cms/startup-lock.js');
 const savedToken = process.env.AGROPULSE_FORM_INGEST_TOKEN;
+const savedDeliveryToken = process.env.AGROPULSE_FORM_DELIVERY_TOKEN;
 const savedStrapi = global.strapi;
-test.before(() => { process.env.AGROPULSE_FORM_INGEST_TOKEN = 'test-private-token'; });
+test.before(() => {
+  process.env.AGROPULSE_FORM_INGEST_TOKEN = 'test-private-token';
+  process.env.AGROPULSE_FORM_DELIVERY_TOKEN = 'test-delivery-token';
+});
 test.after(() => {
   if (savedToken === undefined) delete process.env.AGROPULSE_FORM_INGEST_TOKEN;
   else process.env.AGROPULSE_FORM_INGEST_TOKEN = savedToken;
+  if (savedDeliveryToken === undefined) delete process.env.AGROPULSE_FORM_DELIVERY_TOKEN;
+  else process.env.AGROPULSE_FORM_DELIVERY_TOKEN = savedDeliveryToken;
   global.strapi = savedStrapi;
 });
 
@@ -34,6 +40,22 @@ test('intake rejects absent, wrong and unconfigured tokens without accessing rec
   await controller.create(request);
   assert.equal(request.status, 401);
   process.env.AGROPULSE_FORM_INGEST_TOKEN = 'test-private-token';
+
+  delete process.env.AGROPULSE_FORM_DELIVERY_TOKEN;
+  const deliveryRequest = ctx({ status: 'sent' }, 'test-delivery-token');
+  await controller.updateDelivery(deliveryRequest);
+  assert.equal(deliveryRequest.status, 401);
+  process.env.AGROPULSE_FORM_DELIVERY_TOKEN = 'test-delivery-token';
+});
+
+test('intake and delivery updates require separate tokens', async () => {
+  global.strapi = { documents() { throw Error('Must not access database'); } };
+  const intakeTokenForDelivery = ctx({ status: 'sent' }, 'test-private-token');
+  await controller.updateDelivery(intakeTokenForDelivery);
+  assert.equal(intakeTokenForDelivery.status, 401);
+  const deliveryTokenForIntake = ctx(valid, 'test-delivery-token');
+  await controller.create(deliveryTokenForIntake);
+  assert.equal(deliveryTokenForIntake.status, 401);
 });
 
 test('intake creates a private record with initial history and ignores injected internal fields', async () => {
@@ -64,7 +86,7 @@ test('delivery updates preserve original content and append bounded history', as
   let current = { ...valid, deliveryEvents: [{ at: valid.receivedAt, status: 'received' }] };
   global.strapi = { documents: () => ({ findOne: async () => current, update: async ({ data }) => { current = { ...current, ...data }; } }) };
   for (const status of ['not_configured', 'failed', 'sent']) {
-    const request = ctx({ status, at: valid.receivedAt, provider: 'resend', providerMessageId: 'provider-id', internalNotes: 'injected' });
+    const request = ctx({ status, at: valid.receivedAt, provider: 'resend', providerMessageId: 'provider-id', internalNotes: 'injected' }, 'test-delivery-token');
     await controller.updateDelivery(request);
     assert.deepEqual(request.body, { ok: true });
     assert.equal(current.deliveryStatus, status);
@@ -73,21 +95,21 @@ test('delivery updates preserve original content and append bounded history', as
   assert.equal(current.emailSentAt, valid.receivedAt);
   assert.equal(current.message, valid.message);
   assert.equal(current.internalNotes, undefined);
-  for (let i = 0; i < 35; i++) await controller.updateDelivery(ctx({ status: 'sent' }));
+  for (let i = 0; i < 35; i++) await controller.updateDelivery(ctx({ status: 'sent' }, 'test-delivery-token'));
   assert.equal(current.deliveryEvents.length, 30);
 });
 
 test('delivery failures and missing records return bounded errors', async () => {
   global.strapi = { log: { error() {} }, documents: () => ({ findOne: async () => null }) };
-  const missing = ctx({ status: 'sent' });
+  const missing = ctx({ status: 'sent' }, 'test-delivery-token');
   await controller.updateDelivery(missing);
   assert.equal(missing.status, 404);
   global.strapi.documents = () => ({ findOne: async () => { throw Error('private-secret'); } });
-  const failed = ctx({ status: 'sent' });
+  const failed = ctx({ status: 'sent' }, 'test-delivery-token');
   await controller.updateDelivery(failed);
   assert.equal(failed.status, 500);
   assert.deepEqual(failed.body, { error: 'storage_failed' });
-  const invalid = ctx({ status: 'invented' });
+  const invalid = ctx({ status: 'invented' }, 'test-delivery-token');
   await controller.updateDelivery(invalid);
   assert.equal(invalid.status, 400);
 });

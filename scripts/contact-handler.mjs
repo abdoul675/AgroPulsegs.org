@@ -172,8 +172,8 @@ function buildEmail(submission) {
   return { label, text, html };
 }
 
-function cmsIntakeConfig(env) {
-  const token = env.AGROPULSE_FORM_INGEST_TOKEN?.trim();
+function cmsIntakeConfig(env, tokenName = 'AGROPULSE_FORM_INGEST_TOKEN') {
+  const token = env[tokenName]?.trim();
   if (!token || /[\r\n]/u.test(token)) return null;
 
   let base;
@@ -221,8 +221,11 @@ async function storeSubmission(submission, env, fetchImpl) {
 
 async function updateDelivery(storage, update, env, fetchImpl) {
   if (storage.status !== 'stored' || !storage.documentId) return;
-  const config = cmsIntakeConfig(env);
-  if (!config) return;
+  const config = cmsIntakeConfig(env, 'AGROPULSE_FORM_DELIVERY_TOKEN');
+  if (!config) {
+    console.error('AgroPulse delivery history update is not configured.');
+    return;
+  }
 
   try {
     const response = await fetchImpl(new URL('/api/inquiries/intake/' + encodeURIComponent(storage.documentId), config.base), {

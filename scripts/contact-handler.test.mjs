@@ -4,7 +4,11 @@ import { once } from 'node:events';
 import test from 'node:test';
 import { createContactHandler as realContactHandler } from './contact-handler.mjs';
 
-const storageEnvironment = { AGROPULSE_CMS_URL: 'https://cms.example.org', AGROPULSE_FORM_INGEST_TOKEN: 'test-ingest-secret' };
+const storageEnvironment = {
+  AGROPULSE_CMS_URL: 'https://cms.example.org',
+  AGROPULSE_FORM_INGEST_TOKEN: 'test-ingest-secret',
+  AGROPULSE_FORM_DELIVERY_TOKEN: 'test-delivery-secret',
+};
 function createContactHandler(options) {
  const provider=options.fetchImpl;
  return realContactHandler({...options,fetchImpl:async(url,config)=>{
@@ -13,7 +17,10 @@ function createContactHandler(options) {
    assert.equal(config.headers.Authorization,'Bearer test-ingest-secret');
    return Response.json({documentId:'test-document',reference:body.reference},{status:201});
   }
-  if(config.method==='PATCH')return Response.json({ok:true});
+  if(config.method==='PATCH') {
+   assert.equal(config.headers.Authorization, 'Bearer test-delivery-secret');
+   return Response.json({ok:true});
+  }
   return provider(url,config);
  }});
 }
@@ -258,12 +265,15 @@ test('storage precedes mail and delivery history is updated', async () => {
 
 test('logs delivery history failures without exposing details or losing the stored request', async () => {
   const originalError = console.error;
-  for (const mode of ['http', 'network']) {
+  for (const mode of ['http', 'network', 'missing_token']) {
     const errors = [];
     const calls = [];
     console.error = message => errors.push(String(message));
     try {
-      const handler = realContactHandler({ env: mailEnvironment, fetchImpl: async (url, options) => {
+      const env = mode === 'missing_token'
+        ? { ...mailEnvironment, AGROPULSE_FORM_DELIVERY_TOKEN: '' }
+        : mailEnvironment;
+      const handler = realContactHandler({ env, fetchImpl: async (url, options) => {
         calls.push({ url: String(url), method: options.method });
         if (String(url).endsWith('/intake') && options.method !== 'PATCH') {
           const data = JSON.parse(options.body);
@@ -285,10 +295,14 @@ test('logs delivery history failures without exposing details or losing the stor
       console.error = originalError;
     }
 
-    assert.deepEqual(calls.map(call => call.method), ['POST', 'POST', 'PATCH']);
-    assert.deepEqual(errors, [mode === 'network'
-      ? 'AgroPulse delivery history update failed (network error).'
-      : 'AgroPulse delivery history update failed with HTTP 503.']);
+    assert.deepEqual(calls.map(call => call.method), mode === 'missing_token'
+      ? ['POST', 'POST']
+      : ['POST', 'POST', 'PATCH']);
+    assert.deepEqual(errors, [mode === 'missing_token'
+      ? 'AgroPulse delivery history update is not configured.'
+      : mode === 'network'
+        ? 'AgroPulse delivery history update failed (network error).'
+        : 'AgroPulse delivery history update failed with HTTP 503.']);
     assert.doesNotMatch(errors.join(' '), /private-ingest-secret|private database error/u);
   }
 });

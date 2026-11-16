@@ -15,8 +15,8 @@ function sameSecret(left, right) {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-function authorised(ctx) {
-  const expected = process.env.AGROPULSE_FORM_INGEST_TOKEN || '';
+function authorised(ctx, tokenName) {
+  const expected = process.env[tokenName] || '';
   const header = ctx.request.headers.authorization;
   const supplied = typeof header === 'string' && header.startsWith('Bearer ') ? header.slice(7).trim() : '';
   return sameSecret(expected, supplied);
@@ -100,7 +100,7 @@ function oversized(ctx) {
 
 module.exports = {
   async create(ctx) {
-    if (!authorised(ctx)) return deny(ctx);
+    if (!authorised(ctx, 'AGROPULSE_FORM_INGEST_TOKEN')) return deny(ctx);
     if (oversized(ctx)) return;
 
     const data = validateSubmission(ctx.request.body);
@@ -122,7 +122,7 @@ module.exports = {
   },
 
   async updateDelivery(ctx) {
-    if (!authorised(ctx)) return deny(ctx);
+    if (!authorised(ctx, 'AGROPULSE_FORM_DELIVERY_TOKEN')) return deny(ctx);
     if (oversized(ctx)) return;
 
     const documentId = text(ctx.params.documentId, 64, true);
