@@ -1,4 +1,5 @@
 .work/
+var/
 node_modules/
 .env
 .env.*

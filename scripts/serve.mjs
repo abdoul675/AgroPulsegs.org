@@ -5,6 +5,7 @@ import path from 'node:path';
 import { createContactHandler } from './contact-handler.mjs';
 import { createHomeContentHandler } from './home-content.mjs';
 import { createPageContentHandler } from './page-content.mjs';
+import { handleAnalyticsEvent, handleAnalyticsSummary } from './analytics.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('../public/', import.meta.url)));
 const realPublicRoot = await realpath(root);
@@ -110,6 +111,15 @@ async function handleRequest(req, res) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' }).end('404 — Document indisponible');
     return;
   }
+  if (requestUrl.pathname === '/api/analytics/event') {
+    await handleAnalyticsEvent(req, res);
+    return;
+  }
+  if (requestUrl.pathname === '/api/analytics/summary') {
+    await handleAnalyticsSummary(req, res, requestUrl);
+    return;
+  }
+
   if (requestUrl.pathname === '/api/contact') {
     try {
       await handleContact(req, res);
@@ -181,6 +191,7 @@ async function handleRequest(req, res) {
     }
     const download = pathname.startsWith('/documents/') && path.extname(target) === '.pdf';
     const noStore = requestUrl.searchParams.get('editor') === '1' || path.basename(target) === 'editorial-client.js';
+    if (path.basename(target) === 'statistiques.html') res.setHeader('X-Robots-Tag','noindex, nofollow');
     res.writeHead(200, {
       'Content-Type': types[path.extname(target)] || 'application/octet-stream',
       'X-Content-Type-Options': 'nosniff',

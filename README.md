@@ -15,6 +15,15 @@ Ouvrir `http://127.0.0.1:4173`. Lancer `npm run start` sur un hébergement Node.
 
 `npm run build` met à jour les contenus de la maquette approuvée et les pages HTML conservées pour compatibilité. La maquette est l’interface unique ; les anciennes URL de programmes et d’expertises redirigent vers les sections correspondantes. Le serveur requiert Node.js 20 ou supérieur et doit être démarré avec `npm run start`.
 
+## QR code et statistiques agrégées
+
+`public/acces.html` est la page de liens à ouvrir depuis le QR; les fichiers imprimables sont `public/assets/agropulse-access-qr.png` (PNG haute résolution) et `public/assets/agropulse-access-qr.svg` (vectoriel). Ils mènent à `https://abdoul675.github.io/AgroPulsegs.org/`. Pour les régénérer après une modification de destination : installer les dépendances de développement avec `npm install`, puis lancer `npm run qr:generate`. La page utilise le logo AgroPulse existant et des icônes de marques Simple Icons. Elle rassemble l’accueil, YIDA-Cashew, Facebook, X et TikTok. L’URL officielle YouTube doit être fournie avant que son lien soit activé.
+
+Le suivi de première partie ne stocke que des compteurs agrégés par jour, page et source, ainsi que le total des clics vers chaque réseau social depuis le site. Il ne crée ni identifiant visiteur, ni cookie, ni parcours individuel; il ne compte donc pas les personnes uniques. Le tableau de bord est `https://agropulsegs.org/statistiques.html` et requiert `AGROPULSE_ANALYTICS_ADMIN_TOKEN` (secret aléatoire d’au moins 32 caractères, côté serveur uniquement; génération possible avec `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`). Les événements sont enregistrés dans `var/analytics.json` ou dans le chemin persistant indiqué par `AGROPULSE_ANALYTICS_FILE`; le dossier `var/` est ignoré par Git. Le stockage JSON convient à une seule instance Node; plusieurs instances nécessiteraient un stockage partagé transactionnel. Les liens vers AgroPulse publiés sur les réseaux peuvent utiliser `?utm_source=facebook`, `?utm_source=x`, `?utm_source=tiktok` ou `?utm_source=youtube` pour distinguer leur provenance. Les plateformes sociales ne transmettent pas les parcours de leurs utilisateurs à ce tableau.
+
+Avant activation en production : définir le chemin de stockage persistant, la durée de conservation et les règles de sauvegarde/suppression; vérifier les journaux du fournisseur d’hébergement; faire valider la politique de confidentialité et protéger l’accès au tableau de bord sur HTTPS. Les statistiques de pages vues ne sont pas une mesure certifiée des personnes uniques.
+
+
 ## Périmètre actuel
 
 La maquette intégrée couvre l’accueil, À propos, les huit expertises, YIDA-Cashew, AGIR-IA, Contact, Partenaires et Ressources. Les candidatures YIDA-Cashew sont fermées ; les dates et critères restent à confirmer. La Fondation AWI est présentée comme partenaire confirmé d’AGIR-IA ; les détails des sessions ne sont pas annoncés. YIDA-Cashew est un programme présenté directement sur sa page ; la revue sert de source interne et n’est pas proposée au téléchargement.
