@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f8f3">
   <link rel="icon" href="./public/assets/favicon.png" type="image/png">
-  <meta name="description" content="Accédez au site AgroPulse Global Solutions, à YIDA-Cashew et à nos réseaux sociaux.">
+  <meta name="description" content="Découvrez les expertises AgroPulse, les initiatives YIDA-Cashew et AGIR-IA, puis rejoignez YIDA-Cashew sur Facebook, LinkedIn et WhatsApp.">
   <link rel="canonical" href="https://abdoul675.github.io/AgroPulsegs.org/">
   <title>Retrouvez AgroPulse | AgroPulse Global Solutions</title>
   <style>
@@ -31,6 +31,20 @@
     h1 { max-width: 720px; margin: 0 auto 14px; font-size: clamp(34px, 7vw, 58px); line-height: 1.08; letter-spacing: -.045em; }
     .intro { max-width: 620px; margin: 0 auto; color: var(--muted); font-size: clamp(15px, 2vw, 18px); }
     .section-label { margin: 25px 0 13px; font-size: 14px; font-weight: 800; }
+    .brochure { margin: 26px 0; padding: clamp(20px, 4vw, 34px); border: 1px solid var(--line); border-radius: 22px; background: linear-gradient(135deg, #fff 0%, #eef6ed 100%); }
+    .brochure-heading { max-width: 650px; margin: 0 0 7px; font-size: clamp(23px, 4vw, 32px); line-height: 1.2; }
+    .brochure-intro { max-width: 700px; margin: 0; color: var(--muted); }
+    .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+    .service-card { padding: 17px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+    .service-number { display: inline-grid; width: 30px; height: 30px; margin-bottom: 10px; place-items: center; border-radius: 9px; color: #fff; background: var(--green); font-size: 12px; font-weight: 850; }
+    .service-card h3 { margin: 0 0 5px; font-size: 15px; }
+    .service-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .brochure-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .section-intro { margin: -4px 0 13px; color: var(--muted); font-size: 14px; }
+    .social-wordmark { display: grid; width: 25px; height: 25px; place-items: center; border-radius: 5px; color: #fff; background: #0a66c2; font: 800 16px/1 Arial, sans-serif; letter-spacing: -1px; }
+    .brand-icon.whatsapp { background: #e9f8ed; }
+    .brand-icon.whatsapp img { width: 29px; height: 29px; }
+    .brand-icon.linkedin { background: #eaf4ff; }
     .links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
     .card { display: flex; min-height: 88px; align-items: center; gap: 15px; padding: 15px 17px; border: 1px solid var(--line); border-radius: 17px; color: inherit; background: #fff; text-decoration: none; box-shadow: 0 7px 22px rgb(15 47 68 / 5%); transition: border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
     a.card:hover { transform: translateY(-2px); border-color: #9dc89c; box-shadow: 0 12px 28px rgb(15 47 68 / 9%); }
@@ -62,6 +76,8 @@
     :focus-visible { outline: 3px solid #1b4e7a; outline-offset: 3px; }
     @media (max-width: 600px) {
       .links { grid-template-columns: 1fr; gap: 10px; }
+      .service-grid { grid-template-columns: 1fr; }
+      .brochure { margin-inline: -2px; }
       .card { min-height: 76px; }
       .share { grid-template-columns: 112px minmax(0, 1fr); gap: 15px; padding: 15px; }
       .qr-preview { width: 112px; height: 112px; }
@@ -90,6 +106,21 @@
       <p class="intro" data-fr="Découvrez nos solutions pour les filières agricoles, le programme YIDA-Cashew et nos actualités sur les réseaux sociaux." data-en="Explore our agricultural solutions, the YIDA-Cashew programme and our latest updates on social media.">Découvrez nos solutions pour les filières agricoles, le programme YIDA-Cashew et nos actualités sur les réseaux sociaux.</p>
     </section>
 
+    <section class="brochure" aria-labelledby="brochure-title">
+      <p class="eyebrow" data-fr="AgroPulse Global Solutions" data-en="AgroPulse Global Solutions">AgroPulse Global Solutions</p>
+      <h2 class="brochure-heading" id="brochure-title" data-fr="Le numérique au service des filières agricoles." data-en="Digital solutions for agricultural value chains.">Le numérique au service des filières agricoles.</h2>
+      <p class="brochure-intro" data-fr="AgroPulse accompagne les acteurs agricoles d’Afrique de l’Ouest avec le conseil, les données, l’innovation et la transition verte." data-en="AgroPulse supports agricultural stakeholders in West Africa through advisory, data, innovation and the green transition.">AgroPulse accompagne les acteurs agricoles d’Afrique de l’Ouest avec le conseil, les données, l’innovation et la transition verte.</p>
+      <div class="service-grid">
+        <article class="service-card"><span class="service-number" aria-hidden="true">01</span><h3 data-fr="Conseil & filières" data-en="Advisory & value chains">Conseil & filières</h3><p data-fr="Des réponses adaptées aux réalités et aux besoins des acteurs agricoles." data-en="Solutions adapted to the needs and realities of agricultural stakeholders.">Des réponses adaptées aux réalités et aux besoins des acteurs agricoles.</p></article>
+        <article class="service-card"><span class="service-number" aria-hidden="true">02</span><h3 data-fr="Données & numérique" data-en="Data & digital">Données & numérique</h3><p data-fr="La donnée et l’intelligence artificielle au service de décisions mieux éclairées." data-en="Data and artificial intelligence for better-informed decisions.">La donnée et l’intelligence artificielle au service de décisions mieux éclairées.</p></article>
+        <article class="service-card"><span class="service-number" aria-hidden="true">03</span><h3 data-fr="Talents & transition verte" data-en="Talent & green transition">Talents & transition verte</h3><p data-fr="Des initiatives qui relient compétences, innovation agricole et économie verte." data-en="Initiatives connecting skills, agricultural innovation and the green economy.">Des initiatives qui relient compétences, innovation agricole et économie verte.</p></article>
+      </div>
+      <div class="brochure-actions">
+        <a class="button" href="https://agropulsegs.org/expertises.html" data-fr="Découvrir nos expertises" data-en="Explore our expertise">Découvrir nos expertises</a>
+        <a class="button secondary" href="./public/assets/yida-cashew-flyer.pdf" target="_blank" rel="noopener noreferrer" data-fr="Lire le prospectus YIDA-Cashew (PDF)" data-en="Read the YIDA-Cashew flyer (PDF)">Lire le prospectus YIDA-Cashew (PDF)</a>
+      </div>
+    </section>
+
     <h2 class="section-label" data-fr="Choisissez votre destination" data-en="Choose where to go">Choisissez votre destination</h2>
     <nav class="links" aria-label="Pages et réseaux AgroPulse">
       <a class="card" href="https://agropulsegs.org/?utm_source=qr">
@@ -99,6 +130,18 @@
       <a class="card" href="https://agropulsegs.org/?utm_source=qr#p-fellowship">
         <span class="brand-icon logo-mark"><img src="./public/assets/logo-v2.png" alt=""></span>
         <span class="card-copy"><strong>YIDA-Cashew</strong><small data-fr="Découvrir le programme" data-en="Discover the programme">Découvrir le programme</small></span><span class="go" aria-hidden="true">↗</span>
+      </a>
+      <a class="card" href="https://agropulsegs.org/agir-ia.html">
+        <span class="brand-icon"><span class="service-number" aria-hidden="true">IA</span></span>
+        <span class="card-copy"><strong>AGIR-IA</strong><small data-fr="Découvrir l’initiative" data-en="Explore the initiative">Découvrir l’initiative</small></span><span class="go" aria-hidden="true">↗</span>
+      </a>
+      <a class="card" href="https://agropulsegs.org/apropos.html">
+        <span class="brand-icon logo-mark"><img src="./public/assets/logo-v2.png" alt=""></span>
+        <span class="card-copy"><strong data-fr="À propos d’AgroPulse" data-en="About AgroPulse">À propos d’AgroPulse</strong><small data-fr="Notre vision et nos engagements" data-en="Our vision and commitments">Notre vision et nos engagements</small></span><span class="go" aria-hidden="true">↗</span>
+      </a>
+      <a class="card" href="https://agropulsegs.org/contact.html">
+        <span class="brand-icon"><span class="service-number" aria-hidden="true">↗</span></span>
+        <span class="card-copy"><strong data-fr="Parlons de votre projet" data-en="Let’s discuss your project">Parlons de votre projet</strong><small data-fr="Contacter l’équipe AgroPulse" data-en="Contact the AgroPulse team">Contacter l’équipe AgroPulse</small></span><span class="go" aria-hidden="true">↗</span>
       </a>
       <a class="card" href="https://www.facebook.com/share/1Dsafj48jn/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
         <span class="brand-icon facebook"><img src="./public/assets/social/facebook.svg" alt=""></span>
@@ -118,6 +161,23 @@
       </div>
     </nav>
 
+    <h2 class="section-label" data-fr="Suivre YIDA-Cashew" data-en="Follow YIDA-Cashew">Suivre YIDA-Cashew</h2>
+    <p class="section-intro" data-fr="Retrouvez les nouvelles du programme sur ses canaux officiels." data-en="Get programme updates through its official channels.">Retrouvez les nouvelles du programme sur ses canaux officiels.</p>
+    <nav class="links" aria-label="Réseaux sociaux YIDA-Cashew">
+      <a class="card" href="https://www.facebook.com/share/1AMNMCrL83/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
+        <span class="brand-icon facebook"><img src="./public/assets/social/facebook.svg" alt=""></span>
+        <span class="card-copy"><strong>Facebook · YIDA-Cashew</strong><small data-fr="Suivre les actualités du programme" data-en="Follow programme updates">Suivre les actualités du programme</small></span><span class="go" aria-hidden="true">↗</span>
+      </a>
+      <a class="card" href="https://www.linkedin.com/company/yida-ci/home/?viewAsMember=true" target="_blank" rel="noopener noreferrer">
+        <span class="brand-icon linkedin"><span class="social-wordmark" aria-hidden="true">in</span></span>
+        <span class="card-copy"><strong>LinkedIn · YIDA-CI</strong><small data-fr="Retrouver YIDA-Cashew sur LinkedIn" data-en="Find YIDA-Cashew on LinkedIn">Retrouver YIDA-Cashew sur LinkedIn</small></span><span class="go" aria-hidden="true">↗</span>
+      </a>
+      <a class="card" href="https://whatsapp.com/channel/0029VbEVAZe9MF92KYjDlU0q" target="_blank" rel="noopener noreferrer">
+        <span class="brand-icon whatsapp"><img src="./public/assets/social/whatsapp.svg" alt=""></span>
+        <span class="card-copy"><strong data-fr="Canal WhatsApp · YIDA-Cashew" data-en="WhatsApp channel · YIDA-Cashew">Canal WhatsApp · YIDA-Cashew</strong><small data-fr="Recevoir les nouvelles du programme" data-en="Get programme updates">Recevoir les nouvelles du programme</small></span><span class="go" aria-hidden="true">↗</span>
+      </a>
+    </nav>
+
     <section class="share" aria-labelledby="share-title">
       <img class="qr-preview" src="./public/assets/agropulse-access-qr.png" width="180" height="180" alt="QR code AgroPulse avec son emblème au centre">
       <div>
@@ -130,7 +190,7 @@
         </div>
       </div>
     </section>
-    <footer class="foot">AgroPulse Global Solutions · <a href="/" data-fr="Retour au site" data-en="Back to website">Retour au site</a></footer>
+    <footer class="foot">AgroPulse Global Solutions · <a href="https://agropulsegs.org/" data-fr="Retour au site" data-en="Back to website">Retour au site</a></footer>
   </main>
   <script>
     const languageButton=document.getElementById('language');
