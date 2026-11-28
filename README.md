@@ -24,6 +24,10 @@ Le suivi de première partie ne stocke que des compteurs agrégés par jour, pag
 Avant activation en production : définir le chemin de stockage persistant, la durée de conservation et les règles de sauvegarde/suppression; vérifier les journaux du fournisseur d’hébergement; faire valider la politique de confidentialité et protéger l’accès au tableau de bord sur HTTPS. Les statistiques de pages vues ne sont pas une mesure certifiée des personnes uniques.
 
 
+## QR YIDA-Cashew
+
+Le QR dédié YIDA-Cashew est disponible en PNG et SVG dans `public/assets/yida-cashew-qr.*`. Il ouvre `yida-cashew.html`, une page avec les liens WhatsApp, Facebook, LinkedIn, l’accès Fellowship et le prospectus PDF. Le lien Fellowship est présenté comme « Page complète YIDA-Cashew ». Pour régénérer les fichiers après un changement de destination, lancer `npm run qr:yida:generate`.
+
 ## Périmètre actuel
 
 La maquette intégrée couvre l’accueil, À propos, les huit expertises, YIDA-Cashew, AGIR-IA, Contact, Partenaires et Ressources. Les candidatures YIDA-Cashew sont fermées ; les dates et critères restent à confirmer. La Fondation AWI est présentée comme partenaire confirmé d’AGIR-IA ; les détails des sessions ne sont pas annoncés. YIDA-Cashew est un programme présenté directement sur sa page ; la revue sert de source interne et n’est pas proposée au téléchargement.
